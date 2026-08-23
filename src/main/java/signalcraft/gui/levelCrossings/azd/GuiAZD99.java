@@ -1,6 +1,5 @@
 package signalcraft.gui.levelCrossings.azd;
 
-import cpw.mods.fml.common.network.internal.FMLProxyPacket;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -8,14 +7,10 @@ import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
-import signalcraft.SignalCraft;
 import signalcraft.entities.levelCrossings.azd.TileAZD99;
-import signalcraft.packet.levelCrossings.CPacketUpdateCrossings;
-import signalcraft.packet.levelCrossings.SPacketUpdateCrossings;
+import signalcraft.signalUtils.Network;
 
 import java.awt.*;
-import java.util.LinkedList;
-import java.util.List;
 
 public class GuiAZD99 extends GuiScreen {
     private GuiButton doneButton;
@@ -147,20 +142,7 @@ public class GuiAZD99 extends GuiScreen {
         if (!this.textFieldArmDownDelay.getText().isEmpty()){
             this.thisTileE.setArmDownDelay(Integer.parseInt(this.textFieldArmDownDelay.getText()));
         }
-        final CPacketUpdateCrossings thePacketC = new CPacketUpdateCrossings(this.thisTileE);
-        final SPacketUpdateCrossings thePacketS = new SPacketUpdateCrossings(this.thisTileE);
-        this.thisTileE.getWorldObj().markBlockForUpdate(this.thisTileE.xCoord, this.thisTileE.yCoord, this.thisTileE.zCoord);
-        try {
-            final List<Object> list = new LinkedList<>();
-            SignalCraft.proxy.packetPipeline.encode(thePacketC, list);
-            SignalCraft.proxy.packetPipeline.encode(thePacketS, list);
-            final FMLProxyPacket pktC = (FMLProxyPacket) list.get(0);
-            final FMLProxyPacket pktS = (FMLProxyPacket) list.get(1);
-            SignalCraft.proxy.packetPipeline.sendToServer(pktC);
-            SignalCraft.proxy.packetPipeline.sendToAll(pktS);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        Network.updateCrossings(this.thisTileE);
     }
 
     private void drawModel() {

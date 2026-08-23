@@ -54,11 +54,8 @@ public class MessageStateUpdate implements IMessage
     {
         public IMessage onMessage(final MessageStateUpdate message, final MessageContext ctx) {
             final TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.x, message.y, message.z);
-            if (tileEntity != null) {
+            if (tileEntity instanceof ISignal) {
                 ((ISignal)tileEntity).setState(SignalState.fromOrdinal(message.state));
-            }
-            else {
-                System.out.println("USELSD");
             }
             return null;
         }
