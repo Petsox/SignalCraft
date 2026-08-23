@@ -1,0 +1,16 @@
+[
+{
+  "modid": "signalcraft",
+  "name": "SignalCraft",
+  "description": "This mod adds railroad signals and crossings from multiple countries Czechia and Germany (for now).\nSignalCraft is heavily based on GSAR (German Signals at Rails) by Breeko.\nBetter experienced with SC Integration mod, which adds stuff to integrate SignalCraft with other popular mods.",
+  "version": "${version}",
+  "mcversion": "1.7.10",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Petsox", "tpeterka1", "Breeko"],
+  "credits": "Breeko made the original GSAR mod, big thanks goes to him",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]

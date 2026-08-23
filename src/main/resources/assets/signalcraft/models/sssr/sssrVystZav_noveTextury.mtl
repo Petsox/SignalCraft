@@ -1,0 +1,202 @@
+# Blender 5.0.1 MTL File: 'sssr_vyst_zav.blend'
+# www.blender.org
+
+newmtl cerna
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/cerna.jpg
+
+newmtl korona.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/korona.jpg
+
+newmtl korona_poz.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/korona_white.jpg
+
+newmtl korona_zhas.002
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/korona_zhas.jpg
+
+newmtl kriz_cz_1k.001
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/kriz_cz_1k.png
+
+newmtl kriz_cz_refl.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/kriz_cz_refl.png
+
+newmtl kriz_cz_refl_velky.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/kriz_cz_refl_velky.png
+
+newmtl kriz_cz_xk.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/kriz_cz_xk.png
+
+newmtl kriz_sk.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/kriz_sk.jpg
+
+newmtl kriz_sk_relf.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/kriz_sk.jpg
+
+newmtl pozor_vlak.004
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/pv_sign.png
+
+newmtl pozor_vlak.005
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/pv_sign.png
+
+newmtl pozor_vlak.006
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/pv_sign.png
+
+newmtl seda_ksilt
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/cerna_ksilt.jpg
+
+newmtl skrin
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/caseBack.png
+
+newmtl stozar.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/stozar.png
+
+newmtl stozar_a
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd71/stozar.png
+
+newmtl zadek
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/zadek.jpg
+
+newmtl zadek_a
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/zadek_a.jpg
+
+newmtl zadek_b
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr/zadek_b.jpg

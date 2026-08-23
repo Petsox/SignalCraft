@@ -1,0 +1,459 @@
+#czech translate - v1.1
+
+itemGroup.signalcraft_signals=SC - Signály
+itemGroup.signalcraft_crossings=SC - Přejezdy
+itemGroup.signalcraft_other=SC - Ostatní věci
+itemGroup.signalcraft_gsar=SC - GSAR věci
+
+#Blocks and Tiles
+tile.SpeedSign.name=Rychlostník
+tile.blockTreatedPlanks.name=Impregnovaná prkna
+tile.blockTrackGravel.name=Kolejový štěrk
+
+#Crossings
+tile.CrossSSSR.name=Přejezd vzor SSSR
+tile.CrossSSSRSingle.name=Přejezd vzor SSSR (jedno světlo)
+tile.CrossSSSRHead.name=Hlava přejezdu vzor SSSR
+tile.CrossSSSRSingleHead.name=Hlava přejezdu vzor SSSR (jedno světlo)
+tile.CrossAZD71.name=Přejezd typu AZD71
+tile.CrossAZD71Head.name=Hlava přejezdu typu AZD71
+tile.CrossAZD97.name=Přejezd typu AZD97
+tile.CrossAZD97Head.name=Hlava přejezdu typu AZD97
+tile.CrossAZD99.name=Bariéra typu AZD99
+tile.CrossVUD.name=Přejezd typu VUD
+
+#Receivers/Controllers
+tile.CrossRece.name=Přijímač přejezdu
+tile.CrossCont.name=Ovladač přejezdu
+tile.UniversalCont.name=Univerzální ovladač
+tile.UniversalRece.name=Univerzální přijímač
+tile.LightRece.name=Přijímač signálu
+tile.LightRedCont.name=Redstonový ovladač signálu
+tile.LightCont.name=Ovladač signálu
+tile.RedRece.name=Redstonový přijímač signálu
+tile.ContReceBase.name=Základ ovladače/přijímače
+
+#Signals
+tile.SSSRPr.name=SSSR předvěst
+tile.SSSROPr.name=SSSR předvěst - opakovací
+tile.SSSRAB4.name=SSSR autoblok 4
+tile.SSSRAB3.name=SSSR autoblok 3
+tile.SSSRPosun.name=SSSR posunové návěstidlo
+tile.SSSRVloz.name=SSSR vložené návěstidlo
+tile.SSSR2Lights.name=SSSR 2 světla
+tile.SSSR2LightsT.name=SSSR 2 světla trpasličí
+tile.SSSR2LightsMechT.name=SSSR 2 světla trpasličí (mechanická náhrada)
+tile.SSSR3LightsT.name=SSSR 3 světla trpasličí
+tile.SSSR3LightsMechT.name=SSSR 3 světla trpasličí (mechanická náhrada)
+tile.SSSR4LightsT.name=SSSR 4 světla trpasličí
+tile.SSSR5LightsT.name=SSSR 5 světel trpasličí
+tile.SSSRPosunT.name=SSSR posunový signál trpasličí
+tile.SSSR3Lights.name=SSSR 3 světla
+tile.SSSR4Lights.name=SSSR 4 světla
+tile.SSSR5Lights.name=SSSR 5 světel
+
+tile.AZD6Lights.name=AZD70 6 světel
+tile.AZD5Lights.name=AZD70 5 světel
+tile.AZD4Lights.name=AZD70 4 světla
+tile.AZD3Lights.name=AZD70 3 světla
+tile.AZD2Lights.name=AZD70 2 světla
+tile.AZD1Light.name=AZD70 1 světlo
+tile.AZDAB3.name=AZD70 autoblok 3
+tile.AZDAB4.name=AZD70 autoblok 4
+tile.AZDVloz.name=AZD70 vložené návěstidlo
+tile.AZDPr.name=AZD70 předvěst
+tile.AZDOPr.name=AZD70 předvěst - opakovací
+tile.AZDPosun.name=AZD70 posunové návěstidlo
+tile.AZD2LightsT.name=AZD70 2 světla trpasličí
+tile.AZD3LightsT.name=AZD70 3 světla trpasličí
+tile.AZD4LightsT.name=AZD70 4 světla trpasličí
+tile.AZD5LightsT.name=AZD70 5 světel trpasličí
+tile.AZDPosunT.name=AZD70 posunové návěstidlo trpasličí
+tile.AZD65_2Lights.name=AZD65 2 světla
+
+#Sign Signals
+tile.PrUpoz.name=Předvěsník
+
+#GSAR - Main/Distant Signals (HP)
+tile.SignalHPx3.name=Hlavní světelné návěstidlo (3 bloky)
+tile.SignalHPx5.name=Hlavní světelné návěstidlo (5 bloků)
+tile.SignalVRx5.name=Světelná předvěst (3 bloky)
+tile.SignalVRx3.name=Světelná předvěst (5 bloků)
+tile.StativLightHP.name=Podstavec pro hlavní světelné návěstidlo
+tile.StativLightVR.name=Podstavec pro předvěst a návěstidlo BÜ0/BÜ1
+tile.SemiSignal1WHPx3.name=Hlavní mechanické návěstidlo (1 rameno, 3 bloky)
+tile.SemiSignal1WHPx5.name=Hlavní mechanické návěstidlo (1 rameno, 5 bloků)
+tile.SemiSignal2WHPx3.name=Hlavní mechanické návěstidlo (2 ramena, 3 bloky)
+tile.SemiSignal2WHPx5.name=Hlavní mechanické návěstidlo (2 ramena, 5 bloků)
+tile.SemiSignalVRx3.name=Mechanická předvěst
+tile.StativSemiHP.name=Podstavec pro hlavní mechanické návěstidlo
+tile.StativSemiVR.name=Podstavec pro mechanickou předvěst
+
+#GSAR - Railway Crossing Signals (BU)
+tile.SignalBU0x3.name=Signál přejezdu BÜ0 / BÜ1 (3 bloky)
+tile.SignalBU0x5.name=Signál přejezdu BÜ0 / BÜ1 (5 bloků)
+tile.SignBU2.name=Signál BÜ2 - hašovací tabulka
+tile.SignBU3.name=Signál BÜ3 - zobrazovací panel
+tile.SignBU4.name=Signál BÜ4 - píšťalový panel
+tile.SignBU4Z.name=Signál BÜ4 - píšťalový panel s přídavným panelem
+tile.SignBU5.name=Signál BÜ5 - vyzváněcí panel
+tile.SignBU5Z.name=Signál BÜ5 - vyzváněcí panel s přídavným panelem
+tile.SignPF2.name=Signál PF2 - píšťalový panel
+tile.SignPF2Z.name=Signál PF2 - píšťalový panel s přídavným panelem
+tile.RailCross.name=Železniční kříž
+tile.RailCrossFlash.name=Železniční kříž (s osvětlením)
+tile.RailCrossFence.name=Železniční kříž (s plotem)
+tile.RailCrossStativ.name=Podstavec pro železniční přejezd
+tile.CrossLight.name=Výstražník (se světlem)
+tile.CrossLightS.name=Výstražník (se světlem a zvukem)
+tile.CrossModern.name=Výstražník (moderní)
+tile.BarrierStop.name=Závorová Podpěra
+tile.BarrierFull4L.name=Mechanická závora Levá (4 bloky)
+tile.BarrierFull4R.name=Mechanická závora Pravá (4 bloky)
+tile.BarrierFull10L.name=Mechanická závora Levá (10 bloků)
+tile.BarrierFull10R.name=Mechanická závora Pravá (10 bloků)
+tile.HalfBarrierL.name=Poloviční závora Levá
+tile.HalfBarrierR.name=Poloviční závora Pravá
+tile.ModernBarrierL.name=Moderní závora Levá
+tile.ModernBarrierR.name=Moderní závora Pravá
+
+#GSAR - Speed Signals (LF)
+tile.SignLF1.name=Signál LF1 - jeďte pomalu
+tile.SignLF2.name=Signál LF2 - začátek vjezdu
+tile.SignLF3.name=Signál LF3 - konec vjezdu
+tile.SignLF6.name=Signál LF6 - výstražný signál pro rychlost
+tile.SignLF7.name=Signál LF7 - signál rychlosti
+
+#GSAR - Beside Signals (NE)
+tile.SignNE1.name=Signál NE1 - lichoběžníkový panel
+tile.SignNE2.name=Signál NE2 - vzdálený návěstní panel
+tile.SignNE3_1.name=Signál NE3 - vzdálený návěstní panel
+tile.SignNE3_2.name=Signál NE3 - vzdálený návěstní panel
+tile.SignNE3_3.name=Signál NE3 - vzdálený návěstní panel
+tile.SignNE4.name=Signál NE4 - šachovnicový panel
+tile.SignNE5.name=Signál NE5 - přidržovací panel
+tile.SignNE6.name=Signál NE6 - panel přidržovacího bodu
+tile.SignNE7.name=Signál NE7 - panel sněžného pluhu
+tile.SignNE12.name=Signál NE12 - výstražný panel
+tile.SignalNE13.name=Signál NE13
+
+#GSAR - Shunting Signals (RA)
+tile.SignRA10a.name=Signál RA10 - posunovací přidržovací panel
+tile.SignRA10b.name=Signál RA10 - posunovací přidržovací panel
+tile.SignRA11a.name=Signál RA11a - čekací cedule
+tile.SignRA11b.name=Signál RA11b - čekací cedule
+tile.SignRA11Y.name=Signál RA11a - čekací cedule (+ noční světlo)
+tile.SignRA11W.name=Signál RA11b - čekací cedule (+ noční světlo)
+tile.SignalRA11YL.name=Signál RA11a - čekací cedule (+ noční světlo + SH1)
+tile.SignalRA11WL.name=Signál RA11b - čekací cedule (+ noční světlo + SH1)
+tile.StativRA11.name=Podstavec pro posunovací/bezpečnostní signály
+
+#GSAR - Protection Signals (SH)
+tile.SignalSHL.name=Světelný signál SH 0/1 (vysoký)
+tile.SignalSHLSingle.name=Světelný signál SH 0/1 (malý)
+tile.SignalSHF.name=Semaforový signál SH 0/1 (vysoký)
+tile.SignalSHFSingle.name=Semaforový signál SH 0/1 (malý)
+tile.SignalSH2.name=Signál SH2
+
+#GSAR - Other Signals (SO)
+tile.SignHectometer.name=Hektometrový panel
+tile.SignalLever.name=Návěstní páka
+tile.StationSign.name=Staniční cedule
+tile.StationSignWall.name=Staniční cedule (na zeď)
+
+#GSAR - Switches (WN)
+tile.SwitchManualGSAR.name=Přestavník vyhybky (manuální)
+tile.SwitchElectricGSAR.name=Přestavník výhybky (mechanický)
+
+#GSAR - Bridge and Misc Blocks
+tile.MetalRod.name=Kovová tyč
+tile.BridgeBeams.name=Podpůrný blok signálního mostu
+tile.BridgeBeamsCorner.name=Podpůrný blok signálního mostu (roh)
+tile.BridgeBeamsCross.name=Podpůrný blok signálního mostu (křížený)
+tile.BlockBridgeBeamsTriple.name=Podpůrný blok signálního mostu (trojitý)
+tile.BlockBridgeGround.name=Chodník signálního mostu
+tile.BlockBridgeGroundBeams.name=Chodník signálního mostu s nosičem
+tile.BlockLadder.name=Žebřík signálního mostu
+tile.BlockRailing.name=Zábradlí signálního mostu
+tile.BlockRailing2.name=Zábradlí signálního mostu bez rámu
+tile.BlockRailingRods.name=Bezpečnostní zábradlí signálního mostu
+
+#Items
+item.wrench.name=Stavitelný klíč
+item.signalBonder.name=Signální pojítko
+item.signalRenamer.name=Přejmenovávač
+item.vypravka.name=Výpravka
+item.barrierShort.name=Závora (krátká)
+item.barrierLong.name=Závora (dlouhá)
+item.metalGear.name=Kovový kruh
+item.semaphoreArm.name=Rameno návěstidla
+item.distantSign.name=Deska předvěstního návěstidla
+item.treatedWoodPlate.name=Impregnovaná dřevěná deska
+item.itemPoleMain.name=Stožár světelného návěstidla
+item.itemPoleSemi.name=Stožár mechanického návěstidla
+item.itemPoleSSSR.name=Stožár SSSR
+item.item2LightsSSSR.name=SSSR hlava - 2 světla
+item.item3LightsSSSR.name=SSSR hlava - 3 světla
+item.itemPoleAZD70.name=Stožár AZD70
+item.item1LightAZD70.name=AZD70 hlava - 1 světlo
+item.item2LightsAZD70.name=AZD70 hlava - 2 světla
+item.item3LightsAZD70.name=AZD70 hlava - 3 světla
+item.item4LightsAZD70.name=AZD70 hlava - 4 světla
+item.item5LightsAZD70.name=AZD70 hlava - 5 světel
+item.item6LightsAZD70.name=AZD70 hlava - 6 světel
+item.circuitEmpty.name=Prázdný obvod
+item.circuitAZD.name=Obvod AZD
+item.circuitAZD97.name=Obvod AZD97
+item.circuitSSSR.name=Obvod SSSR
+item.circuitController.name=Obvod ovladače
+item.circuitReceiver.name=Obvod přijímače
+
+gui.speedSignText=Zadej km/h
+
+gui.GuiEditSignBarriersModernL.editMsg_TITLE=Moderní závora levá
+gui.GuiEditSignBarriersModernL.editMsg_Barriers_Length=Délka ramene závory je:
+gui.GuiEditSignBarriersModernL.editMsg_Barriers_Timer=Závora se uzavře po:
+gui.GuiEditSignBarriersModernR.editMsg_TITLE=Moderní závora vpravo
+gui.GuiEditSignBarriersModernR.editMsg_Barriers_Length=Délka ramene závory je:
+gui.GuiEditSignBarriersModernR.editMsg_Barriers_Timer=Závora se uzavře po:
+GuiEditMsgSB_TEXT=§nProvozní agentura (nádraží)§r
+GuiEditMsgSB_TEXT2=např. 64 pro železniční stanici 64
+GuiEditMsgSB_TEXT3=§nNázev signálu§r
+GuiEditMsgSB_TEXT4=např. A pro vstupní signál A.
+GuiEditMsgSB_TEXT5=§nBarva páky:§r
+GuiEditMsgSB_DESC=Označení hlavních signálů závisí
+GuiEditMsgSB_DESC1=při jejich použití. K dispozici je 5 různých typů.
+GuiEditMsgSB_DESC2=§nVstupní signály (ESIG)§r
+GuiEditMsgSB_DESC3=A-E kilometry ve směru
+GuiEditMsgSB_DESC4=F-J kilometry proti směru
+GuiEditMsgSB_DESC5=§nVýstupní signály (ASIG)§r
+GuiEditMsgSB_DESC6=N1, N2, N3 ...kilometry ve směru
+GuiEditMsgSB_DESC7=P1, P2, P3 ...kilometry proti směru
+GuiEditMsgSB_DESC8=§nStředně pokročilé signály (ZSIG)§r
+GuiEditMsgSB_DESC9=R1, R2, R3 ...kilometry ve směru
+GuiEditMsgSB_DESC10=S1, S2, S3 ...kilometry proti směru
+GuiEditMsgSB_DESC11=Na kolejnici jsou použita dvojitá písmena.
+GuiEditMsgSB_DESC12=ZB.: AA, NN1, RR1 ...
+GuiEditMsgSB_DESC13=§nBlokovy signály (BKSIG)§r
+GuiEditMsgSB_DESC14=101, 103, 105 ...kilometry ve směru
+GuiEditMsgSB_DESC15=100, 102, 104 ...kilometry proti směru
+GuiEditMsgSB_DESC16=Vzdálené signály mají stejný název jako
+GuiEditMsgSB_DESC17=hlavní signály, pouze malými písmeny.
+
+gui.GuiSignalLeverGSAR.editMsgSB_TITLE=Návěstní páka
+gui.GuiStativSemiSignalsGSAR.editMsg_TITLE=Podstavec pro hlavní mechanické návěstidlo
+gui.GuiStativLightSignalsGSAR.editMsg_TITLE=Podstavec pro hlavní světelné návěstidlo
+
+gui.GuiSignSignalsGSAR.editMsg_TITLE_HECTOMETER_SIGN=HEKTOMETROVÝ PANEL
+gui.GuiSignSignalsGSAR.editMsg_1_HECTOMETER_SIGN=Zadej kilometr
+gui.GuiSignSignalsGSAR.editMsg_2_HECTOMETER_SIGN=(0-999)
+gui.GuiSignSignalsGSAR.editMsg_3_HECTOMETER_SIGN=Zadej metr
+gui.GuiSignSignalsGSAR.editMsg_4_HECTOMETER_SIGN=(0-9)
+
+gui.GuiSignSignalsGSAR.editMsg_TITLE_SIGN_LF1=SIGNÁL LF1 - JEĎTE POMALU
+gui.GuiSignSignalsGSAR.editMsg_1_SIGN_LF1=Zadej km/h
+gui.GuiSignSignalsGSAR.editMsg_2_SIGN_LF1=(0-15)
+gui.GuiSignSignalsGSAR.editMsg_3_SIGN_LF1=Zadané číslo je
+gui.GuiSignSignalsGSAR.editMsg_4_SIGN_LF1=vypočítáno pomocí (* 10).
+gui.GuiSignSignalsGSAR.editMsg_5_SIGN_LF1=např. číslo 5 -> 50 km/h
+
+gui.GuiSignSignalsGSAR.editMsg_TITLE_SIGN_LF6=SIGNÁL LF6 - VÝSTRAŽNÝ SIGNÁL PRO RYCHLOST
+gui.GuiSignSignalsGSAR.editMsg_1_SIGN_LF6=Zadej km/h
+gui.GuiSignSignalsGSAR.editMsg_2_SIGN_LF6=(0-15)
+gui.GuiSignSignalsGSAR.editMsg_3_SIGN_LF6=Zadané číslo je
+gui.GuiSignSignalsGSAR.editMsg_4_SIGN_LF6=vypočítáno pomocí (* 10).
+gui.GuiSignSignalsGSAR.editMsg_5_SIGN_LF6=např. číslo 8 -> 80 km/h
+
+gui.GuiSignSignalsGSAR.editMsg_TITLE_SIGN_LF7=SIGNÁL LF7 - SIGNÁL RYCHLOSTI
+gui.GuiSignSignalsGSAR.editMsg_1_SIGN_LF7=Zadej km/h
+gui.GuiSignSignalsGSAR.editMsg_2_SIGN_LF7=(0-16)
+gui.GuiSignSignalsGSAR.editMsg_3_SIGN_LF7=Zadané číslo je
+gui.GuiSignSignalsGSAR.editMsg_4_SIGN_LF7=vypočítáno pomocí (* 10).
+gui.GuiSignSignalsGSAR.editMsg_5_SIGN_LF7=např. číslo 12 -> 120 km/h
+
+gui.GuiStationSignGSAR.editMsg_TITLE=Staniční cedule
+gui.GuiStationSignGSAR.editMsg_ST_DESC=Má tato cedule text?
+gui.GuiStationSignGSAR.editMsg_ST_DESC1=Je to model:
+gui.GuiStationSignGSAR.editMsg_ST_yes=Ano
+gui.GuiStationSignGSAR.editMsg_ST_no=Ne
+gui.GuiStationSignGSAR.editMsg_ST_normal=normální
+gui.GuiStationSignGSAR.editMsg_ST_hanging=volně visící
+gui.GuiStationSignGSAR.editMsg_ST_notvisible=neviditelný
+gui.GuiStationSignGSAR.editMsg_ST_Color_TITLE=Paleta barev:
+gui.GuiStationSignGSAR.editMsg_ST_Styles_TITLE=Písmo:
+gui.GuiStationSignGSAR.editMsg_ST_Styles_DESC=Text:
+gui.GuiStationSignGSAR.editMsg_ST_Styles_reset=Resetovat
+gui.GuiStationSignGSAR.editMsg_ST_Styles_resetAll=Resetovat vše
+gui.GuiStationSignGSAR.editMsg_ST_Slider_TITLE=Nastavovače
+gui.GuiStationSignGSAR.editMsg_ST_Slider_xPos=X poz.
+gui.GuiStationSignGSAR.editMsg_ST_Slider_yPos=Y poz.
+gui.GuiStationSignGSAR.editMsg_ST_Slider_scale=Měřítko
+gui.GuiStationSignGSAR.editMsg_ST_Light_TITLE=Osvětlení (v noci)
+gui.GuiStationSignGSAR.editMsg_ST_Light=Světlo
+gui.GuiStationSignGSAR.editMsg_ST_Side_TITLE=Zobrazit text:
+gui.GuiStationSignGSAR.editMsg_ST_Side=Strana
+
+gui.GuiSwitchGSAR.editMsg_TITLE=Přestavník Vyhybky
+gui.GuiSwitchGSAR.editMsg_WN_left=Vlevo
+gui.GuiSwitchGSAR.editMsg_WN_right=Vpravo
+gui.GuiSwitchGSAR.editMsg_WN_yes=Ano
+gui.GuiSwitchGSAR.editMsg_WN_no=Ne
+gui.GuiSwitchGSAR.editMsg_WN=Z tvé pozice:
+gui.GuiSwitchGSAR.editMsg_WN_2=Na které straně výhybky se nacházíš?
+gui.GuiSwitchGSAR.editMsg_WN_3=Kterým směrem je výhybka vychýlena?
+gui.GuiSwitchGSAR.editMsg_WN_4=Je toto elektronická stacionární výhybka (EOW)?
+gui.GuiSwitchGSAR.editMsg_WN_5=Název výhybky:
+gui.GuiSwitchGSAR.editMsg_WN_return=Zpět
+
+#Gui Strings
+gui.item.signalBonder.use=Používá se k párování ovladačů a přijímačů.
+gui.item.signalBonder.nullTile=Toto není platný blok.
+gui.item.signalBonder.Bonded=Připojeno k:
+gui.item.signalBonder.Cleared=Signální pojítko bylo vymazáno.
+gui.item.signalBonder.NotBonded=Signální pojítko není připojeno k ovladači.
+gui.item.signalBonder.BondedToController=Připojeno k ovladači
+gui.item.signalBonder.Binding=Shift + pravé tlačítko na ovladač pro připojení.
+gui.item.signalBonder.Pairing=Poté klikni pravým tlačítkem na přijímač pro spárování.
+gui.item.signalBonder.atCoords=na
+gui.item.signalBonder.ControllerAtCoords=Ovladač na
+gui.item.signalBonder.ControllerNotValid=není platný pro tento přijímač.
+gui.item.signalBonder.ReceiverPaired=Příjmaš spárován
+gui.item.signalBonder.ToController=k ovladači
+
+gui.item.signalRenamer.nameTooLong=Název je příliš dlouhý! Maximálně 12 znaků.
+gui.item.signalRenamer.renamed=Přejmenováno na:
+gui.item.signalRenamer.rename=Název signálu zkopírován.
+gui.item.signalRenamer.copied=Nejprve toto přejmenuj!
+gui.item.signalRenamer.notValid=Toto nelze přejmenovat.
+
+gui.item.wrench.use=Použij na návěstidla/přejezdy/ovladače
+gui.item.wrench.mode=Režim:
+gui.item.wrench.changeMode=Shift + pravé tlačítko do vzduchu pro změnu režimu.
+gui.item.wrench.changedMode=Režim změněn na:
+
+gui.item.redstoneActivated=Aktivováno redstonem.
+gui.item.controlsTiles=Ovládá bloky až do výšky 10 bloků.
+gui.item.pairWith=Párovat s:
+gui.item.anyKind=jakéhokoliv druhu.
+
+gui.item.univRece.use1=Použij toto k ovládání většiny věcí,
+gui.item.univRece.use2=jako jsou jednoduché návěstidla, vyhybky a jednotlivá světla přejezdu
+
+gui.item.crossCont.use=Použij toto spolu s přijímači k ovládání přejezdu.
+
+gui.item.crossRece.use=Umísti toto pod přejezd.
+
+gui.item.lightSignalRece.use=Umísti toto pod návěstidlo.
+
+gui.item.lightSignalRedRece.use=Vysílá redstonový signál na základě přijaté návěsti.
+gui.lightSignalRedRece.use=V závislosti na přijaté návěsti, tento blok vysílá redstonový signál
+gui.lightSignalRedRece.use2=na straně, která má danou návěst zadanou ve svém textovém poli.
+
+gui.item.lightSignalRedCont.use=Použij toto spolu s přijímači k ovládání návěstidel.
+gui.lightSignalRedCont.use=V závislosti na tom, na které straně je detekován redstonový signál,
+gui.lightSignalRedCont.use2=se odpovídající návěst odešle každému spárovanému přijímači.
+
+gui.sound.bellClassic=Zvonek
+gui.sound.vud.text=VUD zvonek
+gui.sound.horn.text=Houkačka
+gui.sound.otradovice.text=Houkačka 2
+gui.sound.azd97zv1.text=E-zvonek 1
+gui.sound.azd97zv2.text=E-zvonek 2
+
+gui.general.text.yes=Ano
+gui.general.text.no=Ne
+gui.general.text.none=Žádné
+gui.general.text.up=Nahoru
+gui.general.text.straight=Rovně
+gui.general.text.left=Vlevo
+gui.general.text.right=Vpravo
+gui.general.text.down=Dolů
+gui.general.text.short=Krátký
+gui.general.text.long=Dlouhý
+
+gui.general.text.crafting=Pouze pro crafting
+
+gui.prUpozText=Je traťové dělení:
+
+gui.signalRenamer.text=Zadej nový název:
+gui.signalRenamer.use=Použij na návěstidla/ovladače/vyhybky k jejich přejmenování
+gui.signalRenamer.openGui=Shift + pravé tlačítko do vzduchu pro otevření GUI
+gui.signalRenamer.railcraft=Víš, nemám u sebe kovadlinu pokaždé, když potřebuju něco přejmenovat, proto jsem udělal speciální GUI, abych mohl změnit název i bez kovadliny.
+
+gui.signalBonder.Bender=Tak moment.. Bendrovo jméno není Bonder, ale Bender. Jste podvodnice!
+
+gui.levelcross.crossnum.text=Kříž (koleje):
+gui.levelcross.reflcross.text=Reflexní kříž:
+gui.levelcross.crossonpole.text=Kříž na stožáru:
+gui.levelcross.usepozlight.text=Zakryté:
+gui.levelcross.distfrompole.text=Vzdálenost od stožáru:
+gui.levelcross.pozlight.text=Bílé světlo:
+gui.levelcross.slovak.text=Slovensko:
+gui.levelcross.sound.text=Zvuk zapnutý:
+gui.levelcross.soundtype.text=Typ zvuku:
+gui.levelcross.stripesonpole.text=Pruhy na stožáru:
+gui.levelcross.pozlightdelay.text=Anulační doba (sekundy):
+gui.levelcross.dolightsalter.text=Střídání přídavných světel:
+gui.levelcross.headrot.text=Natočení hlavy (stupně):
+gui.levelcross.crossnum.none.text=Žádné
+gui.levelcross.crossnum.one.text=Jedna
+gui.levelcross.crossnum.more.text=>Jedna
+gui.levelcross.PVSign.text=Cedule PV:
+gui.levelcross.red.light.cover.length.text=Kšilt červeného světla:
+gui.levelcross.light.position.text=Pozice světel:
+gui.levelcross.white.light.cover.length.text=Kšilt bílého světla:
+gui.levelcross.ladder.text=Žebřík:
+gui.levelcross.otradovice.text=Otradovice:
+gui.levelcross.isnewer.text=Je novější:
+gui.levelcross.krizvelky.text=Velký kříž:
+gui.levelcross.arm.lenght.text=Délka závory:
+gui.levelcross.arm.lenght.42.text=4,2m
+gui.levelcross.arm.lenght.50.text=5,0m
+gui.levelcross.arm.lenght.55.text=5,5m
+gui.levelcross.arm.lenght.60.text=6,0m
+gui.levelcross.arm.lenght.65.text=6,5m
+gui.levelcross.arm.lenght.75.text=7,5m
+gui.levelcross.arm.down.delay.text=Předzváněcí doba (v sek):
+gui.levelcross.isnew.true=Novější
+gui.levelcross.isnew.false=Starší
+gui.levelcross.pedestal=Podstavec je:
+
+gui.lightsignal.departure.text=Je odjezdové:
+gui.lightsignal.position.text=Pozice:
+gui.lightsignal.has.stripes.text=Má pruhy:
+gui.lightsignal.has.3stripes.text=Má 3 pruhy:
+gui.lightsignal.grouped.text=Skupinové:
+gui.lightsignal.end.autoblock.text=Konec autobloku:
+gui.lightsignal.speed.sign.text=Rychlostní štítek:
+gui.lightsignal.type1.text=Typ 1
+gui.lightsignal.type2.text=Typ 2
+gui.lightsignal.type3.text=Typ 3
+gui.lightsignal.validstates.text=Platné návěsti:
+gui.lightsignal.validstates.hint=Drž Shift pro zobrazení platných návěstí
+
+color.white=Bílá
+color.orange=Oranžová
+color.magenta=Purpurová
+color.light_blue=Světle modrá
+color.yellow=Žlutá
+color.lime=Limetková
+color.pink=Růžová
+color.gray=Šedá
+color.light_gray=Světle šedá
+color.cyan=Azurová
+color.purple=Fialová
+color.blue=Modrá
+color.brown=Hnědá
+color.green=Zelená
+color.red=Červená
+color.black=Černá
+
+side.south.1=Strana 1:
+side.north.2=Strana 2:
+side.east.3=Strana 3:
+side.west.4=Strana 4:
+
+message.at.coords=na
+message.controllerUpdatedWithStates=Ovladač aktualizován se stavy:
+message.wrench.controllerPairedTo=§bTento ovladač je spárován s:
+message.wrench.receiverPairedTo=§bTento přijímač je spárován s:

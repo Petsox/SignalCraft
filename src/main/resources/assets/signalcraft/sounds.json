@@ -1,0 +1,25 @@
+{
+"hornP5343": {"category": "master","sounds": [{"name": "hornP5343","stream": false}]},
+"hornSP1318": {"category": "master","sounds": [{"name": "hornSP1318","stream": false}]},
+"cinkVUDP5263": {"category": "master","sounds": [{"name": "cinkVUDP5263","stream": false}]},
+"cinkVUDP7041": {"category": "master","sounds": [{"name": "cinkVUDP7041","stream": false}]},
+"cinkP3597": {"category": "master","sounds": [{"name": "cinkP3597","stream": false}]},
+"cinkP8240": {"category": "master","sounds": [{"name": "cinkP8240","stream": false}]},
+"cinkP3599": {"category": "master","sounds": [{"name": "cinkP3599","stream": false}]},
+"cinkP7063": {"category": "master","sounds": [{"name": "cinkP7063","stream": false}]},
+"azd97zv2": {"category": "master","sounds": [{"name": "azd97zv2","stream": false}]},
+"azd97zv1": {"category": "master","sounds": [{"name": "azd97zv1","stream": false}]},
+"docink": {"category": "master","sounds": [{"name": "docink","stream": false}]},
+"otradovice1": {"category": "master","sounds": [{"name": "otradovice1","stream": false}]},
+"otradovice2": {"category": "master","sounds": [{"name": "otradovice2","stream": false}]},
+"otradovice3": {"category": "master","sounds": [{"name": "otradovice3","stream": false}]},
+
+"motor_sound": {"category": "master","sounds": [{"name": "motor_sound","stream": false}]},
+"lever_sound1": {"category": "master","sounds": [{"name": "lever_sound1","stream": false}]},
+"lever_sound2": {"category": "master","sounds": [{"name": "lever_sound2","stream": false}]},
+"ring1": {"category": "master","sounds": [{"name": "ring1","stream": false}]},
+"ring2": {"category": "master","sounds": [{"name": "ring2","stream": false}]},
+"ring3": {"category": "master","sounds": [{"name": "ring3","stream": false}]},
+"barrier_closed": {"category": "master","sounds": [{"name": "barrier_closed","stream": false}]},
+"page_flip": {"category": "master","sounds": [{"name": "page_flip","stream": false}]}
+}

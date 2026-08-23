@@ -1,0 +1,72 @@
+# Blender 5.0.1 MTL File: 'sssr_5svet_nove.blend'
+# www.blender.org
+
+newmtl cisla.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr_nav/navestni_tab.jpg
+
+newmtl cocky
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/azd/textura_cocky.jpg
+
+newmtl indikator_30.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr_nav/rych_ind_30.jpg
+
+newmtl indikator_50.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr_nav/rych_ind_50.jpg
+
+newmtl main
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr_nav/sssr_main.png
+
+newmtl nater.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr_nav/sssr_pruhy.jpg
+
+newmtl skrin.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/sssr_nav/sssr_skrinka.jpg
