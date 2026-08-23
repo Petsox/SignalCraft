@@ -23,8 +23,10 @@ public class BlockGSARStativ extends BlockLightSignal
     public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block theBlock) {
         boolean flag = !world.getBlock(x, y - 1, z).getMaterial().isSolid();
         if (flag) {
-            final TileGSARStativ tileE = (TileGSARStativ)world.getTileEntity(x, y, z);
-            if (tileE != null) {
+            // A foreign tile (e.g. RailCraft's TileHidden) can occupy this position; casting
+            // it unguarded would throw an uncaught ClassCastException.
+            final TileEntity tileEntity = world.getTileEntity(x, y, z);
+            if (tileEntity instanceof TileGSARStativ) {
                 this.dropBlockAsItem(world, x, y, z, world.getBlockMetadata(x, y, z), 0);
                 world.setBlockToAir(x, y, z);
             }

@@ -30,10 +30,13 @@ public class BlockGSARSwitchManual extends BlockSwitch {
         if (world.isRemote) {
             return true;
         }
-        if (world.getTileEntity(x, y, z) == null) {
+        final TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (!(tileEntity instanceof TileSwitchManualGSAR)) {
+            // A foreign tile (e.g. RailCraft's TileHidden) can occupy this position; casting
+            // it unguarded would throw an uncaught ClassCastException.
             return true;
         }
-        final TileSwitchManualGSAR tileE = (TileSwitchManualGSAR) world.getTileEntity(x, y, z);
+        final TileSwitchManualGSAR tileE = (TileSwitchManualGSAR) tileEntity;
         final boolean leverActivated = tileE.getIsSwitched();
         tileE.setIsActive(!leverActivated);
         return true;

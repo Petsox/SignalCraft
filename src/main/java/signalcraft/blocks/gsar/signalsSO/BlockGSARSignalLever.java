@@ -30,7 +30,12 @@ public class BlockGSARSignalLever extends BlockSignSignal
 
     @Override
     public void onBlockPlacedBy(final World world, final int x, final int y, final int z, final EntityLivingBase entityPlayer, final ItemStack itemStack) {
-        ((TileGSARSignalLever)world.getTileEntity(x, y, z)).setIsActive(false);
+        // A foreign tile (e.g. RailCraft's TileHidden) can occupy this position; casting
+        // it unguarded would throw an uncaught ClassCastException during placement.
+        final TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity instanceof TileGSARSignalLever) {
+            ((TileGSARSignalLever) tileEntity).setIsActive(false);
+        }
     }
 
     @Override
@@ -38,8 +43,9 @@ public class BlockGSARSignalLever extends BlockSignSignal
         if (world.isRemote) {
             return true;
         }
-        if (world.getTileEntity(x, y, z) != null) {
-            final TileGSARSignalLever tileE = (TileGSARSignalLever)world.getTileEntity(x, y, z);
+        final TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity instanceof TileGSARSignalLever) {
+            final TileGSARSignalLever tileE = (TileGSARSignalLever) tileEntity;
 
             if (tileE.getRotate() == 0 || tileE.getRotate() == 40) {
                 final boolean leverActivated = tileE.getIsActive();
