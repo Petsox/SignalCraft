@@ -36,7 +36,13 @@ public abstract class BlockLevelCrossing extends BlockContainer implements ISCBl
         if (world.isRemote) {
             return true;
         }
-        final SPacketEditorOpen thePacket = new SPacketEditorOpen((TileSignal) world.getTileEntity(x, y, z));
+        final TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (!(tileEntity instanceof TileSignal)) {
+            // A foreign tile (e.g. RailCraft's TileHidden) can occupy this position; casting
+            // it below would throw a ClassCastException that isn't caught by the try/catch.
+            return true;
+        }
+        final SPacketEditorOpen thePacket = new SPacketEditorOpen((TileSignal) tileEntity);
         try {
             final List<Object> list = new LinkedList<>();
             SignalCraft.proxy.packetPipeline.encode(thePacket, list);
