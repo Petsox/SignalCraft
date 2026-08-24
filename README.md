@@ -2,6 +2,8 @@
 
 SignalCraft is a mod for **Minecraft Forge 1.7.10** that adds authentic railway signaling equipment from multiple countries — currently **Czechia/Slovakia** and **Germany** — to the game. The German side is built upon [**GSAR (German Signals at Rails)**](https://www.curseforge.com/minecraft/mc-mods/gsar) by **Breeko**, whose original work forms the foundation of the German-signaling side of the mod. But SignalCraft is not just GSAR, but with more stuff. It is a completely new mod, with new core and base functionality, to which GSAR stuff was then rewritten form scratch and implemented in.
 
+You can get it on [CurseForge](https://www.curseforge.com/minecraft/mc-mods/signalcraft)
+
 ## What it adds
 
 ### Czech / Slovak signaling (AZD, SSSR)
