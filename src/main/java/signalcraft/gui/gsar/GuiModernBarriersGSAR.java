@@ -1,23 +1,24 @@
 package signalcraft.gui.gsar;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import signalcraft.entities.gsar.signalsBU.TileGSARCrossing;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.signalUtils.Network;
 
 import java.awt.*;
 
-public class GuiModernBarriersGSAR extends GuiScreen {
+public class GuiModernBarriersGSAR extends ScalableGuiScreen {
     private GuiButton doneButton;
     private GuiButton LengthButton;
     private String LenghtText;
     private final TileGSARCrossing thisTileE;
     private GuiTextField textFieldArmDownDelay;
+    private GuiTextField textFieldSignalOffDelay;
 
 
     public GuiModernBarriersGSAR(final TileGSARCrossing thisTileE) {
@@ -26,15 +27,28 @@ public class GuiModernBarriersGSAR extends GuiScreen {
         this.thisTileE = thisTileE;
     }
 
+    @Override
+    protected int getDesignWidth() {
+        return 440;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+
     public void initGui() {
         this.loadValuesFromTile();
         this.buttonList.add(this.doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 140, I18n.format("gui.done")));
         this.buttonList.add(this.LengthButton = new GuiButton(1, this.width / 2 - 120, this.height / 4 - 20, 30, 20, this.LenghtText));
         this.textFieldArmDownDelay = new GuiTextField(this.fontRendererObj, this.width / 2 - 75, this.height / 4 + 10, 50, 10);
+        this.textFieldSignalOffDelay = new GuiTextField(this.fontRendererObj, this.width / 2 - 75, this.height / 4 + 35, 50, 10);
         this.textFieldArmDownDelay.setText(Integer.toString(this.thisTileE.getArmDownDelay()));
+        this.textFieldSignalOffDelay.setText(Integer.toString(this.thisTileE.getSignalOffDelay()));
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         if (!this.mc.gameSettings.forceUnicodeFont) {
             this.fontRendererObj.setUnicodeFlag(true);
             this.fontRendererObj.setBidiFlag(true);
@@ -44,8 +58,11 @@ public class GuiModernBarriersGSAR extends GuiScreen {
         this.drawModel();
         this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.arm.lenght.text"), this.width / 2 - 150, this.height / 4 - 15, 16777200);
         this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.arm.down.delay.text"), this.width / 2 - 150, this.height / 4 + 10, 16777200);
+        this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.signal.off.delay.text"), this.width / 2 - 150, this.height / 4 + 35, 16777200);
         this.textFieldArmDownDelay.drawTextBox();
+        this.textFieldSignalOffDelay.drawTextBox();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     protected void actionPerformed(final GuiButton button) {
@@ -53,6 +70,8 @@ public class GuiModernBarriersGSAR extends GuiScreen {
             case 0: {
                 if (!this.textFieldArmDownDelay.getText().isEmpty())
                     thisTileE.setArmDownDelay(Integer.parseInt(textFieldArmDownDelay.getText()));
+                if (!this.textFieldSignalOffDelay.getText().isEmpty())
+                    thisTileE.setSignalOffDelay(Integer.parseInt(textFieldSignalOffDelay.getText()));
                 this.thisTileE.markDirty();
                 this.mc.displayGuiScreen(null);
                 break;
@@ -72,17 +91,24 @@ public class GuiModernBarriersGSAR extends GuiScreen {
 
     protected void mouseClicked(final int x, final int y, final int buttonClicked) {
         this.textFieldArmDownDelay.mouseClicked(x, y, buttonClicked);
+        this.textFieldSignalOffDelay.mouseClicked(x, y, buttonClicked);
         super.mouseClicked(x, y, buttonClicked);
     }
 
     protected void keyTyped(final char character, final int code) {
+        if (code == 1) {
+            this.actionPerformed(this.doneButton);
+            return;
+        }
         if (Character.isDigit(character) || code == 14) {
             this.textFieldArmDownDelay.textboxKeyTyped(character, code);
+            this.textFieldSignalOffDelay.textboxKeyTyped(character, code);
         }
     }
 
     public void updateScreen() {
         this.textFieldArmDownDelay.updateCursorCounter();
+        this.textFieldSignalOffDelay.updateCursorCounter();
     }
 
     public void onGuiClosed() {
@@ -93,6 +119,9 @@ public class GuiModernBarriersGSAR extends GuiScreen {
         }
         if (!this.textFieldArmDownDelay.getText().isEmpty()) {
             this.thisTileE.setArmDownDelay(Integer.parseInt(this.textFieldArmDownDelay.getText()));
+        }
+        if (!this.textFieldSignalOffDelay.getText().isEmpty()) {
+            this.thisTileE.setSignalOffDelay(Integer.parseInt(this.textFieldSignalOffDelay.getText()));
         }
         Network.updateCrossings(this.thisTileE);
     }

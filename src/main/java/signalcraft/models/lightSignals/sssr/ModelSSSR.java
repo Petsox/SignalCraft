@@ -5,6 +5,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import signalcraft.entities.signals.lightSignals.TileLightSignal;
+import signalcraft.models.PartLibrary;
 import signalcraft.models.TextureRegistry;
 import signalcraft.models.lightSignals.ILightSignalModel;
 import signalcraft.signalUtils.LampFade;
@@ -31,6 +32,13 @@ public class ModelSSSR implements ILightSignalModel {
     /** Matches the overbright color multiplier {@link signalcraft.renderers.entities.lightSignals.TileLightSignalsRenderer} sets before calling renderNavest. */
     private static final float OVERBRIGHT = 2.0f;
 
+    /** Matched by both {@link IModelCustom#renderPart(String)} and {@link PartLibrary#renderPart(String)},
+     * letting {@code renderNavestFaded} work against either a plain loaded .obj or a shared part library. */
+    @FunctionalInterface
+    private interface PartRenderer {
+        void renderPart(String name);
+    }
+
     /**
      * Shared lamp-rendering loop for the SSSR family: eases each lamp's brightness
      * toward on/off (via the tile's {@link LampFade}) instead of snapping the colored
@@ -41,8 +49,8 @@ public class ModelSSSR implements ILightSignalModel {
      * {@code eligible} lets a family exclude keys it can't physically light (e.g.
      * stripe indicators when absent).
      */
-    protected void renderNavestFaded(SignalState sigState, TileLightSignal tileSignal, IModelCustom modelLightSignals,
-                                      Function<String, String> keyMapper, Function<String, String> partNameFor, Predicate<String> eligible) {
+    private void renderNavestFadedCore(SignalState sigState, TileLightSignal tileSignal, PartRenderer modelLightSignals,
+                                        Function<String, String> keyMapper, Function<String, String> partNameFor, Predicate<String> eligible) {
         if (sigState.equals(SignalState.ALL)) {
             Minecraft.getMinecraft().renderEngine.bindTexture(this.COCKY);
             for (String state : SignalState.getPossibleColorsFromStates(tileSignal)) {
@@ -87,13 +95,33 @@ public class ModelSSSR implements ILightSignalModel {
     }
 
     protected void renderNavestFaded(SignalState sigState, TileLightSignal tileSignal, IModelCustom modelLightSignals,
+                                      Function<String, String> keyMapper, Function<String, String> partNameFor, Predicate<String> eligible) {
+        renderNavestFadedCore(sigState, tileSignal, modelLightSignals::renderPart, keyMapper, partNameFor, eligible);
+    }
+
+    protected void renderNavestFaded(SignalState sigState, TileLightSignal tileSignal, IModelCustom modelLightSignals,
                                       Function<String, String> partNameFor, Predicate<String> eligible) {
-        renderNavestFaded(sigState, tileSignal, modelLightSignals, key -> key, partNameFor, eligible);
+        renderNavestFadedCore(sigState, tileSignal, modelLightSignals::renderPart, key -> key, partNameFor, eligible);
     }
 
     protected void renderNavestFaded(SignalState sigState, TileLightSignal tileSignal, IModelCustom modelLightSignals,
                                       Function<String, String> partNameFor) {
-        renderNavestFaded(sigState, tileSignal, modelLightSignals, key -> key, partNameFor, key -> true);
+        renderNavestFadedCore(sigState, tileSignal, modelLightSignals::renderPart, key -> key, partNameFor, key -> true);
+    }
+
+    protected void renderNavestFaded(SignalState sigState, TileLightSignal tileSignal, PartLibrary modelLightSignals,
+                                      Function<String, String> keyMapper, Function<String, String> partNameFor, Predicate<String> eligible) {
+        renderNavestFadedCore(sigState, tileSignal, modelLightSignals::renderPart, keyMapper, partNameFor, eligible);
+    }
+
+    protected void renderNavestFaded(SignalState sigState, TileLightSignal tileSignal, PartLibrary modelLightSignals,
+                                      Function<String, String> partNameFor, Predicate<String> eligible) {
+        renderNavestFadedCore(sigState, tileSignal, modelLightSignals::renderPart, key -> key, partNameFor, eligible);
+    }
+
+    protected void renderNavestFaded(SignalState sigState, TileLightSignal tileSignal, PartLibrary modelLightSignals,
+                                      Function<String, String> partNameFor) {
+        renderNavestFadedCore(sigState, tileSignal, modelLightSignals::renderPart, key -> key, partNameFor, key -> true);
     }
 
 

@@ -1,0 +1,112 @@
+# Blender 5.1.0 MTL File: 'azd99_noveTextury.blend'
+# www.blender.org
+
+newmtl AZD71_podstavec
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/skrinka.jpeg
+
+newmtl AZD71_podstavec.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/skrinka.jpeg
+
+newmtl AZD71_podstavec.002
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/skrinka.jpeg
+
+newmtl azd71_podklad
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/podklad.jpeg
+
+newmtl azd71_zaklad
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/zaklad.jpeg
+
+newmtl azd71_zaklad.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/zaklad.jpeg
+
+newmtl azd71_zaklad.002
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/zaklad.jpeg
+
+newmtl motor_zavory
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/motor_barrier.png
+
+newmtl motor_zavory.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/motor_barrier.png
+
+newmtl skrin_a_unasec.004
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+
+newmtl zavora
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd C:/Users/petrk/Desktop/SignalCraft/modely/src/main/resources/assets/signalcraft/textures/nove/azd99/barrier.jpg

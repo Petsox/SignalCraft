@@ -19,7 +19,6 @@ public class GuiSSSRSingleHead extends GuiLevelCrossings {
     public void initGui() {
         super.initGui();
         this.KrizStozarButton.visible = false;
-        this.SlovenskoButton.visible = false;
         this.PruhyButton.visible = false;
         this.PozDylButton.visible = false;
         this.OtradoviceButton.visible = false;
@@ -29,6 +28,8 @@ public class GuiSSSRSingleHead extends GuiLevelCrossings {
         this.UsePozButton.visible = false;
         this.textFieldPozitDelay.setVisible(false);
         this.NewerButton.visible = false;
+        this.StozarDelsiButton.visible = false;
+        this.textFieldYOffset.setVisible(true);
     }
 
     @Override

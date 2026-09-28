@@ -40,39 +40,72 @@ public class TileCrossingsRenderer extends TileEntitySpecialRenderer {
         GL11.glPushMatrix(); // A
         GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
         GL11.glRotatef(-meta * 360 / 16.0f, 0.0f, 1.0f, 0.0f);
+        // Head-only crossing units (AZD71/AZD97/SSSR/SSSRSingle "Head" variants) have no base
+        // pole of their own and are usually mounted onto other structures - yOffset lets them be
+        // fine-tuned vertically. Applied in unscaled world blocks, before getScale(), so it stays
+        // consistent regardless of the model's scale setting.
+        // Full AZD71/AZD97/SSSR/SSSRSingle units use it too, but only their head moves - their pole stays on
+        // the ground by rendering itself shifted back down (see ILevelCrossingModel.setFixedPoleOffset).
+        GL11.glTranslatef(0f, thisCrossingTile.getYOffset(), 0f);
 
         // Scaling and translation adjustments based on tile type
-        if (thisCrossingTile instanceof TileVUD){
-            GL11.glScalef(1.0f, 1.0f, 1.0f);
-        } else GL11.glScalef(1.5f, 1.5f, 1.5f);
+        float baseScale = thisCrossingTile instanceof TileVUD ? 1.0f : 1.5f;
+        GL11.glScalef(baseScale, baseScale, baseScale);
         if (thisCrossingTile instanceof TileSSSRHead) GL11.glTranslatef(0f, 0.15f, -0.049f);
 
         GL11.glScalef(thisCrossingTile.getScale(), thisCrossingTile.getScale(), thisCrossingTile.getScale());
+        float totalScale = baseScale * thisCrossingTile.getScale();
+        this.modelCross.setFixedPoleOffset(totalScale != 0f ? thisCrossingTile.getYOffset() / totalScale : 0f);
 
         LampFade fade = thisCrossingTile.getLampFade();
         long dt = fade.beginFrame(Minecraft.getSystemTime());
+
+        // The tile's real ambient lighting, captured once so renderHead can restore it before each
+        // angle's static geometry - the lamp block further down force-overrides the lightmap to
+        // full-bright and never puts it back, so on the 2nd+ iteration of the angle loop below,
+        // renderSloup/renderStozar/renderVystraznik would otherwise inherit the previous angle's
+        // full-bright lamp lighting instead of this block's actual light level.
+        int ambientBrightness = thisCrossingTile.getWorldObj().getLightBrightnessForSkyBlocks(thisCrossingTile.xCoord, thisCrossingTile.yCoord, thisCrossingTile.zCoord, 0);
+        int aj = ambientBrightness % 65536;
+        int ak = ambientBrightness / 65536;
 
         if (thisCrossingTile instanceof IAnglesAddable){
             GL11.glTranslatef(0f, 0.2935f, 0f);
 
             int[] angles = ((IAnglesAddable) thisCrossingTile).getAngles();
             for (int i = 0; i < angles.length; i++) {
+                // Each angle is an absolute world-facing rotation captured from the player's yaw
+                // when it was added (see ItemWrench), not an offset from the previous one - push/pop
+                // so every head rotates fresh from the base orientation instead of compounding onto
+                // whatever the prior iteration left behind. Without this, added heads drift further
+                // off their intended direction with each one, often ending up overlapping an earlier
+                // head - multiple additively-blended lamps stacked on the same spot is what reads as
+                // the added signals "glowing".
+                GL11.glPushMatrix();
                 GL11.glRotatef(angles[i], 0, 1, 0);
-                renderHead(thisCrossingTile, j1, k1, i + 1, i == 0, dt);
+                renderHead(thisCrossingTile, j1, k1, aj, ak, i + 1, i == 0, dt);
+                GL11.glPopMatrix();
             }
 
         } else {
             this.modelCross.renderZaklad(thisCrossingTile.getLightPos().Pos, thisCrossingTile.hasPozLight(), thisCrossingTile.isLightCoverShort());
-            renderHead(thisCrossingTile, j1, k1, 1, true, dt);
+            renderHead(thisCrossingTile, j1, k1, aj, ak, 1, true, dt);
         }
 
         GL11.glPopMatrix(); // pop A
-
+        // the model instance is shared with every other tile/item render of this type
+        this.modelCross.setFixedPoleOffset(0f);
     }
 
-    private void renderHead(TileLevelCrossing thisCrossingTile, int j1, int k1, int angleIndex, boolean renderKrizAndCedule, long dt) {
-        this.modelCross.renderSloup(thisCrossingTile.getDistFromSloup().Dist, thisCrossingTile.hasZebrik(), thisCrossingTile.isCedule(), thisCrossingTile.hasKrizNaStozaru());
+    private void renderHead(TileLevelCrossing thisCrossingTile, int j1, int k1, int aj, int ak, int angleIndex, boolean renderKrizAndCedule, long dt) {
+        // Always start from this block's real ambient lighting rather than trusting whatever the
+        // previous angle iteration's lamp rendering left the lightmap set to (see the aj/ak comment
+        // in renderTileEntityAt).
+        OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, aj, ak);
+
+        this.modelCross.renderSloup(thisCrossingTile.getDistFromSloup().Dist, thisCrossingTile.hasZebrik(), thisCrossingTile.isCedule(), thisCrossingTile.hasKrizNaStozaru(), thisCrossingTile.hasKriz());
         this.modelCross.renderStozar(thisCrossingTile.getDistFromSloup().Dist, thisCrossingTile.hasPruhy());
+        this.modelCross.renderStozarDelsi(thisCrossingTile.getStozarDelsiCount());
 
         if (renderKrizAndCedule) {
             if (thisCrossingTile.hasKriz()) {
@@ -134,23 +167,40 @@ public class TileCrossingsRenderer extends TileEntitySpecialRenderer {
             GL11.glColor4f(2.0f * rBrightness, 2.0f * rBrightness, 2.0f * rBrightness, 2.0f * rBrightness);
             this.modelCross.renderSvetloR(thisCrossingTile.getDistFromSloup().Dist, thisCrossingTile.getLightPos().Pos, angleIndex, thisCrossingTile.doLightsAlter());
         }
-        // Unlike L/R, poz never idles above 0 - but it still never skips its render call, so it
-        // stays part of the draw order the same way L/R does while idling. Alpha-test runs before
-        // blending in the fixed-function pipeline, so it discards this fragment outright whenever
-        // pozBrightness sweeps below the ~0.1 cutoff while fading - defeating the fade entirely
-        // unless alpha-test is disabled for this one draw (additive blend takes over instead).
-        // LED poz lamps never take on a value in that cutoff range (only ever exactly 0 or 1), so
-        // they skip this and use the same plain alpha-test path as L/R.
-        if (pozFades) {
-            GL11.glDisable(GL11.GL_ALPHA_TEST);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(1, 1);
-        }
-        GL11.glColor4f(2.0f * pozBrightness, 2.0f * pozBrightness, 2.0f * pozBrightness, 2.0f * pozBrightness);
-        this.modelCross.renderSvetloPoz(thisCrossingTile.getDistFromSloup().Dist, thisCrossingTile.getLightPos().Pos, thisCrossingTile.isNewer());
-        if (pozFades) {
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glEnable(GL11.GL_ALPHA_TEST);
+        // A tile that has no poz light at all has no lens/bulb mesh to show - some model classes
+        // (e.g. ModelCrossSSSR/ModelCrossSSSRHead) only gate the poz *housing* on hasPoz and draw
+        // the lens mesh here unconditionally, assuming the housing will frame/backstop it. With no
+        // housing, that lens is left floating and visible on its own, even at zero color - depth
+        // writes/reads and alpha-test/blending don't matter if the draw call never happens at all.
+        if (thisCrossingTile.hasPozLight()) {
+            // Unlike L/R, poz never idles above 0 - but it still never skips its render call while
+            // the light exists, so it stays part of the draw order the same way L/R does while
+            // idling. Alpha-test runs before blending in the fixed-function pipeline, so it discards
+            // this fragment outright whenever pozBrightness sweeps below the ~0.1 cutoff while fading
+            // - defeating the fade entirely unless alpha-test is disabled for this one draw (additive
+            // blend takes over instead). LED poz lamps never take on a value in that cutoff range
+            // (only ever exactly 0 or 1), so they skip this and use the same plain alpha-test path as L/R.
+            if (pozFades) {
+                GL11.glDisable(GL11.GL_ALPHA_TEST);
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFunc(1, 1);
+                // The additive draw below has near-zero color while fading out, but depth writes stay
+                // on by default - an invisible quad would still occlude the model's own later-drawn
+                // parts behind it, showing through to whatever's further back. Depth-test still
+                // applies; only writing is suppressed.
+                GL11.glDepthMask(false);
+            }
+            // Left uncapped at the full 2x, same as L/R below - 1.0 killed the shader-visible glow
+            // entirely and an intermediate 1.5 cap still read as too dark, so this now matches L/R's
+            // brightness exactly instead of deliberately under-driving the HDR range for bloom.
+            float pozColor = 2.0f * pozBrightness;
+            GL11.glColor4f(pozColor, pozColor, pozColor, pozColor);
+            this.modelCross.renderSvetloPoz(thisCrossingTile.getDistFromSloup().Dist, thisCrossingTile.getLightPos().Pos, thisCrossingTile.isNewer());
+            if (pozFades) {
+                GL11.glDepthMask(true);
+                GL11.glDisable(GL11.GL_BLEND);
+                GL11.glEnable(GL11.GL_ALPHA_TEST);
+            }
         }
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glPopMatrix(); // pop B after inner block
@@ -162,6 +212,8 @@ public class TileCrossingsRenderer extends TileEntitySpecialRenderer {
                 return new float[]{-0.123142f, 0.181485f};
             case DIST_50:
                 return new float[]{-0.123142f, 0.3025f};
+            case DIST_75:
+                return new float[]{-0.123142f, 0.453743f};
             case DIST_100:
                 return new float[]{-0.123142f, 0.604985f};
             default:

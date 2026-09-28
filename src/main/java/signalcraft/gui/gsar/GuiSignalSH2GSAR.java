@@ -25,6 +25,15 @@ public class GuiSignalSH2GSAR extends GuiSignSignal {
         thisTile = thisTileE;
     }
     @Override
+    protected int getDesignWidth() {
+        return 460;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+    @Override
     public void initGui() {
         this.loadValuesFromTile();
         this.buttonList.add(this.switchLightButton = new GuiButton(1, this.width / 2 - 105, this.height / 4 - 5, 30, 20, this.switchLightButtonText));
@@ -67,11 +76,13 @@ public class GuiSignalSH2GSAR extends GuiSignSignal {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float par3) {
+        this.beginContentScale();
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.editMsg_TITLE, this.width / 2, this.height / 4 - 64, 16777215);
         this.drawString(this.fontRendererObj, this.editMsg_SH2, this.width / 2 - 220, this.height / 4 - 15, 16777215);
         this.drawString(this.fontRendererObj, this.editMsg_SH2_1, this.width / 2 - 220, this.height / 4 + 20, 16777215);
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     private void loadValuesFromTile() {

@@ -11,9 +11,13 @@ public interface ILevelCrossingModel extends IModelCustom {
     @SideOnly(Side.CLIENT)
     void renderStozar(String Distance, Boolean Stripes);
     @SideOnly(Side.CLIENT)
+    // Stacks extra pole-extension segments on top of the (always short) pole rendered by
+    // renderStozar - only meaningful for models that use this instead of a separate long variant.
+    void renderStozarDelsi(int count);
+    @SideOnly(Side.CLIENT)
     void renderVystraznik(String Distance, String Pos,Boolean hasPoz, Boolean isPozLightShort, Boolean isLightCoverShort, Consts.CeduleState isCedule);
     @SideOnly(Side.CLIENT)
-    void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru);
+    void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru, Boolean hasKriz);
     @SideOnly(Side.CLIENT)
     void renderKriz(String Distance, Boolean isKrizJedno, Boolean isKrizNaStozaru, Boolean isSlovak, Boolean isReflective, Boolean isKrizVelky);
     @SideOnly(Side.CLIENT)
@@ -30,5 +34,10 @@ public interface ILevelCrossingModel extends IModelCustom {
     void renderSvetloR(String Distance, String Pos, Integer angleIndex, Boolean doLightsAlter);
     @SideOnly(Side.CLIENT)
     void renderSvetloPoz(String Distance, String Pos, Boolean isNewer);
+    @SideOnly(Side.CLIENT)
+    // The renderer shifts the whole crossing up by the tile's yOffset (already converted to model
+    // units) - models with a pole standing on the ground (AZD71, AZD97, SSSR, SSSRSingle) render their pole
+    // parts shifted back down by this amount, so only the head moves. 0 outside a TESR render.
+    default void setFixedPoleOffset(float offset) {}
 }
 

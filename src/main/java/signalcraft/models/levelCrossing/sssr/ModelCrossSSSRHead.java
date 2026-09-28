@@ -78,10 +78,12 @@ public class ModelCrossSSSRHead extends ModelCross {
             }
         } else {
             if (isReflective) {
-                if (isKrizVelky) {
+                if (isKrizJedno){
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                } else if (isKrizVelky){
                     Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                 } else {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                 }
                 this.modelCrossSSSRHead.renderPart(IsKrizJedno + "_refl" + IsKrizVelky);
             } else {
@@ -95,12 +97,12 @@ public class ModelCrossSSSRHead extends ModelCross {
                 }
                 this.modelCrossSSSRHead.renderPart(IsKrizJedno + "_front" + IsKrizVelky);
             }
-
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-            this.modelCrossSSSRHead.renderPart("kriz_ram");
-
-            GL11.glEnable(GL11.GL_CULL_FACE);
         }
+
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+        this.modelCrossSSSRHead.renderPart("kriz_ram");
+
+        GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
     private void renderHoukackaDn() {

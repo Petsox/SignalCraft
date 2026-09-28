@@ -18,6 +18,9 @@ public class TileAZD71 extends TileLevelCrossing {
         this.setHasPozLight(true);
         this.setUsePozLight(true);
         this.setDistFromSloup(Consts.DistFromPole.DIST_50);
+        // Non-"00" distance needs the pole extended by one azd71_stozar_delsi segment by default
+        // (matches the DIST_00-boundary logic in GuiAZD71's distance button).
+        this.setStozarDelsiCount(1);
     }
 
     @Override

@@ -33,6 +33,7 @@ public class TileAZD99Renderer extends TileEntitySpecialRenderer {
         GL11.glScalef(1.5f, 1.5f, 1.5f);
         GL11.glScalef(thisCrossingTile.getScale(), thisCrossingTile.getScale(), thisCrossingTile.getScale());
         modelAZD99.renderZaklad(thisCrossingTile.isNewer());
+        modelAZD99.renderStozarDelsi(thisCrossingTile.getStozarDelsiCount());
 
         GL11.glPushMatrix();
         GL11.glTranslatef(0.087725f, 0.650061f, 0.0f);

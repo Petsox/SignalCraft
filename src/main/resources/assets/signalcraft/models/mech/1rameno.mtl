@@ -1,0 +1,52 @@
+# Blender 5.0.1 MTL File: '1Rameno.blend'
+# www.blender.org
+
+newmtl bila
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/bila.jpg
+
+newmtl cervena
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/cervena.png
+
+newmtl main
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/hlavni.jpg
+
+newmtl retez
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/retez.png
+
+newmtl zelena
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/zelena.png

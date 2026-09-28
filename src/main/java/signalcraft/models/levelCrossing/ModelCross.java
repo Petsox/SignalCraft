@@ -1,6 +1,7 @@
 package signalcraft.models.levelCrossing;
 
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 import signalcraft.models.TextureRegistry;
 import signalcraft.signalUtils.Consts;
 
@@ -24,6 +25,7 @@ public class ModelCross implements ILevelCrossingModel {
     protected final ResourceLocation KrizCZ = TextureRegistry.KRIZ_CZ.get();
     protected final ResourceLocation KrizCZVic = TextureRegistry.KRIZ_CZ_VIC.get();
     protected final ResourceLocation KrizCZRefl = TextureRegistry.KRIZ_CZ_REFL.get();
+    protected final ResourceLocation KrizXkCZRefl = TextureRegistry.KRIZ_CZ_XK_REFL.get();
     protected final ResourceLocation KrizCZReflVelky = TextureRegistry.KRIZ_CZ_REFL_VELKY.get();
 
     protected final ResourceLocation SSSR_Cerna = TextureRegistry.SSSR_CERNA.get();
@@ -36,10 +38,33 @@ public class ModelCross implements ILevelCrossingModel {
     protected final ResourceLocation SSSR_Svetlo_B = TextureRegistry.SSSR_SVETLO_WHITE.get();
 
     protected final ResourceLocation AZD97_HLAVNI = TextureRegistry.AZD97_HLAVNI.get();
+    protected final ResourceLocation AZD97_RED_LIGHT = TextureRegistry.AZD97_RED_LIGHT.get();
+    protected final ResourceLocation AZD97_WHTIE_LIGHT = TextureRegistry.AZD97_WHITE_LIGHT.get();
     protected final ResourceLocation LED_SVETLO_WHITE = TextureRegistry.LED_SVETLO_WHITE.get();
 
     protected final ResourceLocation VUD = TextureRegistry.VUD.get();
     protected final ResourceLocation RED_LIGHT_VUD = TextureRegistry.RED_LIGHT_VUD.get();
+
+    private float fixedPoleOffset = 0f;
+
+    @Override
+    public void setFixedPoleOffset(float offset) {
+        this.fixedPoleOffset = offset;
+    }
+
+    /**
+     * Wrap parts that belong to the pole standing on the ground (base, mast, its extensions,
+     * ladder) between beginFixedPole()/endFixedPole() - they then stay put while the tile's
+     * yOffset moves only the head (see ILevelCrossingModel.setFixedPoleOffset).
+     */
+    protected void beginFixedPole() {
+        GL11.glPushMatrix();
+        GL11.glTranslatef(0f, -this.fixedPoleOffset, 0f);
+    }
+
+    protected void endFixedPole() {
+        GL11.glPopMatrix();
+    }
 
     @Override
     public void renderZaklad(String Pos, Boolean hasPoz, Boolean isLightCoverShort) {
@@ -51,13 +76,17 @@ public class ModelCross implements ILevelCrossingModel {
 
     }
 
+    public void renderStozarDelsi(int count) {
+
+    }
+
     @Override
     public void renderVystraznik(String Distance, String Pos, Boolean hasPoz, Boolean isPozLightShort, Boolean isLightCoverShort, Consts.CeduleState isCedule) {
 
     }
 
     @Override
-    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru) {
+    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru, Boolean hasKriz) {
 
     }
 

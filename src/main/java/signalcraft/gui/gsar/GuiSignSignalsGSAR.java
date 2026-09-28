@@ -37,7 +37,18 @@ public class GuiSignSignalsGSAR extends GuiSignSignal {
     }
 
     @Override
+    protected int getDesignWidth() {
+        return 380;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+
+    @Override
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         this.drawDefaultBackground();
         this.drawCenteredString(this.fontRendererObj, this.editMsg_TITLE, this.width / 2, this.height / 4 - 64, 16777215);
         this.drawCenteredString(this.fontRendererObj, this.editMsg_1, this.width / 2 - 84, this.height / 4 - 10, 16777215);
@@ -49,6 +60,7 @@ public class GuiSignSignalsGSAR extends GuiSignSignal {
         this.editTextField_KM.drawTextBox();
         if (tileSignSignal instanceof TileGSARHectometer) this.editTextField_M.drawTextBox();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     @Override
@@ -59,7 +71,7 @@ public class GuiSignSignalsGSAR extends GuiSignSignal {
             this.fontRendererObj.setBidiFlag(true);
         }
         this.buttonList.clear();
-        (this.editTextField_KM = new GuiTextField(this.fontRendererObj, this.width / 2 - 95, this.height / 4 + 10, 20, 10)).setMaxStringLength(3);
+        (this.editTextField_KM = new GuiTextField(this.fontRendererObj, this.width / 2 - 95, this.height / 4 + 10, 20, 10)).setMaxStringLength(2);
         (this.editTextField_M = new GuiTextField(this.fontRendererObj, this.width / 2 - 95, this.height / 4 + 48, 20, 10)).setMaxStringLength(1);
         editTextField_KM.setText(this.tileSignSignal.getSignalLabelStativ());
         editTextField_M.setText(this.tileSignSignal.getStationLabelStativ());

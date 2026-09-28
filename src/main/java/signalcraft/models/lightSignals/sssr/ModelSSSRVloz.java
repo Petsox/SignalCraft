@@ -2,13 +2,13 @@ package signalcraft.models.lightSignals.sssr;
 
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.model.IModelCustom;
 import signalcraft.entities.signals.lightSignals.TileLightSignal;
-import signalcraft.models.ModelRegistry;
+import signalcraft.models.PartLibrary;
+import signalcraft.models.PartLibraryRegistry;
 import signalcraft.signalUtils.SignalState;
 
 public class ModelSSSRVloz extends ModelSSSR {
-    private final IModelCustom modelLightSignals = ModelRegistry.SSSR_INSERTED.getModel();
+    private final PartLibrary modelLightSignals = PartLibraryRegistry.SSSR_NAV.get();
 
     @Override
     public void renderStoz(Boolean hasStripes, Boolean has3Stripes, String Pos, String SpeedSignText, String PNLight) {
@@ -34,6 +34,6 @@ public class ModelSSSRVloz extends ModelSSSR {
 
     @Override
     public void renderNavest(SignalState SigState, TileLightSignal tileSignal, String Pos, String PNLight) {
-        renderNavestFaded(SigState, tileSignal, this.modelLightSignals, state -> state + "_vloz_" + Pos);
+        renderNavestFaded(SigState, tileSignal, this.modelLightSignals, state -> state + "_vloz_" + Pos.toLowerCase());
     }
 }

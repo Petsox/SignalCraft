@@ -18,6 +18,7 @@ public class TileAZD97 extends TileLevelCrossing {
         this.setHasPozLight(true);
         this.setUsePozLight(true);
         this.setDistFromSloup(Consts.DistFromPole.DIST_30);
+        this.setStozarDelsiCount(2);
     }
 
     @Override

@@ -33,7 +33,7 @@ public class ModelAZD71Head extends ModelCross {
     }
 
     @Override
-    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru) {
+    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru, Boolean hasKriz) {
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
         this.modelAZD71Head.renderPart("azd71_sloup_" + Distance);
     }
@@ -65,10 +65,12 @@ public class ModelAZD71Head extends ModelCross {
             GL11.glDisable(GL11.GL_CULL_FACE);
             if (isKrizNaStozaru) {
                 if (isReflective) {
-                    if (isKrizVelky){
+                    if (isKrizJedno){
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    } else if (isKrizVelky){
                         Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                     } else {
-                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                     }
                     this.modelAZD71Head.renderPart(IsKrizJedno + "_refl_stozar"+ IsKrizVelky);
                 } else {
@@ -85,10 +87,12 @@ public class ModelAZD71Head extends ModelCross {
                 this.modelAZD71Head.renderPart("kriz_stozar");
             } else {
                 if (isReflective) {
-                    if (isKrizVelky){
+                    if (isKrizJedno){
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    } else if (isKrizVelky){
                         Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                     } else {
-                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                     }
                     this.modelAZD71Head.renderPart(IsKrizJedno + "_refl_" + Distance + IsKrizVelky);
                 } else {

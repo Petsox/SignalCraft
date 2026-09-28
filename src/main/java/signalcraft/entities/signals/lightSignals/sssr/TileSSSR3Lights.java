@@ -13,6 +13,7 @@ public class TileSSSR3Lights extends TileLightSignal {
             SignalState.ALL,
             SignalState.STUJ,
             SignalState.VOLNO,
+            SignalState.VYSTRAHA,
             SignalState.PN,
             SignalState.POSUNDOV
     ));
@@ -36,9 +37,20 @@ public class TileSSSR3Lights extends TileLightSignal {
         this.setGuiId(Consts.GuiIDs.SSSR_3_LIGHTS);
     }
 
-    @Override
-    public SignalState[] getValidStatesForTile() {
-        return everyValidState.toArray(new SignalState[0]);
+    public SignalState[] getValidStatesForTile(){
+        List<SignalState> validStates = new ArrayList<>(everyValidState);
+        switch (this.getType()) {
+            case TYPE_1:
+                validStates.remove(SignalState.VYSTRAHA);
+                break;
+            case TYPE_2:
+                validStates.remove(SignalState.VOLNO);
+                validStates.remove(SignalState.R40VOLNO);
+                validStates.removeIf(state -> state.StateToString().contains("Ocek"));
+                break;
+        }
+
+        return validStates.toArray(new SignalState[0]);
     }
 
     @Override

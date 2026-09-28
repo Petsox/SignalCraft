@@ -4,20 +4,20 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import signalcraft.entities.gsar.signalsSO.TileGSARSignalLever;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.gui.gsar.buttons.GuiButtonModeStates;
 import signalcraft.signalUtils.Network;
 
 import java.awt.*;
 
 @SideOnly(Side.CLIENT)
-public class GuiSignalLeverGSAR extends GuiScreen {
+public class GuiSignalLeverGSAR extends ScalableGuiScreen {
     final Minecraft MC;
     private GuiButton doneBtn;
     private GuiButton signalClearBtn;
@@ -91,7 +91,18 @@ public class GuiSignalLeverGSAR extends GuiScreen {
         this.opNameLever = tileEntity.getSignalLabelStativ();
     }
 
+    @Override
+    protected int getDesignWidth() {
+        return 480;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         this.drawDefaultBackground();
         this.drawSignSignalsLever();
         this.drawHorizontalLine(0, this.width, this.height / 32 * 4 + 4, new Color(255, 255, 255, 128).getRGB());
@@ -126,6 +137,7 @@ public class GuiSignalLeverGSAR extends GuiScreen {
         GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
         GL11.glPopMatrix();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     protected void keyTyped(final char character, final int code) {

@@ -18,6 +18,7 @@ public class TileSSSRSingle extends TileLevelCrossing {
         this.setHasKriz(true);
         this.setCedule(Consts.CeduleState.UP);
         this.setDistFromSloup(Consts.DistFromPole.DIST_30);
+        this.setStozarDelsiCount(1);
     }
 
     @Override

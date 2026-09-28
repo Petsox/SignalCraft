@@ -22,23 +22,16 @@ public class TileSSSR extends TileLevelCrossing {
         this.setLightPos(Consts.Position.MIDDLE);
         this.setCedule(Consts.CeduleState.UP);
         this.setHeadRot(0);
+        this.setStozarDelsiCount(1);
     }
 
     @Override
     public void updateEntity() {
         if (this.isOtradovice()){
-            ++this.blinkCounter;
-            if (this.blinkCounter >= Consts.SoundType.OTRADOVICE.blinkTimer) {
-                this.blinkCounter = 0;
-            }
-            ++this.pozitBlinkCounter;
-            if (this.pozitBlinkCounter >= Consts.SoundType.OTRADOVICE.pozitBlinkTimer) {
-                this.pozitBlinkCounter = 0;
-            }
             if (this.BellDelayTimer > 0 && !getIsActive()) {
                 --BellDelayTimer;
             }
-            if (this.getIsActive() && this.blinkCounter == Consts.SoundType.OTRADOVICE.soundTimer && !worldObj.isRemote) {
+            if (this.getIsActive() && this.getBlinkCounter() == Consts.SoundType.OTRADOVICE.soundTimer && !worldObj.isRemote) {
                 int numRand = (int) Math.floor(Math.random() * 10);
                 if (numRand < 7) {
                     this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Consts.SoundType.OTRADOVICE.SoundLocation, 0.75f, 1.0f);
@@ -51,6 +44,18 @@ public class TileSSSR extends TileLevelCrossing {
         } else {
             super.updateEntity();
         }
+    }
+
+    @Override
+    public int getBlinkCounter() {
+        if (this.isOtradovice()) return computeBlinkPhase(Consts.SoundType.OTRADOVICE.blinkTimer);
+        return super.getBlinkCounter();
+    }
+
+    @Override
+    public int getPozitBlinkCounter() {
+        if (this.isOtradovice()) return computeBlinkPhase(Consts.SoundType.OTRADOVICE.pozitBlinkTimer);
+        return super.getPozitBlinkCounter();
     }
 
     @Override

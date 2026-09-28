@@ -1,11 +1,11 @@
 package signalcraft.gui.controllers;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import signalcraft.entities.controllers.signals.lightSignals.TileRedControllerLightSignals;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.signalUtils.Consts;
 import signalcraft.signalUtils.Network;
 import signalcraft.signalUtils.SignalState;
@@ -13,7 +13,7 @@ import signalcraft.signalUtils.Utils;
 
 import java.awt.*;
 
-public class GuiRedstoneController extends GuiScreen {
+public class GuiRedstoneController extends ScalableGuiScreen {
     private final String guiName;
     private final int[] signalStates = new int[4];
     protected GuiButton doneButton;
@@ -27,6 +27,16 @@ public class GuiRedstoneController extends GuiScreen {
         Keyboard.enableRepeatEvents(true);
         this.allowUserInput = true;
         this.thisTileE = thisTileE;
+    }
+
+    @Override
+    protected int getDesignWidth() {
+        return 340;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 320;
     }
 
     public void initGui() {
@@ -51,6 +61,7 @@ public class GuiRedstoneController extends GuiScreen {
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         if (!this.mc.gameSettings.forceUnicodeFont) {
             this.fontRendererObj.setUnicodeFlag(true);
             this.fontRendererObj.setBidiFlag(true);
@@ -68,6 +79,7 @@ public class GuiRedstoneController extends GuiScreen {
         }
 
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     protected void actionPerformed(final GuiButton button) {
@@ -91,6 +103,10 @@ public class GuiRedstoneController extends GuiScreen {
     }
 
     protected void keyTyped(final char character, final int code) {
+        if (code == 1) {
+            this.actionPerformed(this.doneButton);
+            return;
+        }
         if (this.ControllerName.getText().length() <= 12 || code == 14) {
             this.ControllerName.textboxKeyTyped(character, code);
         }
@@ -99,10 +115,6 @@ public class GuiRedstoneController extends GuiScreen {
             if (field.getText().length() <= 20 || code == 14) {
                 field.textboxKeyTyped(character, code);
             }
-        }
-
-        if (code == 1) {
-            this.actionPerformed(this.doneButton);
         }
     }
 

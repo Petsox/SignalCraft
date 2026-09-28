@@ -25,5 +25,7 @@ public class GuiAZD97Head extends GuiLevelCrossings {
         this.LightCoverButton.visible = false;
         this.LightPosButton.visible = false;
         this.LightsAlterButton.visible = false;
+        this.StozarDelsiButton.visible = false;
+        this.textFieldYOffset.setVisible(true);
     }
 }

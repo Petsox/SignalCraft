@@ -1,7 +1,6 @@
 package signalcraft.gui;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
@@ -10,7 +9,7 @@ import signalcraft.SignalCraft;
 import signalcraft.items.ItemSignalRenamer;
 import signalcraft.messages.RenamerNameMessage;
 
-public class GuiItemRenamer extends GuiScreen {
+public class GuiItemRenamer extends ScalableGuiScreen {
     private GuiButton doneButton;
     protected GuiTextField textFieldName;
     private final ItemStack itemSignalRenamer;
@@ -21,6 +20,16 @@ public class GuiItemRenamer extends GuiScreen {
         this.itemSignalRenamer = itemSignalRenamer;
     }
 
+    @Override
+    protected int getDesignWidth() {
+        return 260;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 200;
+    }
+
     public void initGui() {
         this.buttonList.add(this.doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 120, I18n.format("gui.done")));
         this.textFieldName = new GuiTextField(this.fontRendererObj, this.width / 2 + 10, this.height / 4 + 80, 100, 20);
@@ -28,6 +37,7 @@ public class GuiItemRenamer extends GuiScreen {
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         if (!this.mc.gameSettings.forceUnicodeFont) {
             this.fontRendererObj.setUnicodeFlag(true);
             this.fontRendererObj.setBidiFlag(true);
@@ -35,6 +45,7 @@ public class GuiItemRenamer extends GuiScreen {
         this.drawCenteredString(this.fontRendererObj, I18n.format("gui.signalRenamer.text"), this.width / 2 - 40, this.height / 4 + 85, 16777200);
         this.textFieldName.drawTextBox();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     protected void actionPerformed(final GuiButton button) {
@@ -49,6 +60,10 @@ public class GuiItemRenamer extends GuiScreen {
     }
 
     protected void keyTyped(final char character, final int code) {
+        if (code == 1) {
+            this.actionPerformed(this.doneButton);
+            return;
+        }
         if (textFieldName.isFocused()) this.textFieldName.textboxKeyTyped(character, code);
     }
 

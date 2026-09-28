@@ -18,5 +18,6 @@ public class GuiAZD97 extends GuiLevelCrossings {
         this.LightCoverButton.visible = false;
         this.LightPosButton.visible = false;
         this.LightsAlterButton.visible = false;
+        this.textFieldYOffset.setVisible(true);
     }
 }

@@ -1,20 +1,23 @@
 package signalcraft.models.lightSignals.sssr;
 
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.model.IModelCustom;
 import signalcraft.entities.signals.lightSignals.TileLightSignal;
-import signalcraft.models.ModelRegistry;
+import signalcraft.models.PartLibrary;
+import signalcraft.models.PartLibraryRegistry;
 import signalcraft.signalUtils.SignalState;
 
 public class ModelSSSROPr extends ModelSSSR {
-    private final IModelCustom modelLightSignals = ModelRegistry.SSSR_DISTANT.getModel();
+    private final PartLibrary modelLightSignals = PartLibraryRegistry.SSSR_NAV.get();
 
     @Override
     public void renderStoz(Boolean hasStripes, Boolean has3Stripes, String Pos, String SpeedSignText, String PNLight) {
         Minecraft.getMinecraft().renderEngine.bindTexture(this.SSSR_SKRINKA);
         this.modelLightSignals.renderPart("stoz_zaklad");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.SSSR_MAIN);
-        this.modelLightSignals.renderPart("stoz_3_stozar");
+        // sssr_pr_nove.obj's own "stoz_3_stozar" is unrelated to the plain
+        // 3-light variant's part of the same name, so tools/objdedupe split
+        // it into its own name (see sssr_nav/parts/sssr_instances.csv).
+        this.modelLightSignals.renderPart("stoz_3_stozar__sssr_pr_nove");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.SSSR_CISLA);
         this.modelLightSignals.renderPart("stoz_opr3_cisla");
     }

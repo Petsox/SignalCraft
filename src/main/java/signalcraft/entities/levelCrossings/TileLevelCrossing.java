@@ -9,9 +9,8 @@ import signalcraft.signalUtils.Consts;
 import signalcraft.signalUtils.LampFade;
 
 public abstract class TileLevelCrossing extends TileSignal implements IActivatable, ILevelCrossing {
-    protected int blinkCounter;
-    protected int pozitBlinkCounter;
     protected final int MAX_ARM_ANGLE = 85;
+    protected final int MIN_ARM_ANGLE = 0;
     protected int BellDelayTimer;
     protected int[] angles = {0};
     /** Client-only render state easing the warning lamps' brightness between on/off; never persisted. */
@@ -46,6 +45,9 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
      * [25] - isLightCoverShort
      * [26] - isNewer
      * [27] - doLightsAlter
+     * [28] - stozarDelsiCount
+     * [29] - yOffset
+     * [30] - signalOffDelay
      */
     private final String[] levelCrossingProperties;
     private final boolean Editable;
@@ -81,25 +83,33 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         this.setLightCoverShort(false);
         this.setNewer(false);
         this.doLightsAlter(false);
+        this.setStozarDelsiCount(0);
+        this.setYOffset(0f);
+        this.setSignalOffDelay(0);
     }
 
     public void updateEntity() {
-        ++this.blinkCounter;
-        if (this.blinkCounter >= getSoundType().blinkTimer) {
-            this.blinkCounter = 0;
-        }
-        ++this.pozitBlinkCounter;
-        if (this.pozitBlinkCounter >= getSoundType().pozitBlinkTimer) {
-            this.pozitBlinkCounter = 0;
-        }
         if (this.BellDelayTimer > 0 && !this.getIsActive()) {
             --BellDelayTimer;
         }
         if (this.getIsActive()) {
-            if (this.hasSoundOn() && this.isStrongSoundOn() && this.blinkCounter == getSoundType().soundTimer && !worldObj.isRemote) {
+            if (this.hasSoundOn() && this.isStrongSoundOn() && this.getBlinkCounter() == getSoundType().soundTimer && !worldObj.isRemote) {
                 this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, this.getSoundType().SoundLocation, 0.75f, 1.0f);
             }
         }
+    }
+
+    /**
+     * Blink phase derived from the world's own tick counter rather than a per-tile field that
+     * each side increments on its own. worldObj.getTotalWorldTime() is what vanilla's periodic
+     * time-sync packet keeps the client pinned to, so under server lag it gets corrected back in
+     * line instead of drifting away from the server's copy the way a freely-incremented field
+     * would - which is what let the flashing lights (rendered from the client's own counter) fall
+     * out of step with the bell (triggered from the server's own counter).
+     */
+    protected int computeBlinkPhase(int period) {
+        if (period <= 0 || worldObj == null) return 0;
+        return (int) (worldObj.getTotalWorldTime() % period);
     }
 
     public boolean isEditable() {
@@ -187,11 +197,11 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
     }
 
     public int getBlinkCounter() {
-        return this.blinkCounter;
+        return computeBlinkPhase(getSoundType().blinkTimer);
     }
 
     public int getPozitBlinkCounter() {
-        return this.pozitBlinkCounter;
+        return computeBlinkPhase(getSoundType().pozitBlinkTimer);
     }
 
     public LampFade getLampFade() {
@@ -242,6 +252,35 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         return Boolean.parseBoolean(this.levelCrossingProperties[27]);
     }
 
+    public int getStozarDelsiCount() {
+        try {
+            return Integer.parseInt(this.levelCrossingProperties[28]);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
+    /** Vertical render offset (in blocks) of the crossing head - head-only units move whole, full AZD71/AZD97/SSSR/SSSRSingle keep their pole on the ground. */
+    public Float getYOffset() {
+        try {
+            return Float.parseFloat(this.levelCrossingProperties[29]);
+        } catch (NumberFormatException e) {
+            return 0f;
+        }
+    }
+
+    public String getYOffsetString() {
+        return this.levelCrossingProperties[29];
+    }
+
+    public int getSignalOffDelay() {
+        try {
+            return Integer.parseInt(this.levelCrossingProperties[30]);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
+    }
+
     private void setActive(Boolean isActive) {
         this.levelCrossingProperties[0] = isActive.toString();
     }
@@ -265,8 +304,6 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
     @Override
     public void setCrossingActive(Boolean activated) {
         if (!activated) BellDelayTimer = this.getArmDownDelay() * 20;
-        this.blinkCounter = 0;
-        this.pozitBlinkCounter = 0;
         this.setActive(activated);
     }
 
@@ -370,7 +407,8 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
 
     @Override
     public void setBlinkCounter(int blinkCounter) {
-        this.blinkCounter = blinkCounter;
+        // Blink phase is derived from world time (see getBlinkCounter()); nothing to store.
+        // Kept only to satisfy IActivatable, matching TileGSARCrossing/TileMechSignal's stubs.
     }
 
     public void setKrizVelky(Boolean isKrizVelky) {
@@ -387,6 +425,18 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
 
     public void doLightsAlter(Boolean alterLights) {
         this.levelCrossingProperties[27] = alterLights.toString();
+    }
+
+    public void setStozarDelsiCount(int stozarDelsiCount) {
+        this.levelCrossingProperties[28] = String.valueOf(stozarDelsiCount);
+    }
+
+    public void setYOffset(Float yOffset) {
+        this.levelCrossingProperties[29] = String.valueOf(yOffset);
+    }
+
+    public void setSignalOffDelay(Integer signalOffDelay) {
+        this.levelCrossingProperties[30] = String.valueOf(signalOffDelay);
     }
 
     public void readFromNBT(final NBTTagCompound NBTTC) {
@@ -419,6 +469,12 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         this.levelCrossingProperties[25] = NBTTC.getString("isLightCoverShort");
         this.levelCrossingProperties[26] = NBTTC.getString("isNewer");
         this.levelCrossingProperties[27] = NBTTC.getString("doLightsAlter");
+        // older saves lack this tag - keep the default set by the subclass constructor (AZD71, AZD97, SSSR)
+        if (NBTTC.hasKey("stozarDelsiCount")) {
+            this.levelCrossingProperties[28] = NBTTC.getString("stozarDelsiCount");
+        }
+        this.levelCrossingProperties[29] = NBTTC.getString("yOffset");
+        this.levelCrossingProperties[30] = NBTTC.getString("signalOffDelay");
     }
 
     public void writeToNBT(final NBTTagCompound NBTTC) {
@@ -451,5 +507,8 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         NBTTC.setString("isLightCoverShort", this.levelCrossingProperties[25]);
         NBTTC.setString("isNewer", this.levelCrossingProperties[26]);
         NBTTC.setString("doLightsAlter", this.levelCrossingProperties[27]);
+        NBTTC.setString("stozarDelsiCount", this.levelCrossingProperties[28]);
+        NBTTC.setString("yOffset", this.levelCrossingProperties[29]);
+        NBTTC.setString("signalOffDelay", this.levelCrossingProperties[30]);
     }
 }

@@ -20,20 +20,6 @@ public class TileCrossingController extends TileController implements ICrossingC
         super(texture);
     }
 
-    public void updateReceiversWithoutBarriers(boolean goDown) {
-        for (Map.Entry<BlockPos, Integer> entry : getPairings().entrySet()) {
-            BlockPos pos = entry.getKey();
-            TileEntity tile = worldObj.getTileEntity(pos.getX(), pos.getY(), pos.getZ());
-
-            if (tile instanceof TileCrossingReceiver) {
-                TileCrossingReceiver receiver = (TileCrossingReceiver) tile;
-                if (!receiver.signalHasBarriers()) {
-                    receiver.setCrossingState(goDown);
-                }
-            }
-        }
-    }
-
     public void updateReceiversWithBarriers(boolean goDown) {
         for (Map.Entry<BlockPos, Integer> entry : getPairings().entrySet()) {
             BlockPos pos = entry.getKey();

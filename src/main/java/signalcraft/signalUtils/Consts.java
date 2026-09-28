@@ -8,7 +8,7 @@ public class Consts {
     public static final int mechPropArrLenght = 9;
     public static final int signPropArrLenght = 17;
     public static final int switchPropArrLenght = 8;
-    public static final int crossPropArrLenght = 28;
+    public static final int crossPropArrLenght = 31;
 
     //GUI IDs ---------------------------------
     public enum GuiIDs {
@@ -64,6 +64,11 @@ public class Consts {
         HECTOMETER_SIGN,
         SIGNAL_LEVER,
         STATION_SIGN,
+
+        //Mech signal GUIs
+        MECH_2ARMS,
+        MECH_1ARM,
+        MECH_SERAZOVACI,
 
         ;
 
@@ -162,7 +167,8 @@ public class Consts {
     public enum Types {
         TYPE_1("typ1"),
         TYPE_2("typ2"),
-        TYPE_3("typ3");
+        TYPE_3("typ3"),
+        TYPE_4("typ4");
         public final String Type;
 
         Types(String Type) {
@@ -212,12 +218,17 @@ public class Consts {
     //Crossing Sound Types ---------------------------------
     public enum SoundType {
         NO_SOUND("", "", "",  false, 0, 0, 20),
+        cinkP3596("signalcraft:cinkP3596", "gui.sound.bellClassic", "P3596", true, 11, 24, 40),
         cinkP3597("signalcraft:cinkP3597", "gui.sound.bellClassic", "P3597", true, 14, 28, 40),
-        cinkP8240("signalcraft:cinkP8240", "gui.sound.bellClassic", "P8240",true, 9, 18, 40),
         cinkP3599("signalcraft:cinkP3599", "gui.sound.bellClassic", "P3599",true, 22, 41, 40),
+        cinkP3670("signalcraft:cinkP3670", "gui.sound.bellClassic", "P3670", true, 9, 18, 40),
+        cinkP3725("signalcraft:cinkP3725", "gui.sound.bellClassic", "P3725", true, 13, 27, 40),
+        cinkP4925("signalcraft:cinkP4925", "gui.sound.bellClassic", "P4925", true, 11, 22, 40),
         cinkP7063("signalcraft:cinkP7063", "gui.sound.bellClassic", "P7063",true, 11, 22, 40),
-        AZD71S3("signalcraft:docink", "gui.sound.azd71s3.text", "", false, 0, 0, 40),
+        cinkP8240("signalcraft:cinkP8240", "gui.sound.bellClassic", "P8240",true, 9, 18, 40),
         cinkVUDP5263("signalcraft:cinkVUDP5263", "gui.sound.vud.text", "P5263", true, 11, 22, 40),
+        cinkVUDP3893("signalcraft:cinkVUDP3893", "gui.sound.vud.text", "P3893", true, 6, 12, 40),
+        cinkVUDP3897("signalcraft:cinkVUDP3897", "gui.sound.vud.text", "P3897", true, 9, 19, 40),
         cinkVUDP7041("signalcraft:cinkVUDP7041", "gui.sound.vud.text", "P7041", true, 10, 20, 40),
         hornP5343("signalcraft:hornP5343", "gui.sound.horn.text", "P5343",true, 11, 22, 40),
         hornSP1318("signalcraft:hornSP1318", "gui.sound.horn.text", "SP1318",true, 20, 40, 40),
@@ -225,7 +236,9 @@ public class Consts {
         OTRADOVICE2("signalcraft:otradovice2", "gui.sound.otradovice2.text", "", false, 15, 30, 40),
         OTRADOVICE3("signalcraft:otradovice3", "gui.sound.otradovice3.text", "", false, 15, 30, 40),
         AZD97("signalcraft:azd97zv1", "gui.sound.azd97zv1.text", "", true, 11, 22, 50),
-        AZD97ZV2("signalcraft:azd97zv2", "gui.sound.azd97zv2.text", "", true, 10, 20, 50);
+        AZD97ZV2("signalcraft:azd97zv2", "gui.sound.azd97zv2.text", "", true, 10, 20, 50),
+        AZD71S3("signalcraft:docink", "gui.sound.azd71s3.text", "", false, 0, 0, 40);
+
         public final String SoundLocation;
         public final String GUIString;
         public final String Comment;
@@ -278,6 +291,7 @@ public class Consts {
         DIST_00("00"),
         DIST_30("30"),
         DIST_50("50"),
+        DIST_75("75"),
         DIST_100("100");
         public final String Dist;
 

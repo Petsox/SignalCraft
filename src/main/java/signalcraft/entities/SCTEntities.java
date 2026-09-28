@@ -31,6 +31,10 @@ import signalcraft.entities.levelCrossings.sssr.TileSSSRSingleHead;
 import signalcraft.entities.levelCrossings.vud.TileVUD;
 import signalcraft.entities.signals.lightSignals.azd70.*;
 import signalcraft.entities.signals.lightSignals.sssr.*;
+import signalcraft.entities.signals.mechSignals.TileMech1Arm;
+import signalcraft.entities.signals.mechSignals.TileMech2Arms;
+import signalcraft.entities.signals.mechSignals.TileMechPredvest;
+import signalcraft.entities.signals.mechSignals.TileMechSerazovaci;
 import signalcraft.entities.signals.signSignals.*;
 import signalcraft.models.gsar.signalsBU.ModelGSARBarriers;
 import signalcraft.models.gsar.signalsBU.ModelGSARFullBarriers;
@@ -56,6 +60,10 @@ import signalcraft.models.levelCrossing.sssr.ModelCrossSSSRSingleHead;
 import signalcraft.models.levelCrossing.vud.ModelVUD;
 import signalcraft.models.lightSignals.azd70.*;
 import signalcraft.models.lightSignals.sssr.*;
+import signalcraft.models.mechSignals.ModelMech1Arm;
+import signalcraft.models.mechSignals.ModelMech2Arms;
+import signalcraft.models.mechSignals.ModelMechPredvest;
+import signalcraft.models.mechSignals.ModelMechSerazovaci;
 import signalcraft.renderers.entities.GenericTileRenderer;
 import signalcraft.renderers.entities.TileSpeedSignRenderer;
 import signalcraft.renderers.entities.controllers.TileControllerRenderer;
@@ -63,6 +71,7 @@ import signalcraft.renderers.entities.gsar.*;
 import signalcraft.renderers.entities.levelCrossings.azd.TileAZD99Renderer;
 import signalcraft.renderers.entities.levelCrossings.TileCrossingsRenderer;
 import signalcraft.renderers.entities.lightSignals.TileLightSignalsRenderer;
+import signalcraft.renderers.entities.mechSignals.TileMechSignalsRenderer;
 import signalcraft.renderers.entities.signSignals.TilePrUpozRenderer;
 
 import java.util.function.Supplier;
@@ -114,6 +123,10 @@ public enum SCTEntities {
     SSSR_INSERTED(TileSSSRVloz.class, "SSSRVloz"),
     SSSR_AB3(TileSSSRAB3.class, "SSSRAB3"),
     SSSR_AB4(TileSSSRAB4.class, "SSSRAB4"),
+    MECH_2ARMS(TileMech2Arms.class, "Mech2Arms"),
+    MECH_1ARM(TileMech1Arm.class, "Mech1Arm"),
+    MECH_PREDVEST(TileMechPredvest.class, "MechPredvest"),
+    MECH_SERAZOVACI(TileMechSerazovaci.class, "MechSerazovaci"),
 
     //AZD65_2LIGHTS(TileAZD652Lights.class, "AZD65_2Lights", new TileLightSignalsRenderer(new ModelAZD652Lights())),
 
@@ -290,6 +303,10 @@ public enum SCTEntities {
             MAP.put(SSSR_INSERTED, () -> new TileLightSignalsRenderer(new ModelSSSRVloz()));
             MAP.put(SSSR_AB3, () -> new TileLightSignalsRenderer(new ModelSSSRAB3()));
             MAP.put(SSSR_AB4, () -> new TileLightSignalsRenderer(new ModelSSSRAB4()));
+            MAP.put(MECH_2ARMS, () -> new TileMechSignalsRenderer(new ModelMech2Arms()));
+            MAP.put(MECH_1ARM, () -> new TileMechSignalsRenderer(new ModelMech1Arm()));
+            MAP.put(MECH_PREDVEST, () -> new TileMechSignalsRenderer(new ModelMechPredvest()));
+            MAP.put(MECH_SERAZOVACI, () -> new TileMechSignalsRenderer(new ModelMechSerazovaci()));
             MAP.put(CONT_RECE_BASE, () -> new TileControllerRenderer(new TileContReceBase()));
             MAP.put(CONT_CROSSINGS, () -> new TileControllerRenderer(new TileCrossingController()));
             MAP.put(RECE_CROSSINGS, () -> new TileControllerRenderer(new TileCrossingReceiver()));

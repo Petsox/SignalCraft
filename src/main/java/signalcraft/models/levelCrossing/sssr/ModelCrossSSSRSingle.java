@@ -12,18 +12,22 @@ public class ModelCrossSSSRSingle extends ModelCross {
 
     @Override
     public void renderZaklad(String Pos, Boolean hasPoz, Boolean isLightCoverShort) {
+        this.beginFixedPole();
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Podklad);
         this.modelCrossSSSR.renderPart("podklad");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Skrinka);
         this.modelCrossSSSR.renderPart("podstavec");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Zaklad);
         this.modelCrossSSSR.renderPart("zaklad");
+        this.endFixedPole();
     }
 
     @Override
     public void renderStozar(String Distance, Boolean Stripes) {
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
         this.modelCrossSSSR.renderPart("svetlo_ram_" + Distance);
+        // svetlo_ram belongs to the head and moves with yOffset, only the mast stays
+        this.beginFixedPole();
         if (!Stripes){
             this.modelCrossSSSR.renderPart("stozar");
         } else {
@@ -31,17 +35,38 @@ public class ModelCrossSSSRSingle extends ModelCross {
             Minecraft.getMinecraft().renderEngine.bindTexture(this.Pruhy);
             this.modelCrossSSSR.renderPart("pruhy");
         }
+        this.endFixedPole();
+    }
+
+    // stozar_delsi (sssr_vyst_single.obj) is a pole-extension segment sitting directly on top of
+    // the pole; stacking N copies extends the pole by N times its own height.
+    private static final float STOZAR_DELSI_HEIGHT = 0.514245f;
+
+    @Override
+    public void renderStozarDelsi(int count) {
+        if (count <= 0) return;
+        this.beginFixedPole();
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+        for (int i = 0; i < count; i++) {
+            this.modelCrossSSSR.renderPart("stozar_delsi");
+            GL11.glTranslatef(0f, STOZAR_DELSI_HEIGHT, 0f);
+        }
+        this.endFixedPole();
     }
 
     @Override
-    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru) {
+    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru, Boolean hasKriz) {
+        this.beginFixedPole();
         Minecraft.getMinecraft().renderEngine.bindTexture(this.SkrinZadek);
         this.modelCrossSSSR.renderPart("stupacka_zaklad");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
         this.modelCrossSSSR.renderPart("stupacka_stozar");
-        this.modelCrossSSSR.renderPart("sloup_srouby");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Stupacka);
         this.modelCrossSSSR.renderPart("stupacka");
+        this.endFixedPole();
+        // sloup_srouby belongs to the head and moves with yOffset
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+        this.modelCrossSSSR.renderPart("sloup_srouby");
     }
 
     @Override
@@ -122,10 +147,12 @@ public class ModelCrossSSSRSingle extends ModelCross {
             }
         } else {
             if (isReflective) {
-                if (isKrizVelky) {
+                if (isKrizJedno){
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                } else if (isKrizVelky){
                     Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                 } else {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                 }
                 this.modelCrossSSSR.renderPart(IsKrizJedno + "_refl" + IsKrizVelky);
             } else {
@@ -138,11 +165,11 @@ public class ModelCrossSSSRSingle extends ModelCross {
                 }
                 this.modelCrossSSSR.renderPart(IsKrizJedno + "_front" + IsKrizVelky);
             }
-
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-            this.modelCrossSSSR.renderPart("kriz_ram");
-
         }
+
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+        this.modelCrossSSSR.renderPart("kriz_ram");
+
         GL11.glEnable(GL11.GL_CULL_FACE);
     }
 

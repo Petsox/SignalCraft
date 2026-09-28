@@ -35,10 +35,9 @@ public class TileLightSignalsRenderer extends TileEntitySpecialRenderer {
         }
         GL11.glPushMatrix();
         GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glTranslatef((float) x + 0.5f, (float) y + 3.0f, (float) z + 0.5f);
+        GL11.glTranslatef((float) x + 0.5f, (float) y, (float) z + 0.5f);
         final float f2 = meta * 360 / 16.0f;
         GL11.glRotatef(-f2, 0.0f, 1.0f, 0.0f);
-        GL11.glTranslatef(0.0f, -3f, 0.0f);
 
         GL11.glScalef(thisTileE.getScale(), thisTileE.getScale(), thisTileE.getScale());
 

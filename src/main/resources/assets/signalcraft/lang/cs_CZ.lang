@@ -77,8 +77,8 @@ tile.PrUpoz.name=Předvěsník
 #GSAR - Main/Distant Signals (HP)
 tile.SignalHPx3.name=Hlavní světelné návěstidlo (3 bloky)
 tile.SignalHPx5.name=Hlavní světelné návěstidlo (5 bloků)
-tile.SignalVRx5.name=Světelná předvěst (3 bloky)
-tile.SignalVRx3.name=Světelná předvěst (5 bloků)
+tile.SignalVRx5.name=Světelná předvěst (5 bloky)
+tile.SignalVRx3.name=Světelná předvěst (3 bloků)
 tile.StativLightHP.name=Podstavec pro hlavní světelné návěstidlo
 tile.StativLightVR.name=Podstavec pro předvěst a návěstidlo BÜ0/BÜ1
 tile.SemiSignal1WHPx3.name=Hlavní mechanické návěstidlo (1 rameno, 3 bloky)
@@ -177,6 +177,10 @@ tile.BlockLadder.name=Žebřík signálního mostu
 tile.BlockRailing.name=Zábradlí signálního mostu
 tile.BlockRailing2.name=Zábradlí signálního mostu bez rámu
 tile.BlockRailingRods.name=Bezpečnostní zábradlí signálního mostu
+tile.Mech1Arm.name=Mechanické návěstidlo (1 rameno)
+tile.Mech2Arms.name=Mechanické návěstidlo (2 ramena)
+tile.MechPredvest.name=Mechanická předvěst
+tile.MechSerazovaci.name=Mechanické seřazovací návěstidlo
 
 #Items
 item.wrench.name=Stavitelný klíč
@@ -305,6 +309,12 @@ gui.GuiSwitchGSAR.editMsg_WN_4=Je toto elektronická stacionární výhybka (EOW
 gui.GuiSwitchGSAR.editMsg_WN_5=Název výhybky:
 gui.GuiSwitchGSAR.editMsg_WN_return=Zpět
 
+gui.GuiSignalSH2GSAR.editMsg_TITLE=Signál SH2
+gui.GuiSignalSH2GSAR.editMsg_SH2_yes=Ano
+gui.GuiSignalSH2GSAR.editMsg_SH2_no=Ne
+gui.GuiSignalSH2GSAR.editMsg_SH2=Má tato cedule, lampu?
+gui.GuiSignalSH2GSAR.editMsg_SH2_1=Je tato značka na trati?
+
 #Gui Strings
 gui.item.signalBonder.use=Používá se k párování ovladačů a přijímačů.
 gui.item.signalBonder.nullTile=Toto není platný blok.
@@ -393,8 +403,10 @@ gui.levelcross.sound.text=Zvuk zapnutý:
 gui.levelcross.soundtype.text=Typ zvuku:
 gui.levelcross.stripesonpole.text=Pruhy na stožáru:
 gui.levelcross.pozlightdelay.text=Anulační doba (sekundy):
+gui.levelcross.stozardelsi.text=Extra díly sloupu (0-5):
 gui.levelcross.dolightsalter.text=Střídání přídavných světel:
 gui.levelcross.headrot.text=Natočení hlavy (stupně):
+gui.levelcross.yoffset.text=Posun Y (v blocích):
 gui.levelcross.crossnum.none.text=Žádné
 gui.levelcross.crossnum.one.text=Jedna
 gui.levelcross.crossnum.more.text=>Jedna
@@ -414,20 +426,23 @@ gui.levelcross.arm.lenght.60.text=6,0m
 gui.levelcross.arm.lenght.65.text=6,5m
 gui.levelcross.arm.lenght.75.text=7,5m
 gui.levelcross.arm.down.delay.text=Předzváněcí doba (v sek):
+gui.levelcross.signal.off.delay.text=Zpoždění vypnutí signalizace (v sek):
 gui.levelcross.isnew.true=Novější
 gui.levelcross.isnew.false=Starší
 gui.levelcross.pedestal=Podstavec je:
+gui.levelcross.azd99.stozardelsi.text=Extra díly sloupu:
 
 gui.lightsignal.departure.text=Je odjezdové:
 gui.lightsignal.position.text=Pozice:
-gui.lightsignal.has.stripes.text=Má pruhy:
-gui.lightsignal.has.3stripes.text=Má 3 pruhy:
+gui.lightsignal.has.stripes.text=Pruhy:
+gui.lightsignal.has.3stripes.text=3 Pruhy:
 gui.lightsignal.grouped.text=Skupinové:
 gui.lightsignal.end.autoblock.text=Konec autobloku:
 gui.lightsignal.speed.sign.text=Rychlostní štítek:
 gui.lightsignal.type1.text=Typ 1
 gui.lightsignal.type2.text=Typ 2
 gui.lightsignal.type3.text=Typ 3
+gui.lightsignal.type4.text=Typ 4
 gui.lightsignal.validstates.text=Platné návěsti:
 gui.lightsignal.validstates.hint=Drž Shift pro zobrazení platných návěstí
 

@@ -30,7 +30,7 @@ public class TileBarrierRendererGSAR extends TileEntitySpecialRenderer {
 
         boolean longArm = tileE instanceof TileGSARFullBarriersx10R || tileE instanceof TileGSARFullBarriersx10L || tileE instanceof TileGSARModernBarrierL || tileE instanceof TileGSARModernBarrierR;
 
-        int c = tileBarriers.blinkCounter;
+        int c = tileBarriers.getBlinkCounter();
         boolean onoff = (c >= 1 && c < 15) || (c >= 30 && c < 45);
 
         String position;

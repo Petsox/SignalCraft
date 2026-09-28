@@ -28,10 +28,15 @@ import signalcraft.entities.signals.signSignals.TilePrUpoz;
 import signalcraft.entities.signals.lightSignals.azd70.*;
 import signalcraft.entities.signals.lightSignals.sssr.*;
 import signalcraft.entities.signals.signSignals.TileSpeedSign;
+import signalcraft.entities.signals.mechSignals.TileMech1Arm;
+import signalcraft.entities.signals.mechSignals.TileMech2Arms;
+import signalcraft.entities.signals.mechSignals.TileMechSerazovaci;
+import signalcraft.entities.signals.mechSignals.TileMechSignal;
 import signalcraft.gui.controllers.GuiRedstoneController;
 import signalcraft.gui.controllers.GuiRedstoneReceiver;
 import signalcraft.gui.gsar.*;
 import signalcraft.gui.levelCrossings.azd.*;
+import signalcraft.gui.signals.mechSignals.GuiMechSignal;
 import signalcraft.gui.levelCrossings.sssr.GuiSSSR;
 import signalcraft.gui.levelCrossings.sssr.GuiSSSRHead;
 import signalcraft.gui.levelCrossings.sssr.GuiSSSRSingle;
@@ -100,6 +105,11 @@ public enum SCGuis {
     SIGN_HECTOMETER_GUI(Consts.GuiIDs.HECTOMETER_SIGN, TileGSARHectometer::new, (tile) -> new GuiSignSignalsGSAR((TileGSARHectometer) tile)),
     SIGNAL_LEVER_GUI(Consts.GuiIDs.SIGNAL_LEVER, TileGSARSignalLever::new, (tile) -> new GuiSignalLeverGSAR((TileGSARSignalLever) tile)),
     STATION_SIGN_GUI(Consts.GuiIDs.STATION_SIGN, TileGSARStationSign::new, (tile) -> new GuiStationSignGSAR((TileGSARStationSign) tile)),
+
+    //Mech signal GUIs
+    MECH_2ARMS_GUI(Consts.GuiIDs.MECH_2ARMS, TileMech2Arms::new, (tile) -> new GuiMechSignal((TileMechSignal) tile)),
+    MECH_1ARM_GUI(Consts.GuiIDs.MECH_1ARM, TileMech1Arm::new, (tile) -> new GuiMechSignal((TileMechSignal) tile)),
+    MECH_SERAZOVACI_GUI(Consts.GuiIDs.MECH_SERAZOVACI, TileMechSerazovaci::new, (tile) -> new GuiMechSignal((TileMechSignal) tile)),
 
     ;
 

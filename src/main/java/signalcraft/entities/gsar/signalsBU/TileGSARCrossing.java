@@ -13,6 +13,7 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
 
     protected boolean isActive;
     protected final int MAX_ARM_ANGLE = 90;
+    protected final int MIN_ARM_ANGLE = 0;
     protected int armRotation;
     protected int activeReels;
     protected int activeBell;
@@ -26,21 +27,24 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
     protected final int bellGap = 60;
     protected final int bellDelay = 30;
     protected boolean soundOn = true;
-
-    public int blinkCounter;
+    protected int signalOffDelay = 0;
 
     @Override
     public void updateEntity() {
-
-        ++this.blinkCounter;
-
-        if (this.blinkCounter >= 61) {
-            this.blinkCounter = 0;
-        }
-
         if (!this.worldObj.isRemote && this.soundOn) {
             handleSounds();
         }
+    }
+
+    /**
+     * Blink phase derived from the world's own tick counter instead of a per-tile field each
+     * side increments independently - see TileLevelCrossing.computeBlinkPhase() for why: under
+     * server lag a freely-incremented field drifts between client and server, while world time
+     * gets periodically corrected back in line by vanilla's own time-sync packet.
+     */
+    public int getBlinkCounter() {
+        if (worldObj == null) return 0;
+        return (int) (worldObj.getTotalWorldTime() % 61);
     }
 
     protected abstract void handleSounds();
@@ -65,6 +69,14 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
         return Integer.parseInt(armDownDelayString);
     }
 
+    public int getSignalOffDelay() {
+        return signalOffDelay;
+    }
+
+    public void setSignalOffDelay(int signalOffDelay) {
+        this.signalOffDelay = signalOffDelay;
+    }
+
     @Override
     public void readFromNBT(final NBTTagCompound compound) {
         super.readFromNBT(compound);
@@ -74,6 +86,7 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
         this.activeBell = compound.getInteger("activeBell");
         this.barrierLength = compound.getString("BarrierLength");
         this.armDownDelayString = compound.getString("armDownDelay");
+        this.signalOffDelay = compound.getInteger("signalOffDelay");
     }
 
     @Override
@@ -85,6 +98,7 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
         compound.setInteger("activeBell", this.activeBell);
         compound.setString("BarrierLength", this.barrierLength);
         compound.setString("armDownDelay", this.armDownDelayString);
+        compound.setInteger("signalOffDelay", this.signalOffDelay);
     }
 
     @Override
@@ -100,6 +114,10 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
 
     public boolean isArmDown() {
         return this.getArmRotation() == this.MAX_ARM_ANGLE;
+    }
+
+    public boolean isArmUp() {
+        return this.getArmRotation() == this.MIN_ARM_ANGLE;
     }
 
     public boolean isActive() {

@@ -24,6 +24,18 @@ import signalcraft.ItemBlocks.levelCrossings.sssr.ItemBlockCrossSSSRSingleHead;
 import signalcraft.ItemBlocks.levelCrossings.vud.ItemBlockVUD;
 import signalcraft.ItemBlocks.lightSignals.azd70.*;
 import signalcraft.ItemBlocks.lightSignals.sssr.*;
+import signalcraft.ItemBlocks.mechSignals.ItemBlockMech1Arm;
+import signalcraft.ItemBlocks.mechSignals.ItemBlockMech2Arms;
+import signalcraft.ItemBlocks.mechSignals.ItemBlockMechPredvest;
+import signalcraft.ItemBlocks.mechSignals.ItemBlockMechSerazovaci;
+import signalcraft.entities.signals.mechSignals.TileMech1Arm;
+import signalcraft.entities.signals.mechSignals.TileMech2Arms;
+import signalcraft.entities.signals.mechSignals.TileMechPredvest;
+import signalcraft.entities.signals.mechSignals.TileMechSerazovaci;
+import signalcraft.models.mechSignals.ModelMech1Arm;
+import signalcraft.models.mechSignals.ModelMech2Arms;
+import signalcraft.models.mechSignals.ModelMechPredvest;
+import signalcraft.models.mechSignals.ModelMechSerazovaci;
 import signalcraft.ItemBlocks.signSignals.ItemBlockPrUpoz;
 import signalcraft.ItemBlocks.signSignals.ItemBlockSpeedSign;
 import signalcraft.blocks.controllers.BlockContReceBase;
@@ -98,12 +110,17 @@ import signalcraft.renderers.items.GenericItemRenderer;
 import signalcraft.renderers.items.SpeedSignItemRenderer;
 import signalcraft.blocks.signals.lightSignals.azd70.*;
 import signalcraft.blocks.signals.lightSignals.sssr.*;
+import signalcraft.blocks.signals.mechSignals.BlockMech1Arm;
+import signalcraft.blocks.signals.mechSignals.BlockMech2Arms;
+import signalcraft.blocks.signals.mechSignals.BlockMechPredvest;
+import signalcraft.blocks.signals.mechSignals.BlockMechSerazovaci;
 import signalcraft.blocks.signals.signSignals.*;
 import signalcraft.renderers.items.controllers.ControllerItemRenderer;
 import signalcraft.renderers.items.gsar.*;
 import signalcraft.renderers.items.levelCrossings.AZD99ItemRenderer;
 import signalcraft.renderers.items.levelCrossings.CrossingItemRenderer;
 import signalcraft.renderers.items.lightSignals.LightSignalItemRenderer;
+import signalcraft.renderers.items.mechSignals.ItemMechSignalsRenderer;
 import signalcraft.renderers.items.signSignals.PrUpozItemRenderer;
 
 import java.util.function.Supplier;
@@ -155,6 +172,10 @@ public enum SCItemBlocks {
     SSSR_INSERTED(new BlockSSSRVloz("SSSRVloz"), ItemBlockSSSRVloz.class),
     SSSR_AB3(new BlockSSSRAB3("SSSRAB3"), ItemBlockSSSRAB3.class),
     SSSR_AB4(new BlockSSSRAB4("SSSRAB4"), ItemBlockSSSRAB4.class),
+    MECH_2ARMS(new BlockMech2Arms("Mech2Arms"), ItemBlockMech2Arms.class),
+    MECH_1ARM(new BlockMech1Arm("Mech1Arm"), ItemBlockMech1Arm.class),
+    MECH_PREDVEST(new BlockMechPredvest("MechPredvest"), ItemBlockMechPredvest.class),
+    MECH_SERAZOVACI(new BlockMechSerazovaci("MechSerazovaci"), ItemBlockMechSerazovaci.class),
 
     //AZD65_2LIGHTS(new BlockAZD652Lights("AZD65_2Lights"), new LightSignalItemRenderer(new ModelAZD652Lights()), ItemBlockAZD652Lights.class),
 
@@ -329,6 +350,10 @@ public enum SCItemBlocks {
             MAP.put(SSSR_INSERTED, () -> new LightSignalItemRenderer(new ModelSSSRVloz()));
             MAP.put(SSSR_AB3, () -> new LightSignalItemRenderer(new ModelSSSRAB3()));
             MAP.put(SSSR_AB4, () -> new LightSignalItemRenderer(new ModelSSSRAB4()));
+            MAP.put(MECH_2ARMS, () -> new ItemMechSignalsRenderer(new ModelMech2Arms(), new TileMech2Arms()));
+            MAP.put(MECH_1ARM, () -> new ItemMechSignalsRenderer(new ModelMech1Arm(), new TileMech1Arm()));
+            MAP.put(MECH_PREDVEST, () -> new ItemMechSignalsRenderer(new ModelMechPredvest(), new TileMechPredvest()));
+            MAP.put(MECH_SERAZOVACI, () -> new ItemMechSignalsRenderer(new ModelMechSerazovaci(), new TileMechSerazovaci()));
             MAP.put(CONT_RECE_BASE, () -> new ControllerItemRenderer(new TileContReceBase()));
             MAP.put(CONT_CROSSINGS, () -> new ControllerItemRenderer(new TileCrossingController()));
             MAP.put(RECE_CROSSINGS, () -> new ControllerItemRenderer(new TileCrossingReceiver()));

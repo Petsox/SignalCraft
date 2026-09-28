@@ -38,7 +38,7 @@ public class TileRailCrossRendererGSAR extends TileEntitySpecialRenderer {
         this.modelRailCross.renderBaseLight(railCrossLight);
         if (!(tileE instanceof TileGSARRailCrossModern)) this.modelRailCross.renderStativLight();
 
-        int c = railCrossLight.blinkCounter;
+        int c = railCrossLight.getBlinkCounter();
         boolean active = railCrossLight.isActive();
         boolean lampOn = active && !((c >= 1 && c < 15) || (c >= 30 && c < 45));
 

@@ -1,16 +1,14 @@
 package signalcraft.models.lightSignals.azd70;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.AdvancedModelLoader;
-import net.minecraftforge.client.model.IModelCustom;
 import signalcraft.entities.signals.lightSignals.TileLightSignal;
-import signalcraft.models.ModelRegistry;
+import signalcraft.models.PartLibrary;
+import signalcraft.models.PartLibraryRegistry;
 import signalcraft.signalUtils.Consts;
 import signalcraft.signalUtils.SignalState;
 
 public class ModelAZD4Lights extends ModelAZD {
-    private final IModelCustom modelLightSignals = ModelRegistry.AZD_4LIGHT.getModel();
+    private final PartLibrary modelLightSignals = PartLibraryRegistry.AZD70.get();
 
     public void renderStoz(Boolean hasStripes, Boolean has3Stripes, String Pos, String SpeedSignText, String PNLight) {
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Hlavni);

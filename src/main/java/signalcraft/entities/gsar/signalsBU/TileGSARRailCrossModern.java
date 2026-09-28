@@ -7,8 +7,8 @@ public class TileGSARRailCrossModern extends TileGSARCrossing {
     protected void handleSounds() {
 
         if (this.isActive) {
-
-            if (this.blinkCounter == 15 || this.blinkCounter == 45) {
+            int blinkCounter = this.getBlinkCounter();
+            if (blinkCounter == 15 || blinkCounter == 45) {
                 playSound("signalcraft:ring3", 1.0f, 1.0f);
             }
         }

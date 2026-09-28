@@ -2,12 +2,12 @@ package signalcraft.gui.gsar;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import org.apache.commons.lang3.text.StrBuilder;
 import org.lwjgl.input.Keyboard;
 import signalcraft.entities.gsar.signalsSO.TileGSARStationSign;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.gui.gsar.buttons.GuiButtonModeStates;
 import signalcraft.gui.gsar.buttons.GuiColorButton;
 import signalcraft.gui.gsar.buttons.GuiSliderButton;
@@ -17,7 +17,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuiStationSignGSAR extends GuiScreen
+public class GuiStationSignGSAR extends ScalableGuiScreen
 {
     Minecraft MC;
     private final TileGSARStationSign tileE;
@@ -125,8 +125,19 @@ public class GuiStationSignGSAR extends GuiScreen
         this.tileE = tileE;
         this.textFieldList = new ArrayList<>();
     }
-    
+
+    @Override
+    protected int getDesignWidth() {
+        return 480;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         Keyboard.enableRepeatEvents(this.allowUserInput = true);
         if (!this.MC.gameSettings.forceUnicodeFont) {
             this.fontRendererObj.setUnicodeFlag(true);
@@ -152,8 +163,9 @@ public class GuiStationSignGSAR extends GuiScreen
             this.drawString(this.fontRendererObj, this.editMsg_ST_DESC1, this.width / 2 - 220, this.height / 4 + 5, 16777215);
         }
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
-    
+
     protected void keyTyped(char character, final int code) {
         if (!Character.isISOControl(character) && !Character.isDigit(character) && !this.editTextField.isFocused()) {
             character = '0';
@@ -249,8 +261,38 @@ public class GuiStationSignGSAR extends GuiScreen
         this.textFieldGreen.setText(String.valueOf(this.RGB[1]));
         this.textFieldBlue.setText(String.valueOf(this.RGB[2]));
         this.currentFontStyle = FontStyles.RESET;
+        this.loadValuesFromTile();
+    }
+
+    private void loadValuesFromTile() {
+        final String signText = this.tileE.getSignTextField();
+        this.hasTextButtonStatus = (signText != null && !signText.isEmpty()) ? 1 : 0;
+        this.modelButtonStatus = this.tileE.getModelButtonStatus();
         this.modeChange(this.hasTextButtonStatus);
         this.modeChangeModel(this.modelButtonStatus);
+        // modeChange() -> setVisible() resets color and sliders, so load them afterwards
+        if (this.hasTextButtonStatus == 1) {
+            this.editTextField.setText(this.formatStringRevert(signText));
+        }
+        final Color color = new Color(this.tileE.getSignTextColor());
+        this.RGB = new int[] { color.getRed(), color.getGreen(), color.getBlue() };
+        this.TextColorObj = new Color(this.RGB[0], this.RGB[1], this.RGB[2]);
+        this.textFieldRed.setText(String.valueOf(this.RGB[0]));
+        this.textFieldGreen.setText(String.valueOf(this.RGB[1]));
+        this.textFieldBlue.setText(String.valueOf(this.RGB[2]));
+        this.adjust = new float[] { this.tileE.getXAdjust(), this.tileE.getYAdjust(), this.tileE.getScaleAdjust() };
+        this.xPosSlider.setValue(this.adjust[0]);
+        this.yPosSlider.setValue(this.adjust[1]);
+        this.scaleSlider.setValue(this.adjust[2]);
+        this.nightLight = this.tileE.getIsActive();
+        this.lightBtn.displayString = this.editMsg_ST_Light + " " + OnOffStr[this.nightLight ? 1 : 0];
+        this.side = this.tileE.getShowsTextSide();
+        this.sideBtn.displayString = this.editMsg_ST_Side + " " + SideStr[this.side ? 1 : 0];
+        this.fontStyleList = this.tileE.getFontStyleList();
+        if (this.fontStyleList < 0 || this.fontStyleList >= FontStyleStr.length) {
+            this.fontStyleList = 0;
+        }
+        this.fontStyleBtn.displayString = FontStyleStr[this.fontStyleList];
     }
     
     protected void actionPerformed(final GuiButton button) {
@@ -589,6 +631,16 @@ public class GuiStationSignGSAR extends GuiScreen
         return strb.toString();
     }
     
+    private String formatStringRevert(final String str) {
+        final String[] displaycodes = { FontStyles.BOLD.styleDisplayCode, FontStyles.ITALIC.styleDisplayCode, FontStyles.RESET.styleDisplayCode, FontStyles.STRIKETHROUGH.styleDisplayCode, FontStyles.UNDERLINE.styleDisplayCode };
+        final String[] formatcodes = { FontStyles.BOLD.styleCode, FontStyles.ITALIC.styleCode, FontStyles.RESET.styleCode, FontStyles.STRIKETHROUGH.styleCode, FontStyles.UNDERLINE.styleCode };
+        final StrBuilder strb = new StrBuilder(str);
+        for (int i = 0; i < formatcodes.length; ++i) {
+            strb.replaceAll(formatcodes[i], displaycodes[i]);
+        }
+        return strb.toString();
+    }
+
     private String formatStringClear(final String str) {
         final String[] displaycodes = { FontStyles.BOLD.styleDisplayCode, FontStyles.ITALIC.styleDisplayCode, FontStyles.RESET.styleDisplayCode, FontStyles.STRIKETHROUGH.styleDisplayCode, FontStyles.UNDERLINE.styleDisplayCode };
         final StrBuilder strb = new StrBuilder(str);

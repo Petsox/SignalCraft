@@ -7,11 +7,12 @@ public class TileGSARRailCrossLightS extends TileGSARCrossing {
     protected void handleSounds() {
 
         if (isActive) {
-            if (this.blinkCounter == 15 || this.blinkCounter == 45) {
+            int blinkCounter = this.getBlinkCounter();
+            if (blinkCounter == 15 || blinkCounter == 45) {
                 playSound("signalcraft:ring2", 1.0f, 1.0f);
             }
 
-            if (this.blinkCounter == 47) {
+            if (blinkCounter == 47) {
                 playSound("signalcraft:ring2", 1.0f, 1.0f);
             }
         }

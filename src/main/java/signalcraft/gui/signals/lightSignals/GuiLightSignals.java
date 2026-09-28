@@ -1,7 +1,6 @@
 package signalcraft.gui.signals.lightSignals;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
@@ -9,13 +8,14 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import signalcraft.entities.signals.lightSignals.TileLightSignal;
 import signalcraft.entities.signals.lightSignals.azd70.TileAZD6Lights;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.signalUtils.Consts;
 import signalcraft.signalUtils.Network;
 import signalcraft.signalUtils.SignalState;
 
 import java.awt.*;
 
-public class GuiLightSignals extends GuiScreen {
+public class GuiLightSignals extends ScalableGuiScreen {
     private final String guiName;
     protected GuiButton doneButton;
     protected GuiButton PoziceButton;
@@ -44,6 +44,16 @@ public class GuiLightSignals extends GuiScreen {
         thisTileE.setState(SignalState.ALL);
     }
 
+    @Override
+    protected int getDesignWidth() {
+        return 440;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 300;
+    }
+
     public void initGui() {
         loadValuesFromTile();
         this.buttonList.add(this.doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 140, I18n.format("gui.done")));
@@ -61,6 +71,7 @@ public class GuiLightSignals extends GuiScreen {
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         if (!this.mc.gameSettings.forceUnicodeFont) {
             this.fontRendererObj.setUnicodeFlag(true);
             this.fontRendererObj.setBidiFlag(true);
@@ -84,6 +95,7 @@ public class GuiLightSignals extends GuiScreen {
         SignalName.drawTextBox();
         Scale.drawTextBox();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     protected void actionPerformed(final GuiButton button) {
@@ -184,6 +196,10 @@ public class GuiLightSignals extends GuiScreen {
                     this.thisTileE.setHasStripes(Consts.BooleanSTR.NO);
                     this.PruhyButton.displayString = I18n.format("gui.general.text.no");
                     this.thisTileE.setType(Consts.Types.TYPE_3);
+                    break;
+                } else if (this.thisTileE.getType().equals(Consts.Types.TYPE_3)) {
+                    this.TypeButton.displayString = I18n.format("gui.lightsignal.type4.text");
+                    this.thisTileE.setType(Consts.Types.TYPE_4);
                     break;
                 } else {
                     this.TypeButton.displayString = I18n.format("gui.lightsignal.type1.text");
@@ -323,8 +339,10 @@ public class GuiLightSignals extends GuiScreen {
             this.TypeText = I18n.format("gui.lightsignal.type1.text");
         } else if (this.thisTileE.getType().equals(Consts.Types.TYPE_2)) {
             this.TypeText = I18n.format("gui.lightsignal.type2.text");
-        } else {
+        } else if (this.thisTileE.getType().equals(Consts.Types.TYPE_3)) {
             this.TypeText = I18n.format("gui.lightsignal.type3.text");
+        } else {
+            this.TypeText = I18n.format("gui.lightsignal.type4.text");
         }
     }
     public boolean doesGuiPauseGame() {

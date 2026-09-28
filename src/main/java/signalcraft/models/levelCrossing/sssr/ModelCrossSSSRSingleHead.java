@@ -17,7 +17,7 @@ public class ModelCrossSSSRSingleHead extends ModelCross {
     }
 
     @Override
-    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru) {
+    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru, Boolean hasKriz) {
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
         this.modelCrossSSSR.renderPart("sloup_srouby");
     }
@@ -102,10 +102,12 @@ public class ModelCrossSSSRSingleHead extends ModelCross {
             }
         } else {
             if (isReflective) {
-                if (isKrizVelky) {
+                if (isKrizJedno){
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                } else if (isKrizVelky){
                     Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                 } else {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                 }
                 this.modelCrossSSSR.renderPart(IsKrizJedno + "_refl" + IsKrizVelky);
             } else {
@@ -118,11 +120,11 @@ public class ModelCrossSSSRSingleHead extends ModelCross {
                 }
                 this.modelCrossSSSR.renderPart(IsKrizJedno + "_front" + IsKrizVelky);
             }
-
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-            this.modelCrossSSSR.renderPart("kriz_ram");
-
         }
+
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+        this.modelCrossSSSR.renderPart("kriz_ram");
+
         GL11.glEnable(GL11.GL_CULL_FACE);
     }
 

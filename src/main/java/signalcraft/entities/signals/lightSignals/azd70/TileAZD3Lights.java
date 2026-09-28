@@ -41,6 +41,7 @@ public class TileAZD3Lights extends TileLightSignal {
         this.setGuiId(Consts.GuiIDs.AZD_3_LIGHTS);
         this.ValidStates = getValidStatesForTile();
     }
+
     public SignalState[] getValidStatesForTile(){
         List<SignalState> validStates = new ArrayList<>(everyValidState);
         switch (this.getType()) {
@@ -62,10 +63,16 @@ public class TileAZD3Lights extends TileLightSignal {
                 validStates.remove(SignalState.POSUNDOV);
                 validStates.remove(SignalState.VYSTRAHA);
                 break;
+            case TYPE_4:
+                validStates.remove(SignalState.VOLNO);
+                validStates.remove(SignalState.R40VOLNO);
+                validStates.removeIf(state -> state.StateToString().contains("Ocek"));
+                break;
         }
 
         return validStates.toArray(new SignalState[0]);
     }
+
     @Override
     public List<SignalState> getEveryValidState() {
         return everyValidState;

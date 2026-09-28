@@ -30,6 +30,7 @@ public class GuiVUD extends GuiLevelCrossings {
         this.textFieldHeadRot.setVisible(false);
         this.LightsAlterButton.visible = false;
         this.NewerButton.visible = false;
+        this.StozarDelsiButton.visible = false;
     }
 
     @Override

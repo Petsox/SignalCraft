@@ -26,6 +26,8 @@ public class GuiAZD71Head extends GuiLevelCrossings {
         this.LightCoverButton.visible = false;
         this.LightPosButton.visible = false;
         this.LightsAlterButton.visible = false;
+        this.StozarDelsiButton.visible = false;
+        this.textFieldYOffset.setVisible(true);
     }
 
     @Override
@@ -39,6 +41,9 @@ public class GuiAZD71Head extends GuiLevelCrossings {
                 this.DistanceButton.displayString = "50";
                 this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_50);
             } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_50)) {
+                this.DistanceButton.displayString = "75";
+                this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_75);
+            } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_75)) {
                 this.DistanceButton.displayString = "100";
                 this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_100);
             }

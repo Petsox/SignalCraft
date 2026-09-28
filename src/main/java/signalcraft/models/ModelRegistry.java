@@ -9,16 +9,12 @@ public enum ModelRegistry {
     SPEED_SIGN(SignalCraft.MOD_ID + ":models/signs/rychlostnik.obj"),
 
     AZD62_2LIGHT(SignalCraft.MOD_ID + ":models/azd65/65_2svet.obj"),
-    AZD_1LIGHT(SignalCraft.MOD_ID + ":models/azd70/azd_1svet.obj"),
-    AZD_2LIGHT(SignalCraft.MOD_ID + ":models/azd70/azd_2svet.obj"),
+    // AZD_1LIGHT..AZD_6LIGHT (azd_1svet.obj..azd_6svet.obj) were replaced by the
+    // shared PartLibraryRegistry.AZD70 parts library -- see tools/objdedupe.
     AZD_2LIGHT_T(SignalCraft.MOD_ID + ":models/azd70/azd_2svetT.obj"),
-    AZD_3LIGHT(SignalCraft.MOD_ID + ":models/azd70/azd_3svet.obj"),
     AZD_3LIGHT_T(SignalCraft.MOD_ID + ":models/azd70/azd_3svetT.obj"),
-    AZD_4LIGHT(SignalCraft.MOD_ID + ":models/azd70/azd_4svet.obj"),
     AZD_4LIGHT_T(SignalCraft.MOD_ID + ":models/azd70/azd_4svetT.obj"),
-    AZD_5LIGHT(SignalCraft.MOD_ID + ":models/azd70/azd_5svet.obj"),
     AZD_5LIGHT_T(SignalCraft.MOD_ID + ":models/azd70/azd_5svetT.obj"),
-    AZD_6LIGHT(SignalCraft.MOD_ID + ":models/azd70/azd_6svet.obj"),
     AZD_AB3(SignalCraft.MOD_ID + ":models/azd70/azd_3ab.obj"),
     AZD_AB4(SignalCraft.MOD_ID + ":models/azd70/azd_4ab.obj"),
     AZD_OPR(SignalCraft.MOD_ID + ":models/azd70/azd_opr3.obj"),
@@ -36,22 +32,20 @@ public enum ModelRegistry {
     SSSR_SINGLE(SignalCraft.MOD_ID + ":models/sssr/sssr_vyst_single.obj"),
     SSSR_HEAD(SignalCraft.MOD_ID + ":models/sssr/sssrVystZav_noveTextury.obj"),
     SSSR_SINGLE_HEAD(SignalCraft.MOD_ID + ":models/sssr/sssr_vyst_single_head.obj"),
-    SSSR_5LIGHT(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_5svet_nove.obj"),
     SSSR_5LIGHT_T(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_5svetT_nove.obj"),
-    SSSR_4LIGHT(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_4svet_nove.obj"),
+    // SSSR_2LIGHT..SSSR_5LIGHT (sssr_2svet_nove.obj..sssr_5svet_nove.obj) were
+    // replaced by the shared PartLibraryRegistry.SSSR_NAV parts library --
+    // see tools/objdedupe.
     SSSR_4LIGHT_T(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_4svetT_nove.obj"),
-    SSSR_3LIGHT(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_3svet_nove.obj"),
     SSSR_3LIGHT_T(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_3svetT_nove.obj"),
     SSSR_3LIGHT_T_MECH(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_3svetT_Mech_nove.obj"),
-    SSSR_2LIGHT(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_2svet_nove.obj"),
     SSSR_2LIGHT_T(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_2svetT_nove.obj"),
     SSSR_2LIGHT_T_MECH(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_2svetT_Mech_nove.obj"),
-    SSSR_DISTANT(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_pr_nove.obj"),
-    SSSR_SHUNT(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_2se_nove.obj"),
+    // SSSR_DISTANT/SSSR_SHUNT/SSSR_INSERTED/SSSR_AB3/SSSR_AB4 (sssr_pr_nove.obj,
+    // sssr_2se_nove.obj, sssr_vl_nove.obj, sssr_3ab_nove.obj, sssr_4ab_nove.obj)
+    // were folded into the shared PartLibraryRegistry.SSSR_NAV parts library --
+    // see tools/objdedupe.
     SSSR_SHUNT_T(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_2seT_nove.obj"),
-    SSSR_INSERTED(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_vl_nove.obj"),
-    SSSR_AB3(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_3ab_nove.obj"),
-    SSSR_AB4(SignalCraft.MOD_ID + ":models/sssr_nav/sssr_4ab_nove.obj"),
     PR_UPOZ(SignalCraft.MOD_ID + ":models/signs/pr_upozornovadlo.obj"),
 
     GSAR_WN(SignalCraft.MOD_ID + ":models/gsar/SignalWN.obj"),
@@ -90,6 +84,11 @@ public enum ModelRegistry {
     GSAR_HECTOSIGN(SignalCraft.MOD_ID + ":models/gsar/HectoSign.obj"),
     GSAR_SIGNAL_LEVER(SignalCraft.MOD_ID + ":models/gsar/SignalLever.obj"),
     GSAR_STATION_SIGN(SignalCraft.MOD_ID + ":models/gsar/StationSigns.obj"),
+
+    MECH_2ARMS(SignalCraft.MOD_ID + ":models/mech/2ramena.obj"),
+    MECH_1ARM(SignalCraft.MOD_ID + ":models/mech/1rameno.obj"),
+    MECH_PREDVEST(SignalCraft.MOD_ID + ":models/mech/predvest.obj"),
+    MECH_SERAZOVACI(SignalCraft.MOD_ID + ":models/mech/serazovaci.obj"),
 
     GSAR_BRIDGE_BEAMS(SignalCraft.MOD_ID + ":models/gsar/BridgeBeams.obj"),
     GSAR_BRIDGE_BEAMS_CORNER(SignalCraft.MOD_ID + ":models/gsar/BridgeBeamsCorner.obj"),

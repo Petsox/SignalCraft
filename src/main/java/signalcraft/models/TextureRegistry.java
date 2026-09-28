@@ -35,6 +35,7 @@ public enum TextureRegistry {
     KRIZ_CZ(SignalCraft.MOD_ID + ":textures/nove/azd71/kriz_cz_1k.jpg"),
     KRIZ_CZ_VIC(SignalCraft.MOD_ID + ":textures/nove/azd71/kriz_cz_xk.jpg"),
     KRIZ_CZ_REFL(SignalCraft.MOD_ID + ":textures/nove/azd71/kriz_cz_refl.jpg"),
+    KRIZ_CZ_XK_REFL(SignalCraft.MOD_ID + ":textures/nove/azd71/kriz_xk_cz_refl.jpg"),
     KRIZ_CZ_REFL_VELKY(SignalCraft.MOD_ID + ":textures/nove/azd71/kriz_cz_refl_velky.jpg"),
 
     SSSR_ZADEK(SignalCraft.MOD_ID + ":textures/nove/sssr/zadek.jpg"),
@@ -47,9 +48,11 @@ public enum TextureRegistry {
     SSSR_SVETLO_WHITE(SignalCraft.MOD_ID + ":textures/nove/sssr/korona_white.jpg"),
 
     AZD97_HLAVNI(SignalCraft.MOD_ID + ":textures/nove/azd97/main.jpg"),
+    AZD97_RED_LIGHT(SignalCraft.MOD_ID + ":textures/nove/azd97/redLight_on.jpg"),
+    AZD97_WHITE_LIGHT(SignalCraft.MOD_ID + ":textures/nove/azd97/poz.jpg"),
     LED_SVETLO_WHITE(SignalCraft.MOD_ID + ":textures/nove/azd97/led_poz.jpg"),
 
-    VUD(SignalCraft.MOD_ID + ":textures/vud/515BC0B4.png"),
+    VUD(SignalCraft.MOD_ID + ":textures/nove/vud/vud.jpg"),
     RED_LIGHT_VUD(SignalCraft.MOD_ID + ":textures/nove/vud/redLight_on.jpg"),
 
     COCKY(SignalCraft.MOD_ID + ":textures/nove/azd/textura_cocky.jpg"),
@@ -77,6 +80,17 @@ public enum TextureRegistry {
     SSSR_IND_50(SignalCraft.MOD_ID + ":textures/nove/sssr_nav/rych_ind_50.jpg"),
     SSSR_AB_TERC(SignalCraft.MOD_ID + ":textures/nove/sssr_nav/ab_tab.jpg"),
     SSSR_AB(SignalCraft.MOD_ID + ":textures/nove/sssr_nav/sssr_ab.jpg"),
+
+    MECH_MAIN(SignalCraft.MOD_ID + ":textures/nove/mech/hlavni.jpg"),
+    MECH_LAMP(SignalCraft.MOD_ID + ":textures/nove/mech/svetlo.jpg"),
+    MECH_WHITE(SignalCraft.MOD_ID + ":textures/nove/mech/bila.png"),
+    MECH_BLUE(SignalCraft.MOD_ID + ":textures/nove/mech/modra.png"),
+    MECH_RED(SignalCraft.MOD_ID + ":textures/nove/mech/cervena.png"),
+    MECH_GREEN(SignalCraft.MOD_ID + ":textures/nove/mech/zelena.png"),
+    MECH_YELLOW(SignalCraft.MOD_ID + ":textures/nove/mech/zluta.png"),
+    MECH_CHAIN(SignalCraft.MOD_ID + ":textures/nove/mech/retez.png"),
+    MECH_PREDVEST(SignalCraft.MOD_ID + ":textures/nove/mech/predvest.jpg"),
+    MECH_SERAZOVACI(SignalCraft.MOD_ID + ":textures/nove/mech/seraz.jpg"),
 
     GSAR_WN(SignalCraft.MOD_ID + ":textures/gsar/models/signals_WN.png"),
     GSAR_WN_INVERTED(SignalCraft.MOD_ID + ":textures/gsar/models/signals_WNg.png"),

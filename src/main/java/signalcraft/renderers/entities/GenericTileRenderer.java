@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 import signalcraft.entities.IGeneric;
+import signalcraft.entities.gsar.signalsLF.TileGSARSignalLF6;
 import signalcraft.entities.gsar.signalsSO.TileGSARHectometer;
 import signalcraft.entities.signals.signSignals.TileSignSignal;
 import signalcraft.fonts.GSARFontRendererDin1451Alt;
@@ -78,7 +79,11 @@ public class GenericTileRenderer extends TileEntitySpecialRenderer {
         if (str.getBytes().length == 1) {
             scaleParam = 60.0f;
         }
-        if (str.getBytes().length == 1) {
+        if (str.getBytes().length == 1 || tileSignSignal instanceof TileGSARSignalLF6) {
+            // LF6's board is a plain flat plate (unlike LF1's recessed-frame
+            // geometry), so the multi-character anchor (0.85f) that looks fine
+            // on LF1 sits high enough to overflow LF6's board -- use the
+            // single-character anchor for it at any length instead.
             GL11.glTranslatef(0.02f, 0.8f, 0.065f);
         } else {
             GL11.glTranslatef(0.02f, 0.85f, 0.065f);

@@ -65,8 +65,9 @@ public class TileSSSR4Lights extends TileLightSignal {
                 validStates.removeIf(state -> state.StateToString().contains("R80"));
                 break;
             case TYPE_2:
-                validStates.remove(SignalState.VYSTRAHA);
-                validStates.remove(SignalState.R40VYSTRAHA);
+                validStates.removeIf(state -> state.StateToString().contains("Vystraha"));
+                validStates.removeIf(state -> state.StateToString().contains("Ocek40"));
+                validStates.removeIf(state -> state.StateToString().contains("Ocek60"));
                 break;
             case TYPE_3:
                 validStates.removeIf(state -> state.equals(SignalState.VOLNO) && !this.getIsDeparture().toBoolean());

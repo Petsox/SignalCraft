@@ -12,6 +12,8 @@ import signalcraft.packet.levelCrossings.CPacketUpdateCrossings;
 import signalcraft.packet.levelCrossings.SPacketUpdateCrossings;
 import signalcraft.packet.lightSignals.CPacketUpdateLightSignals;
 import signalcraft.packet.lightSignals.SPacketUpdateLightSignals;
+import signalcraft.packet.mechSignals.CPacketUpdateMechSignals;
+import signalcraft.packet.mechSignals.SPacketUpdateMechSignals;
 import signalcraft.packet.signSignals.CPacketUpdateSignSignals;
 import signalcraft.packet.signSignals.SPacketUpdateSignSignals;
 import signalcraft.packet.switches.CPacketUpdateSwitches;
@@ -43,6 +45,14 @@ public class Network {
             sendToServer(new CPacketUpdateLightSignals(tile), tile);
         } else {
             sendToAll(new SPacketUpdateLightSignals(tile), tile);
+        }
+    }
+
+    public static void updateMechSignals(TileEntity tile) {
+        if (tile.getWorldObj().isRemote) {
+            sendToServer(new CPacketUpdateMechSignals(tile), tile);
+        } else {
+            sendToAll(new SPacketUpdateMechSignals(tile), tile);
         }
     }
 

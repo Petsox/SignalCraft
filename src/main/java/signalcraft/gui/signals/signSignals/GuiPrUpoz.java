@@ -15,6 +15,16 @@ public class GuiPrUpoz extends GuiSignSignal {
     }
 
     @Override
+    protected int getDesignWidth() {
+        return 400;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+
+    @Override
     public void initGui() {
         this.loadValuesFromTile();
         this.buttonList.add(this.oddiloveButton = new GuiButton(1, this.width / 2 - 25, this.height / 4 - 5, 30, 20, this.oddiloveText));
@@ -38,9 +48,11 @@ public class GuiPrUpoz extends GuiSignSignal {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float par3) {
+        this.beginContentScale();
         this.drawDefaultBackground();
         this.drawString(this.fontRendererObj, I18n.format("gui.prUpozText"), this.width / 2 - 80, this.height / 4, 16777215);
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     private void loadValuesFromTile() {

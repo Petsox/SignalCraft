@@ -29,6 +29,7 @@ public class GuiSSSRSingle extends GuiLevelCrossings {
         this.textFieldPozitDelay.setVisible(false);
         this.LightsAlterButton.visible = false;
         this.NewerButton.visible = false;
+        this.textFieldYOffset.setVisible(true);
     }
 
     @Override

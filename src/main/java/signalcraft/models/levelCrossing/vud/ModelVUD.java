@@ -21,6 +21,7 @@ public class ModelVUD extends ModelCross {
 
         if (hasPoz) {
             Minecraft.getMinecraft().renderEngine.bindTexture(this.VUD);
+            this.modelVUD.renderPart("vud_zvonek");
             this.modelVUD.renderPart("vud_poz");
             Minecraft.getMinecraft().renderEngine.bindTexture(this.Pozor_Vlak);
             this.modelVUD.renderPart("pozor_vlak");
@@ -70,10 +71,12 @@ public class ModelVUD extends ModelCross {
             }
         } else {
             if (isReflective) {
-                if (isKrizVelky) {
+                if (isKrizJedno){
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                } else if (isKrizVelky){
                     Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                 } else {
-                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                 }
                 this.modelVUD.renderPart(IsKrizJedno + "_refl" + IsKrizVelky);
             } else {
@@ -86,13 +89,13 @@ public class ModelVUD extends ModelCross {
                 }
                 this.modelVUD.renderPart(IsKrizJedno + "_front" + IsKrizVelky);
             }
-            GL11.glDisable(GL11.GL_CULL_FACE);
-
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.SkrinZadek);
-            this.modelVUD.renderPart("kriz_ram");
-
-            GL11.glEnable(GL11.GL_CULL_FACE);
         }
+        GL11.glDisable(GL11.GL_CULL_FACE);
+
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.SkrinZadek);
+        this.modelVUD.renderPart("kriz_ram");
+
+        GL11.glEnable(GL11.GL_CULL_FACE);
     }
 
     @Override

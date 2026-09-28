@@ -16,6 +16,7 @@ public class GuiAZDVloz extends GuiLightSignals {
         this.Pruhy3Button.visible = false;
         this.OdjezdButton.visible = false;
         this.SkupinoveButton.visible = false;
+        this.SpeedButton.visible = false;
     }
 
     @Override

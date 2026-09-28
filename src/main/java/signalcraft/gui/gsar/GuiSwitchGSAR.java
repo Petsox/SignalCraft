@@ -2,7 +2,6 @@ package signalcraft.gui.gsar;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
@@ -11,12 +10,13 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import signalcraft.blocks.switches.BlockSwitch;
 import signalcraft.entities.switches.TileSwitch;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.signalUtils.Network;
 
 import java.awt.*;
 
 
-public class GuiSwitchGSAR extends GuiScreen {
+public class GuiSwitchGSAR extends ScalableGuiScreen {
     private final String guiName;
     private final String editMsg_TITLE;
     private final String editMsg_WN_left;
@@ -61,6 +61,16 @@ public class GuiSwitchGSAR extends GuiScreen {
         this.thisTileE = thisTileE;
     }
 
+    @Override
+    protected int getDesignWidth() {
+        return 460;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+
     public void initGui() {
         this.loadValuesFromTile();
         this.buttonList.add(this.doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 140, I18n.format("gui.done")));
@@ -72,6 +82,7 @@ public class GuiSwitchGSAR extends GuiScreen {
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         if (!this.mc.gameSettings.forceUnicodeFont) {
             this.fontRendererObj.setUnicodeFlag(true);
             this.fontRendererObj.setBidiFlag(true);
@@ -87,6 +98,7 @@ public class GuiSwitchGSAR extends GuiScreen {
         this.drawString(this.fontRendererObj, this.editMsg_WN_5, this.width / 2 + 30, this.height / 4 - 15, 16777215);
         this.switchNameMech.drawTextBox();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     protected void actionPerformed(final GuiButton button) {

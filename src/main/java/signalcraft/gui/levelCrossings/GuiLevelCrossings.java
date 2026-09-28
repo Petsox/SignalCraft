@@ -1,19 +1,19 @@
 package signalcraft.gui.levelCrossings;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import signalcraft.entities.levelCrossings.TileLevelCrossing;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.signalUtils.Consts;
 import signalcraft.signalUtils.Network;
 
 import java.awt.*;
 
-public class GuiLevelCrossings extends GuiScreen {
+public class GuiLevelCrossings extends ScalableGuiScreen {
     private GuiButton doneButton;
     protected GuiButton KrizButton;
     protected String KrizText;
@@ -53,9 +53,12 @@ public class GuiLevelCrossings extends GuiScreen {
     protected String LightsAlterText;
     protected GuiButton NewerButton;
     protected String NewerText;
+    protected GuiButton StozarDelsiButton;
+    protected String StozarDelsiText;
     private final TileLevelCrossing thisTileE;
     protected GuiTextField textFieldPozitDelay;
     protected GuiTextField textFieldHeadRot;
+    protected GuiTextField textFieldYOffset;
     protected GuiTextField Scale;
 
     public GuiLevelCrossings(final TileLevelCrossing thisTileE) {
@@ -64,9 +67,19 @@ public class GuiLevelCrossings extends GuiScreen {
         this.thisTileE = thisTileE;
     }
 
+    @Override
+    protected int getDesignWidth() {
+        return 460;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 320;
+    }
+
     public void initGui() {
         this.loadValuesFromTile();
-        this.buttonList.add(this.doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 180, I18n.format("gui.done")));
+        this.buttonList.add(this.doneButton = new GuiButton(0, this.width / 2 - 100, this.height / 4 + 210, I18n.format("gui.done")));
         this.buttonList.add(this.KrizButton = new GuiButton(1, this.width / 2 - 120, this.height / 4 - 20, 30, 20, this.KrizText));
         this.buttonList.add(this.KrizReflexButton = new GuiButton(2, this.width / 2 - 35, this.height / 4 - 20, 30, 20, this.KrizReflexText));
         this.buttonList.add(this.KrizStozarButton = new GuiButton(3, this.width / 2 + 60, this.height / 4 - 20, 30, 20, this.KrizStozarText));
@@ -86,15 +99,20 @@ public class GuiLevelCrossings extends GuiScreen {
         this.buttonList.add(this.LightPosButton = new GuiButton(17, this.width / 2 - 35, this.height / 4 + 110, 30, 20, this.LightPosText));
         this.buttonList.add(this.LightsAlterButton = new GuiButton(18, this.width / 2 - 80, this.height / 4 + 150, 30, 20, this.LightsAlterText));
         this.buttonList.add(this.NewerButton = new GuiButton(19, this.width / 2 + 60, this.height / 4 + 80, 30, 20, this.NewerText));
+        this.buttonList.add(this.StozarDelsiButton = new GuiButton(20, this.width / 2 - 82, this.height / 4 + 180, 30, 20, this.StozarDelsiText));
         this.textFieldPozitDelay = new GuiTextField(this.fontRendererObj, this.width / 2 - 80, this.height / 4 + 155, 50, 10);
         this.textFieldHeadRot = new GuiTextField(this.fontRendererObj, this.width / 2 + 80, this.height / 4 + 155, 50, 10);
+        this.textFieldYOffset = new GuiTextField(this.fontRendererObj, this.width / 2 + 80, this.height / 4 + 180, 50, 10);
         this.Scale = new GuiTextField(this.fontRendererObj, this.width / 2 + 30, this.height / 4 - 57, 80, 15);
         this.textFieldPozitDelay.setText(String.valueOf(this.thisTileE.getArmDownDelay()));
         this.textFieldHeadRot.setText(String.valueOf(this.thisTileE.getHeadRot()));
+        this.textFieldYOffset.setText(this.thisTileE.getYOffsetString());
+        this.textFieldYOffset.setVisible(false);
         this.Scale.setText(this.thisTileE.getScaleString());
     }
 
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         if (!this.mc.gameSettings.forceUnicodeFont) {
             this.fontRendererObj.setUnicodeFlag(true);
             this.fontRendererObj.setBidiFlag(true);
@@ -121,13 +139,17 @@ public class GuiLevelCrossings extends GuiScreen {
         if (KrizVelkyButton.visible) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.krizvelky.text"), this.width / 2 + 30, this.height / 4 + 45, 16777200);
         if (textFieldPozitDelay.getVisible()) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.pozlightdelay.text"), this.width / 2 - 150, this.height / 4 + 155, 16777200);
         if (textFieldHeadRot.getVisible()) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.headrot.text"), this.width / 2 + 30, this.height / 4 + 155, 16777200);
+        if (textFieldYOffset.getVisible()) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.yoffset.text"), this.width / 2 + 30, this.height / 4 + 180, 16777200);
+        if (StozarDelsiButton.visible) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.stozardelsi.text"), this.width / 2 - 140, this.height / 4 + 185, 16777200);
         if (LightCoverButton.visible) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.red.light.cover.length.text"), this.width / 2 - 155, this.height / 4 + 115, 16777200);
         if (LightPosButton.visible) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.light.position.text"), this.width / 2 - 60, this.height / 4 + 115, 16777200);
         if (LightsAlterButton.visible) this.drawCenteredString(this.fontRendererObj, I18n.format("gui.levelcross.dolightsalter.text"), this.width / 2 - 150, this.height / 4 + 155, 16777200);
         this.textFieldPozitDelay.drawTextBox();
         this.textFieldHeadRot.drawTextBox();
+        this.textFieldYOffset.drawTextBox();
         this.Scale.drawTextBox();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
 
     protected void actionPerformed(final GuiButton button) {
@@ -176,25 +198,39 @@ public class GuiLevelCrossings extends GuiScreen {
                 }
             }
             case 4: {
+                // Some models (e.g. AZD71) replaced a separate "long pole" mesh with stacking
+                // extra stozar_delsi segments on the (always short) pole - at DIST_00 the
+                // vystraznik mounts right on the pole and needs no extension, so force the count
+                // to 0 there and restore 1 when leaving DIST_00. This is a no-op for any tile that
+                // never reaches/leaves DIST_00 (e.g. one whose distance cycle skips it).
+                boolean wasAt00 = this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_00);
                 if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_00)) {
                     this.KrizStozarButton.visible = true;
                     this.DistanceButton.displayString = "30";
                     this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_30);
-                    break;
                 } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_30)) {
                     this.DistanceButton.displayString = "50";
                     this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_50);
-                    break;
                 } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_50)) {
+                    this.DistanceButton.displayString = "75";
+                    this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_75);
+                } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_75)) {
                     this.DistanceButton.displayString = "100";
                     this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_100);
-                    break;
                 } else {
                     this.DistanceButton.displayString = "00";
                     this.thisTileE.setDistFromSloup(Consts.DistFromPole.DIST_00);
                     this.KrizStozarButton.visible = false;
-                    break;
                 }
+                boolean isAt00 = this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_00);
+                if (isAt00) {
+                    this.thisTileE.setStozarDelsiCount(0);
+                    this.StozarDelsiButton.displayString = "0";
+                } else if (wasAt00) {
+                    this.thisTileE.setStozarDelsiCount(1);
+                    this.StozarDelsiButton.displayString = "1";
+                }
+                break;
             }
             case 5: {
                 Consts.SoundType next = this.thisTileE.getSoundType().nextValid();
@@ -372,6 +408,12 @@ public class GuiLevelCrossings extends GuiScreen {
                     break;
                 }
             }
+            case 20: {
+                int next = (this.thisTileE.getStozarDelsiCount() + 1) % 6;
+                this.thisTileE.setStozarDelsiCount(next);
+                this.StozarDelsiButton.displayString = String.valueOf(next);
+                break;
+            }
         }
     }
 
@@ -379,10 +421,15 @@ public class GuiLevelCrossings extends GuiScreen {
         this.Scale.mouseClicked(x, y, buttonClicked);
         this.textFieldPozitDelay.mouseClicked(x, y, buttonClicked);
         this.textFieldHeadRot.mouseClicked(x, y, buttonClicked);
+        this.textFieldYOffset.mouseClicked(x, y, buttonClicked);
         super.mouseClicked(x, y, buttonClicked);
     }
 
     protected void keyTyped(final char character, final int code) {
+        if (code == 1) {
+            this.actionPerformed(this.doneButton);
+            return;
+        }
         if (this.Scale.getText().length() <= 3 || code == 14) {
             this.Scale.textboxKeyTyped(character, code);
         }
@@ -390,12 +437,16 @@ public class GuiLevelCrossings extends GuiScreen {
             if (textFieldPozitDelay.isFocused()) this.textFieldPozitDelay.textboxKeyTyped(character, code);
             if (textFieldHeadRot.isFocused()) this.textFieldHeadRot.textboxKeyTyped(character, code);
         }
+        if (Character.isDigit(character) || code == 14 || character == '-' || character == '.') {
+            if (textFieldYOffset.isFocused()) this.textFieldYOffset.textboxKeyTyped(character, code);
+        }
     }
 
     public void updateScreen() {
         this.Scale.updateCursorCounter();
         this.textFieldPozitDelay.updateCursorCounter();
         this.textFieldHeadRot.updateCursorCounter();
+        this.textFieldYOffset.updateCursorCounter();
     }
 
     public void onGuiClosed() {
@@ -417,6 +468,11 @@ public class GuiLevelCrossings extends GuiScreen {
         }
         if (!this.textFieldHeadRot.getText().isEmpty()) {
             this.thisTileE.setHeadRot(Integer.parseInt(this.textFieldHeadRot.getText()));
+        }
+        try {
+            this.thisTileE.setYOffset(Float.parseFloat(this.textFieldYOffset.getText()));
+        } catch (NumberFormatException e) {
+            this.thisTileE.setYOffset(0f);
         }
         Network.updateCrossings(this.thisTileE);
     }
@@ -457,6 +513,8 @@ public class GuiLevelCrossings extends GuiScreen {
             this.DistanceText = "30";
         } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_50)) {
             this.DistanceText = "50";
+        } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_75)) {
+            this.DistanceText = "75";
         } else if (this.thisTileE.getDistFromSloup().equals(Consts.DistFromPole.DIST_100)) {
             this.DistanceText = "100";
         }
@@ -535,6 +593,7 @@ public class GuiLevelCrossings extends GuiScreen {
         } else {
             this.NewerText = I18n.format("gui.general.text.no");
         }
+        this.StozarDelsiText = String.valueOf(this.thisTileE.getStozarDelsiCount());
     }
     public boolean doesGuiPauseGame() {
         return false;

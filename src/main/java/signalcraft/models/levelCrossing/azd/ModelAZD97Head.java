@@ -12,29 +12,21 @@ public class ModelAZD97Head extends ModelCross {
 
     @Override
     public void renderStozar(String Distance, Boolean Stripes) {
+        // azd97_vyst_zav.obj (this Head unit's model) has no stozar mast part of its own —
+        // only the warning-sign holder, which mounts directly on the existing barrier pole.
         Minecraft.getMinecraft().renderEngine.bindTexture(this.AZD97_HLAVNI);
         this.modelCrossAZD97.renderPart("vystraznik_drzak_horni");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
         this.modelCrossAZD97.renderPart("vystraznik_drzak_spodni");
-
-        if (Stripes) {
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-            this.modelCrossAZD97.renderPart("azd97_stozar_dlouhy_pruhy");
-        } else {
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-            this.modelCrossAZD97.renderPart("azd97_stozar_dlouhy");
-        }
-        if (Stripes) {
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Pruhy);
-            this.modelCrossAZD97.renderPart("azd97_stozar_pruhy");
-        }
     }
 
     @Override
-    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru) {
-        if(!isKrizNaStozaru){
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-            this.modelCrossAZD97.renderPart("nosnik");
+    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru, Boolean hasKriz) {
+        if (!isKrizNaStozaru) {
+            if (hasKriz) {
+                Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+                this.modelCrossAZD97.renderPart("nosnik");
+            }
         }
     }
 
@@ -85,10 +77,12 @@ public class ModelAZD97Head extends ModelCross {
         } else {
             if (isKrizNaStozaru) {
                 if (isReflective) {
-                    if (isKrizVelky) {
+                    if (isKrizJedno){
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    } else if (isKrizVelky){
                         Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                     } else {
-                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                     }
                     this.modelCrossAZD97.renderPart(IsKrizJedno + "_refl_stozar" + IsKrizVelky);
                 } else {
@@ -107,10 +101,12 @@ public class ModelAZD97Head extends ModelCross {
                 this.modelCrossAZD97.renderPart("kriz_drzak_stozar");
             } else {
                 if (isReflective) {
-                    if (isKrizVelky) {
+                    if (isKrizJedno){
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    } else if (isKrizVelky){
                         Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                     } else {
-                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                     }
                     this.modelCrossAZD97.renderPart(IsKrizJedno + "_refl" + IsKrizVelky);
                 } else {
@@ -139,13 +135,13 @@ public class ModelAZD97Head extends ModelCross {
 
     @Override
     public void renderSvetloL(String Distance, String Pos, Integer angleIndex, Boolean doLightsAlter) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(this.Svetlo_R);
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.AZD97_RED_LIGHT);
         this.modelCrossAZD97.renderPart("korona_l");
     }
 
     @Override
     public void renderSvetloR(String Distance, String Pos, Integer angleIndex, Boolean doLightsAlter) {
-        Minecraft.getMinecraft().renderEngine.bindTexture(this.Svetlo_R);
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.AZD97_RED_LIGHT);
         this.modelCrossAZD97.renderPart("korona_p");
     }
 
@@ -155,7 +151,7 @@ public class ModelAZD97Head extends ModelCross {
             Minecraft.getMinecraft().renderEngine.bindTexture(this.LED_SVETLO_WHITE);
             this.modelCrossAZD97.renderPart("korona_poz_led");
         } else {
-            Minecraft.getMinecraft().renderEngine.bindTexture(this.Svetlo_W);
+            Minecraft.getMinecraft().renderEngine.bindTexture(this.AZD97_WHTIE_LIGHT);
             this.modelCrossAZD97.renderPart("korona_poz");
         }
     }

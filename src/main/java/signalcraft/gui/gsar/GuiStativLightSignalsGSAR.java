@@ -6,7 +6,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
@@ -15,12 +14,13 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import signalcraft.ItemBlocks.SCItemBlocks;
 import signalcraft.entities.gsar.signalsHP.TileGSARStativLightSignals;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.signalUtils.Network;
 
 import java.awt.*;
 
 @SideOnly(Side.CLIENT)
-public class GuiStativLightSignalsGSAR extends GuiScreen
+public class GuiStativLightSignalsGSAR extends ScalableGuiScreen
 {
     Minecraft MC;
     private GuiButton doneBtn;
@@ -86,8 +86,19 @@ public class GuiStativLightSignalsGSAR extends GuiScreen
         this.opLocStativ = tileEntity.getStationLabelStativ();
         this.opNameStativ = tileEntity.getSignalLabelStativ();
     }
-    
+
+    @Override
+    protected int getDesignWidth() {
+        return 480;
+    }
+
+    @Override
+    protected int getDesignHeight() {
+        return 280;
+    }
+
     public void drawScreen(final int mouseX, final int mouseY, final float par3) {
+        this.beginContentScale();
         //final int i = (this.width - 176) / 2;
         //final int j = (this.height - 166) / 2;
         this.drawDefaultBackground();
@@ -125,8 +136,9 @@ public class GuiStativLightSignalsGSAR extends GuiScreen
         this.drawTexturedModalRect(this.width / 2 - 220, this.height / 4 + 20, 10, 0, 256, 256);
         GL11.glPopMatrix();
         super.drawScreen(mouseX, mouseY, par3);
+        this.endContentScale();
     }
-    
+
     protected void keyTyped(final char character, final int code) {
         if (Character.isDigit(character) || code == 14) {
             this.editTextField_BS.textboxKeyTyped(character, code);

@@ -16,8 +16,8 @@ import java.util.Set;
  * from that tile's render code every frame.
  */
 public class LampFade {
-    private static final float RISE_MS = 80.0f;
-    private static final float FALL_MS = 100.0f;
+    private static final float RISE_MS = 60.0f;
+    private static final float FALL_MS = 80.0f;
     private static final float SNAP_EPSILON = 0.01f;
 
     /**
@@ -26,7 +26,7 @@ public class LampFade {
      * before passing it to glColor4f, so this must clear the ~0.1 alpha-test cutoff with margin
      * once doubled - landing exactly on the cutoff made the idle lamp fully invisible instead of dim.
      */
-    public static final float IDLE_BRIGHTNESS = 0.08f;
+    public static final float IDLE_BRIGHTNESS = 0.03f;
 
     private final Map<String, Float> brightness = new LinkedHashMap<>();
     private long lastFrame = -1L;

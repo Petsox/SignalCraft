@@ -1,17 +1,17 @@
 package signalcraft.gui.signals.signSignals;
 
 import net.minecraft.client.gui.GuiButton;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import signalcraft.entities.signals.signSignals.TileSignSignal;
+import signalcraft.gui.ScalableGuiScreen;
 import signalcraft.signalUtils.Network;
 
 import java.awt.*;
 
-public abstract class GuiSignSignal extends GuiScreen {
+public abstract class GuiSignSignal extends ScalableGuiScreen {
     private final TileSignSignal thisTileE;
     protected GuiButton doneButton;
 

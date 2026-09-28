@@ -11,7 +11,7 @@ public class TileGSARSignalLF7 extends TileGeneric {
 
     public TileGSARSignalLF7() {
         this.setGuiId(Consts.GuiIDs.SIGN_LF7);
-        this.setYAdjust(3.0f);
+        this.setYAdjust(1.5f);
     }
 
     @Override

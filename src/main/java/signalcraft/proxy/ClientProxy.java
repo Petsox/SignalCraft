@@ -11,6 +11,7 @@ import signalcraft.ItemBlocks.SCItemBlocks;
 import signalcraft.entities.SCTEntities;
 import signalcraft.gui.GuiItemRenamer;
 import signalcraft.models.ModelRegistry;
+import signalcraft.models.PartLibraryRegistry;
 
 public class ClientProxy extends CommonProxy {
 
@@ -18,6 +19,9 @@ public class ClientProxy extends CommonProxy {
     private void registerModels() {
         for (ModelRegistry model : ModelRegistry.values()) {
             model.load();
+        }
+        for (PartLibraryRegistry library : PartLibraryRegistry.values()) {
+            library.load();
         }
     }
 

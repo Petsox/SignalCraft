@@ -7,6 +7,7 @@ import signalcraft.entities.controllers.TileController;
 import signalcraft.entities.controllers.TileReceiver;
 import signalcraft.entities.levelCrossings.IBarriers;
 import signalcraft.entities.levelCrossings.ILevelCrossing;
+import signalcraft.entities.levelCrossings.IOnBarriers;
 import signalcraft.messages.MessageActiveUpdate;
 import signalcraft.models.TextureRegistry;
 import signalcraft.signalUtils.BlockPos;
@@ -20,6 +21,81 @@ public class TileCrossingReceiver extends TileReceiver {
     }
 
     private TileEntity tileE;
+
+    /** True from the moment the barrier deactivates until the signals it guards have been turned off. */
+    private boolean pendingSignalOff = false;
+    /** -1 = not counting yet; counts down once the arm is confirmed fully up. */
+    private int signalOffDelayTimer = -1;
+
+    /**
+     * Single, server-authoritative place that watches a barrier crossing raise and, once the arm is
+     * fully up (plus the configured delay), restores the on-barrier signal's sound and cascades
+     * deactivation to the barrier-less signals sharing this crossing's name. Living here (instead of
+     * duplicated inside every barrier tile's updateEntity) means clients never make this call off of
+     * their own locally-simulated arm rotation - they only ever react to the server's packets - which
+     * is what caused the additional signals to drop before the barrier arm visually finished rising
+     * on laggy servers.
+     */
+    @Override
+    public void updateEntity() {
+        if (worldObj == null || worldObj.isRemote) return;
+
+        ILevelCrossing found = findCrossing();
+        if (!(found instanceof IBarriers)) return;
+
+        IBarriers barrier = (IBarriers) found;
+        TileEntity barrierTile = (TileEntity) found;
+
+        if (found.isCrossingActive()) {
+            pendingSignalOff = true;
+            signalOffDelayTimer = -1;
+            if (barrier.isArmDown()) {
+                TileEntity onTop = worldObj.getTileEntity(barrierTile.xCoord, barrierTile.yCoord + 1, barrierTile.zCoord);
+                if (onTop instanceof IOnBarriers) ((IOnBarriers) onTop).setStrongSoundOn(false);
+            }
+            return;
+        }
+
+        if (!pendingSignalOff || !barrier.isArmUp()) return;
+
+        if (signalOffDelayTimer < 0) {
+            signalOffDelayTimer = barrier.getSignalOffDelay() * 20;
+        }
+        if (signalOffDelayTimer > 0) {
+            --signalOffDelayTimer;
+            return;
+        }
+
+        TileEntity onTop = worldObj.getTileEntity(barrierTile.xCoord, barrierTile.yCoord + 1, barrierTile.zCoord);
+        if (onTop instanceof IOnBarriers) {
+            ((IOnBarriers) onTop).setStrongSoundOn(true);
+            updateCrossing((ILevelCrossing) onTop, false, onTop);
+        }
+        deactivateBarrierlessSiblings();
+
+        pendingSignalOff = false;
+        signalOffDelayTimer = -1;
+    }
+
+    /**
+     * Only raises the barrier-less receivers that share this barrier's own receiver name - a
+     * controller can have several independently-named crossing groups paired to it, and raising
+     * every barrier-less receiver on the controller would affect unrelated groups too.
+     */
+    private void deactivateBarrierlessSiblings() {
+        String crossingName = this.getName();
+        if (crossingName == null) return;
+        for (TileCrossingController controller : getControllers()) {
+            if (controller == null) continue;
+            for (TileReceiver receiver : controller.getReceivers()) {
+                if (receiver instanceof TileCrossingReceiver
+                        && !((TileCrossingReceiver) receiver).signalHasBarriers()
+                        && crossingName.equals(receiver.getName())) {
+                    ((TileCrossingReceiver) receiver).setCrossingState(false);
+                }
+            }
+        }
+    }
 
     /**
      * Sets the crossing state (active/deactivated)

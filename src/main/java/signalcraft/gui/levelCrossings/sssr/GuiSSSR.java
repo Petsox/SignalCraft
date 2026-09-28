@@ -23,6 +23,7 @@ public class GuiSSSR extends GuiLevelCrossings {
         this.textFieldHeadRot.setVisible(false);
         this.LightsAlterButton.visible = false;
         this.NewerButton.visible = false;
+        this.textFieldYOffset.setVisible(true);
     }
 
     @Override

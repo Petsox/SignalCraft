@@ -33,9 +33,10 @@ public class CrossingItemRenderer implements IItemRenderer
 
         this.modelCross.renderVystraznik(Consts.DistFromPole.DIST_50.Dist, Consts.Position.MIDDLE.Pos, true, false, false, Consts.CeduleState.DOWN);
         this.modelCross.renderZaklad(Consts.DistFromPole.DIST_50.Dist, true, false);
-        this.modelCross.renderSloup(Consts.DistFromPole.DIST_50.Dist, false, Consts.CeduleState.DOWN, false);
+        this.modelCross.renderSloup(Consts.DistFromPole.DIST_50.Dist, false, Consts.CeduleState.DOWN, false, true);
         this.modelCross.renderStozar(Consts.DistFromPole.DIST_50.Dist, false);
         this.modelCross.renderKriz(Consts.DistFromPole.DIST_50.Dist, true, false, false, false, false);
+        this.modelCross.renderStozarDelsi(1);
 
         GL11.glPopMatrix();
     }

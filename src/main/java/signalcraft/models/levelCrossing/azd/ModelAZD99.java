@@ -3,6 +3,7 @@ package signalcraft.models.levelCrossing.azd;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.IModelCustom;
+import org.lwjgl.opengl.GL11;
 import signalcraft.models.ModelRegistry;
 import signalcraft.models.TextureRegistry;
 
@@ -52,5 +53,20 @@ public class ModelAZD99
         this.modelCrossSSSR.renderPart("azd99_zavazi_drzaky_" + length);
         Minecraft.getMinecraft().renderEngine.bindTexture(this.AZD99_BARRIER);
         this.modelCrossSSSR.renderPart("azd99_zavora_" + length);
+    }
+
+    // azd99_stozar_delsi (azd99.obj) is a pole-extension segment sitting directly on top of
+    // azd99_motor_zavory; stacking N copies extends the pole by N times its own height.
+    private static final float STOZAR_DELSI_HEIGHT = 0.278318f;
+
+    public void renderStozarDelsi(int count) {
+        if (count <= 0) return;
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.AZD99_MAIN);
+        GL11.glPushMatrix();
+        for (int i = 0; i < count; i++) {
+            this.modelCrossSSSR.renderPart("azd99_stozar_delsi");
+            GL11.glTranslatef(0f, STOZAR_DELSI_HEIGHT, 0f);
+        }
+        GL11.glPopMatrix();
     }
 }

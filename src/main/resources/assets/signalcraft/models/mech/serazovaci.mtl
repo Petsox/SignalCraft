@@ -1,0 +1,52 @@
+# Blender 5.0.1 MTL File: 'seraz.blend'
+# www.blender.org
+
+newmtl bila
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/bila.png
+
+newmtl bila.001
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/svetlo.jpg
+
+newmtl main
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/seraz.jpg
+
+newmtl modra
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/modra.png
+
+newmtl retez
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd C:/Users/Petsox/Desktop/SignalCraft - tpeterka/SignalCraft/src/main/resources/assets/signalcraft/textures/nove/mech/retez.png

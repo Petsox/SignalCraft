@@ -12,6 +12,7 @@ public class ModelAZD71 extends ModelCross {
 
     @Override
     public void renderZaklad(String Pos, Boolean hasPoz, Boolean isLightCoverShort) {
+        this.beginFixedPole();
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Podklad);
         this.modelCrossAZD71.renderPart("azd71_podklad");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Zaklad);
@@ -22,31 +23,39 @@ public class ModelAZD71 extends ModelCross {
         this.modelCrossAZD71.renderPart("azd71_stupacka");
         Minecraft.getMinecraft().renderEngine.bindTexture(this.SkrinZadek);
         this.modelCrossAZD71.renderPart("azd71_stupacka_zaklad");
+        this.endFixedPole();
     }
+
+    // azd71_stozar_delsi (azd71_vyst.obj) is a pole-extension segment sitting directly on top of
+    // the (always short) pole; stacking N copies extends the pole by N times its own height.
+    private static final float STOZAR_DELSI_HEIGHT = 0.514245f;
 
     @Override
     public void renderStozar(String Distance, Boolean Stripes) {
-        if (Distance.equals("00")) {
-            if (Stripes) {
-                Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-                this.modelCrossAZD71.renderPart("azd71_stozar_kratky_pruhy");
-            } else {
-                Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-                this.modelCrossAZD71.renderPart("azd71_stozar_kratky");
-            }
+        this.beginFixedPole();
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+        if (Stripes) {
+            this.modelCrossAZD71.renderPart("azd71_stozar_kratky_pruhy");
         } else {
-            if (Stripes) {
-                Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-                this.modelCrossAZD71.renderPart("azd71_stozar_dlouhy_pruhy");
-            } else {
-                Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
-                this.modelCrossAZD71.renderPart("azd71_stozar_dlouhy");
-            }
+            this.modelCrossAZD71.renderPart("azd71_stozar_kratky");
         }
         if (Stripes) {
             Minecraft.getMinecraft().renderEngine.bindTexture(this.Pruhy);
             this.modelCrossAZD71.renderPart("azd71_stozar_pruhy");
         }
+        this.endFixedPole();
+    }
+
+    @Override
+    public void renderStozarDelsi(int count) {
+        if (count <= 0) return;
+        this.beginFixedPole();
+        Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
+        for (int i = 0; i < count; i++) {
+            this.modelCrossAZD71.renderPart("azd71_stozar_delsi");
+            GL11.glTranslatef(0f, STOZAR_DELSI_HEIGHT, 0f);
+        }
+        this.endFixedPole();
     }
 
     @Override
@@ -73,7 +82,7 @@ public class ModelAZD71 extends ModelCross {
     }
 
     @Override
-    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru) {
+    public void renderSloup(String Distance, Boolean hasZebrik, Consts.CeduleState isCedule, Boolean isKrizNaStozaru, Boolean hasKriz) {
         Minecraft.getMinecraft().renderEngine.bindTexture(this.Stozar);
         this.modelCrossAZD71.renderPart("azd71_sloup_" + Distance);
     }
@@ -104,10 +113,12 @@ public class ModelAZD71 extends ModelCross {
         } else {
             if (Distance.equals("00")) {
                 if (isReflective) {
-                    if (isKrizVelky){
+                    if (isKrizJedno){
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    } else if (isKrizVelky){
                         Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                     } else {
-                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                     }
                     this.modelCrossAZD71.renderPart(IsKrizJedno + "_refl_00" + IsKrizVelky);
                 } else {
@@ -127,10 +138,12 @@ public class ModelAZD71 extends ModelCross {
                 GL11.glEnable(GL11.GL_CULL_FACE);
             } else if (isKrizNaStozaru) {
                 if (isReflective) {
-                    if (isKrizVelky){
+                    if (isKrizJedno){
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    } else if (isKrizVelky){
                         Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                     } else {
-                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                     }
                     this.modelCrossAZD71.renderPart(IsKrizJedno + "_refl_stozar" + IsKrizVelky);
                 } else {
@@ -149,10 +162,12 @@ public class ModelAZD71 extends ModelCross {
                 GL11.glEnable(GL11.GL_CULL_FACE);
             } else {
                 if (isReflective) {
-                    if (isKrizVelky){
+                    if (isKrizJedno){
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                    } else if (isKrizVelky){
                         Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZReflVelky);
                     } else {
-                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizCZRefl);
+                        Minecraft.getMinecraft().renderEngine.bindTexture(this.KrizXkCZRefl);
                     }
                     this.modelCrossAZD71.renderPart(IsKrizJedno + "_refl_" + Distance + IsKrizVelky);
                 } else {
