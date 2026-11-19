@@ -77,4 +77,10 @@ public class TileAZD3Lights extends TileLightSignal {
     public List<SignalState> getEveryValidState() {
         return everyValidState;
     }
+
+    /** The only signal with lenses for Type 4. */
+    @Override
+    public int getTypeCount() {
+        return 4;
+    }
 }

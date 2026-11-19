@@ -1,13 +1,12 @@
 package signalcraft.entities.levelCrossings;
 
-public interface IOnBarriers extends ILevelCrossing{
-    /**
-     * Gates whether this crossing's sound is currently armed based on barrier arm
-     * position, independent of the user's persistent {@link ILevelCrossing#setSoundOn}
-     * preference set via the GUI. Barrier controllers must use this instead of
-     * setSoundOn so they don't override the user's mute setting.
-     * @param strongSoundOn - true = armed, false = silenced
-     */
+/**
+ * A warning signal mounted on a barrier (directly on top of an {@link IBarriers} tile). Its bell
+ * goes quiet once the barrier below has come fully down, until the signal switches off - worked out
+ * by each side from its own arm (see TileLevelCrossing), not sent by the server.
+ */
+public interface IOnBarriers extends ILevelCrossing {
+    /** Kept for old saves and the GUI; signals on a barrier no longer use it to mute the bell. */
     void setStrongSoundOn(Boolean strongSoundOn);
 
     Boolean isStrongSoundOn();

@@ -70,6 +70,15 @@ public class Consts {
         MECH_1ARM,
         MECH_SERAZOVACI,
 
+        //Mechanical barrier GUI
+        MECH_BARRIER,
+        //Stand-alone pole with the sign and the warning cross
+        CROSS_SIGN_POLE,
+
+        //Czech point machines
+        SWITCH_MANUAL_CZ,
+        SWITCH_ELECTRIC_CZ,
+
         ;
 
         public int getId() {

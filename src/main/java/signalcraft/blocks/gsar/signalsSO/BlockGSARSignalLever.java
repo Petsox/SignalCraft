@@ -1,5 +1,6 @@
 package signalcraft.blocks.gsar.signalsSO;
 
+import signalcraft.items.ItemScaler;
 import signalcraft.proxy.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
@@ -40,6 +41,9 @@ public class BlockGSARSignalLever extends BlockSignSignal
 
     @Override
     public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer entityPlayer, final int meta, final float hitX, final float hitY, final float hitZ) {
+        if (ItemScaler.isHeldBy(entityPlayer)) {
+            return false;               // let the Scaler scale it instead of throwing it
+        }
         if (world.isRemote) {
             return true;
         }

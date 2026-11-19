@@ -1,12 +1,14 @@
 package signalcraft.network;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldServer;
 import signalcraft.entities.TileSignal;
+import signalcraft.entities.levelCrossings.ICrossingRuntime;
 
 public class NetHandlerPlayServerSide extends NetHandlerPlayServer {
     private final EntityPlayerMP playerEntity;
@@ -36,7 +38,17 @@ public class NetHandlerPlayServerSide extends NetHandlerPlayServer {
             final TileEntity tileentity = worldserver.getTileEntity(x, y, z);
             if (tileentity instanceof TileSignal) {
                 final TileSignal tileSignal = (TileSignal) tileentity;
+                // The GUI sends the whole tile as the client had it, moving state included. Keep the
+                // server's own moving state (active, arm, countdowns) - only the settings are taken.
+                NBTTagCompound runtime = null;
+                if (tileSignal instanceof ICrossingRuntime) {
+                    runtime = new NBTTagCompound();
+                    ((ICrossingRuntime) tileSignal).writeRuntime(runtime);
+                }
                 tileSignal.readFromNBT(thePacket.getMainNBTTC());
+                if (runtime != null) {
+                    ((ICrossingRuntime) tileSignal).readRuntime(runtime);
+                }
                 tileSignal.markDirty();
                 worldserver.markBlockForUpdate(x, y, z);
             }

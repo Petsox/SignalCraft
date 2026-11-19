@@ -185,30 +185,22 @@ public class GuiLightSignals extends ScalableGuiScreen {
                 }
             }
             case 7: {
-                if (this.thisTileE.getType().equals(Consts.Types.TYPE_1)) {
-                    this.TypeButton.displayString = I18n.format("gui.lightsignal.type2.text");
-                    this.thisTileE.setType(Consts.Types.TYPE_2);
-                    break;
-                } else if (this.thisTileE.getType().equals(Consts.Types.TYPE_2)) {
-                    this.TypeButton.displayString = I18n.format("gui.lightsignal.type3.text");
+                // only the Types this signal's model has lenses for (getTypeCount), then back to Type 1
+                final int next = (this.thisTileE.getType().ordinal() + 1) % this.thisTileE.getTypeCount();
+                final Consts.Types type = Consts.Types.values()[next];
+                this.thisTileE.setType(type);
+                this.TypeButton.displayString = I18n.format("gui.lightsignal.type" + (next + 1) + ".text");
+                if (type == Consts.Types.TYPE_3) {
                     this.thisTileE.setHas3Stripes(Consts.BooleanSTR.NO);
                     this.Pruhy3Button.displayString = I18n.format("gui.general.text.no");
                     this.thisTileE.setHasStripes(Consts.BooleanSTR.NO);
                     this.PruhyButton.displayString = I18n.format("gui.general.text.no");
-                    this.thisTileE.setType(Consts.Types.TYPE_3);
-                    break;
-                } else if (this.thisTileE.getType().equals(Consts.Types.TYPE_3)) {
-                    this.TypeButton.displayString = I18n.format("gui.lightsignal.type4.text");
-                    this.thisTileE.setType(Consts.Types.TYPE_4);
-                    break;
-                } else {
-                    this.TypeButton.displayString = I18n.format("gui.lightsignal.type1.text");
-                    this.thisTileE.setType(Consts.Types.TYPE_1);
+                } else if (type == Consts.Types.TYPE_1) {
                     this.thisTileE.setHasStripes(Consts.BooleanSTR.NO);
                     this.PruhyButton.displayString = I18n.format("gui.general.text.no");
                     this.thisTileE.setSpeedSignText(Consts.SpeedSignText.NO_SIGN);
-                    break;
                 }
+                break;
             }
         }
     }

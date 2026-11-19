@@ -27,6 +27,8 @@ public enum ModelRegistry {
     AZD_71_HEAD(SignalCraft.MOD_ID + ":models/azd/azd71_vyst_zav.obj"),
     AZD_97_HEAD(SignalCraft.MOD_ID + ":models/azd/azd97_vyst_zav.obj"),
     AZD_99(SignalCraft.MOD_ID + ":models/azd/azd99.obj"),
+    MECH_BARRIER(SignalCraft.MOD_ID + ":models/mech/zavora_mech.obj"),
+    PRESTAVNIK_CZ(SignalCraft.MOD_ID + ":models/prestavnik/prestavnik_cz.obj"),
     VUD(SignalCraft.MOD_ID + ":models/vud/noveVUD.obj"),
     SSSR(SignalCraft.MOD_ID + ":models/sssr/sssrVyst_noveTextury.obj"),
     SSSR_SINGLE(SignalCraft.MOD_ID + ":models/sssr/sssr_vyst_single.obj"),

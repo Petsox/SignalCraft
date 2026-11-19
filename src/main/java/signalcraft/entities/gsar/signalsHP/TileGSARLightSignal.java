@@ -14,4 +14,10 @@ public class TileGSARLightSignal extends TileLightSignal {
             this.blinkCounter = 0;
         }
     }
+
+    /** TileLightSignalsRendererGSAR ignores the scale - the shared wrapper applies it. */
+    @Override
+    public boolean isScaledByWrapper() {
+        return true;
+    }
 }

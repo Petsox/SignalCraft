@@ -2,150 +2,151 @@ package signalcraft.entities.controllers.crossings;
 
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
-import signalcraft.SignalCraft;
 import signalcraft.entities.controllers.TileController;
 import signalcraft.entities.controllers.TileReceiver;
 import signalcraft.entities.levelCrossings.IBarriers;
 import signalcraft.entities.levelCrossings.ILevelCrossing;
-import signalcraft.entities.levelCrossings.IOnBarriers;
-import signalcraft.messages.MessageActiveUpdate;
 import signalcraft.models.TextureRegistry;
 import signalcraft.signalUtils.BlockPos;
+import signalcraft.signalUtils.CrossingDebug;
 
+/**
+ * Receives the crossing controller's events and passes them to the crossing tiles stacked above it
+ * (up to 10 blocks). Server side only; it has no state and no tick of its own - every timing (arm,
+ * signals going dark once the arms are up) is a countdown the crossing tiles run themselves, on the
+ * server and on every client alike (see ICrossingRuntime).
+ */
 public class TileCrossingReceiver extends TileReceiver {
 
     private final static ResourceLocation texture = TextureRegistry.RECE_CROSSING.get();
+    private static final int STACK_HEIGHT = 10;
 
     public TileCrossingReceiver() {
         super(texture);
     }
 
-    private TileEntity tileE;
-
-    /** True from the moment the barrier deactivates until the signals it guards have been turned off. */
-    private boolean pendingSignalOff = false;
-    /** -1 = not counting yet; counts down once the arm is confirmed fully up. */
-    private int signalOffDelayTimer = -1;
-
-    /**
-     * Single, server-authoritative place that watches a barrier crossing raise and, once the arm is
-     * fully up (plus the configured delay), restores the on-barrier signal's sound and cascades
-     * deactivation to the barrier-less signals sharing this crossing's name. Living here (instead of
-     * duplicated inside every barrier tile's updateEntity) means clients never make this call off of
-     * their own locally-simulated arm rotation - they only ever react to the server's packets - which
-     * is what caused the additional signals to drop before the barrier arm visually finished rising
-     * on laggy servers.
-     */
     @Override
-    public void updateEntity() {
-        if (worldObj == null || worldObj.isRemote) return;
+    public boolean canUpdate() {
+        return false;
+    }
 
-        ILevelCrossing found = findCrossing();
-        if (!(found instanceof IBarriers)) return;
-
-        IBarriers barrier = (IBarriers) found;
-        TileEntity barrierTile = (TileEntity) found;
-
-        if (found.isCrossingActive()) {
-            pendingSignalOff = true;
-            signalOffDelayTimer = -1;
-            if (barrier.isArmDown()) {
-                TileEntity onTop = worldObj.getTileEntity(barrierTile.xCoord, barrierTile.yCoord + 1, barrierTile.zCoord);
-                if (onTop instanceof IOnBarriers) ((IOnBarriers) onTop).setStrongSoundOn(false);
+    /** Switches every crossing tile above on. */
+    public void activateStack() {
+        CrossingDebug.log(this, "receiver '" + getName() + "': ON");
+        for (int i = 1; i <= STACK_HEIGHT; ++i) {
+            TileEntity tile = worldObj.getTileEntity(xCoord, yCoord + i, zCoord);
+            if (tile instanceof ILevelCrossing) {
+                ((ILevelCrossing) tile).setCrossingActive(true);
             }
-            return;
         }
-
-        if (!pendingSignalOff || !barrier.isArmUp()) return;
-
-        if (signalOffDelayTimer < 0) {
-            signalOffDelayTimer = barrier.getSignalOffDelay() * 20;
-        }
-        if (signalOffDelayTimer > 0) {
-            --signalOffDelayTimer;
-            return;
-        }
-
-        TileEntity onTop = worldObj.getTileEntity(barrierTile.xCoord, barrierTile.yCoord + 1, barrierTile.zCoord);
-        if (onTop instanceof IOnBarriers) {
-            ((IOnBarriers) onTop).setStrongSoundOn(true);
-            updateCrossing((ILevelCrossing) onTop, false, onTop);
-        }
-        deactivateBarrierlessSiblings();
-
-        pendingSignalOff = false;
-        signalOffDelayTimer = -1;
     }
 
     /**
-     * Only raises the barrier-less receivers that share this barrier's own receiver name - a
-     * controller can have several independently-named crossing groups paired to it, and raising
-     * every barrier-less receiver on the controller would affect unrelated groups too.
+     * Raises the barrier above this receiver now, and lets the signals mounted on it switch off once
+     * it is up (plus its signal-off delay) - judged by every side against its own barrier.
+     * @return {x, y, z, delayTicks} of the barrier, for the barrier-less signals of the same
+     *         crossing to wait for too; null if there's no barrier
      */
-    private void deactivateBarrierlessSiblings() {
-        String crossingName = this.getName();
-        if (crossingName == null) return;
-        for (TileCrossingController controller : getControllers()) {
-            if (controller == null) continue;
-            for (TileReceiver receiver : controller.getReceivers()) {
-                if (receiver instanceof TileCrossingReceiver
-                        && !((TileCrossingReceiver) receiver).signalHasBarriers()
-                        && crossingName.equals(receiver.getName())) {
-                    ((TileCrossingReceiver) receiver).setCrossingState(false);
-                }
+    public int[] raiseBarrier() {
+        IBarriers barrier = null;
+        int barrierLevel = 0;
+        for (int i = 1; i <= STACK_HEIGHT; ++i) {
+            TileEntity tile = worldObj.getTileEntity(xCoord, yCoord + i, zCoord);
+            if (tile instanceof IBarriers) {
+                barrier = (IBarriers) tile;
+                barrierLevel = i;
+                break;
+            }
+        }
+        if (barrier == null) return null;
+
+        barrier.setCrossingActive(false);
+        int[] pos = {xCoord, yCoord + barrierLevel, zCoord};
+        int delay = Math.max(0, barrier.getSignalOffDelay()) * 20;
+        CrossingDebug.log(this, "receiver '" + getName() + "': barrier UP (server expects it up in "
+                + barrier.ticksUntilArmUp() + " ticks), its signals off when it is up + " + delay + " ticks");
+        for (int i = barrierLevel + 1; i <= STACK_HEIGHT; ++i) {
+            TileEntity tile = worldObj.getTileEntity(xCoord, yCoord + i, zCoord);
+            if (tile instanceof ILevelCrossing) {
+                ((ILevelCrossing) tile).deactivateWhenBarriersUp(pos, delay);
+            }
+        }
+        return new int[]{pos[0], pos[1], pos[2], delay};
+    }
+
+    /** Switches every crossing tile above off once the given barriers (x, y, z triples) are up, plus delay ticks; none = now. */
+    public void deactivateStackWhenUp(int[] barriers, int delayTicks) {
+        CrossingDebug.log(this, "receiver '" + getName() + "': signals off when " + (barriers.length / 3)
+                + " barrier(s) up + " + delayTicks + " ticks");
+        for (int i = 1; i <= STACK_HEIGHT; ++i) {
+            TileEntity tile = worldObj.getTileEntity(xCoord, yCoord + i, zCoord);
+            if (tile instanceof ILevelCrossing) {
+                ((ILevelCrossing) tile).deactivateWhenBarriersUp(barriers, delayTicks);
             }
         }
     }
 
     /**
-     * Sets the crossing state (active/deactivated)
-     *
-     * @param activated - true = barriers up, false = barriers down
+     * The receiver's old one-call API, kept for addons (SignalCraft-Integrations' OpenComputers and
+     * ProjectRed controllers drive receivers one by one with it).
+     * <ul>
+     *   <li>true - switches the crossing on;</li>
+     *   <li>false with a barrier - raises it; its signals and the barrier-less receivers of the same
+     *       name on this receiver's controllers switch off once it is up (+ its delay). Calling this
+     *       for several barriers of one name makes those signals wait for all of them.</li>
+     *   <li>false without a barrier - switches the crossing off now.</li>
+     * </ul>
      */
     public void setCrossingState(Boolean activated) {
-        for (int i = 1; i <= 10; ++i) {
-            tileE = worldObj.getTileEntity(xCoord, yCoord + i, zCoord);
-            if (tileE instanceof ILevelCrossing) {
-                ILevelCrossing crossing = (ILevelCrossing) tileE;
-                if (!(tileE instanceof IBarriers)) {
-                    updateCrossing(crossing, activated, tileE);
-                } else {
-                    updateCrossing(crossing, activated, tileE);
-                    if (!activated) break;
+        if (activated) {
+            activateStack();
+            return;
+        }
+        int[] barrier = raiseBarrier();
+        if (barrier == null) {
+            deactivateStackWhenUp(new int[0], 0);
+            return;
+        }
+        String name = getName();
+        if (name == null) return;
+        int[] pos = {barrier[0], barrier[1], barrier[2]};
+        for (TileCrossingController controller : getControllers()) {
+            if (controller == null) continue;
+            for (TileCrossingReceiver sibling : controller.crossingReceivers()) {
+                if (!sibling.signalHasBarriers() && name.equals(sibling.getName())) {
+                    sibling.deactivateStackWhenUp(pos, barrier[3]);
                 }
             }
-        }
-    }
-
-    private void updateCrossing(ILevelCrossing crossing, boolean activated, TileEntity crossingSignal) {
-        crossing.setCrossingActive(activated);
-        if (!worldObj.isRemote) {
-            SignalCraft.SCNet.sendToAll(new MessageActiveUpdate(crossingSignal.xCoord, crossingSignal.yCoord, crossingSignal.zCoord, activated));
         }
     }
 
     private ILevelCrossing findCrossing() {
-        for (int i = 1; i <= 10; ++i) {
-            tileE = worldObj.getTileEntity(xCoord, yCoord + i, zCoord);
-            if (tileE instanceof ILevelCrossing) {
-                return (ILevelCrossing) tileE;
+        for (int i = 1; i <= STACK_HEIGHT; ++i) {
+            TileEntity tile = worldObj.getTileEntity(xCoord, yCoord + i, zCoord);
+            if (tile instanceof ILevelCrossing) {
+                return (ILevelCrossing) tile;
             }
         }
         return null;
     }
 
-    public boolean isArmDown(){
+    public boolean isArmDown() {
         ILevelCrossing crossing = findCrossing();
-        if (crossing instanceof IBarriers){
+        if (crossing instanceof IBarriers) {
             return ((IBarriers) crossing).isArmDown();
-        } else if (crossing != null){
+        } else if (crossing != null) {
             return crossing.isCrossingActive();
         }
         return false;
     }
 
     public boolean signalHasBarriers() {
-        return findCrossing() instanceof IBarriers;
+        for (int i = 1; i <= STACK_HEIGHT; ++i) {
+            if (worldObj.getTileEntity(xCoord, yCoord + i, zCoord) instanceof IBarriers) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

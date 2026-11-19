@@ -17,6 +17,8 @@ import signalcraft.ItemBlocks.gsar.signalsSO.ItemBlockGSARStationSign;
 import signalcraft.ItemBlocks.gsar.signalsWN.ItemBlockGSARSwitchElectric;
 import signalcraft.ItemBlocks.gsar.signalsWN.ItemBlockGSARSwitchManual;
 import signalcraft.ItemBlocks.levelCrossings.azd.*;
+import signalcraft.ItemBlocks.levelCrossings.mech.ItemBlockMechBarrier;
+import signalcraft.ItemBlocks.levelCrossings.mech.ItemBlockCrossSignPole;
 import signalcraft.ItemBlocks.levelCrossings.sssr.ItemBlockCrossSSSR;
 import signalcraft.ItemBlocks.levelCrossings.sssr.ItemBlockCrossSSSRHead;
 import signalcraft.ItemBlocks.levelCrossings.sssr.ItemBlockCrossSSSRSingle;
@@ -59,6 +61,14 @@ import signalcraft.blocks.gsar.signalsSO.BlockGSARStationSign;
 import signalcraft.blocks.gsar.signalsWN.BlockGSARSwitchManual;
 import signalcraft.blocks.gsar.signalsWN.BlockGSARSwitchMechanic;
 import signalcraft.blocks.levelCrossings.azd.*;
+import signalcraft.blocks.levelCrossings.mech.BlockMechBarrier;
+import signalcraft.blocks.levelCrossings.mech.BlockCrossSignPole;
+import signalcraft.blocks.switches.cz.BlockSwitchElectricCZ;
+import signalcraft.blocks.switches.cz.BlockSwitchManualCZ;
+import signalcraft.entities.switches.cz.TileSwitchElectricCZ;
+import signalcraft.entities.switches.cz.TileSwitchManualCZ;
+import signalcraft.models.switches.cz.ModelSwitchCZ;
+import signalcraft.renderers.items.switches.SwitchCZItemRenderer;
 import signalcraft.blocks.levelCrossings.sssr.BlockCrossSSSR;
 import signalcraft.blocks.levelCrossings.sssr.BlockCrossSSSRHead;
 import signalcraft.blocks.levelCrossings.sssr.BlockCrossSSSRSingle;
@@ -118,6 +128,10 @@ import signalcraft.blocks.signals.signSignals.*;
 import signalcraft.renderers.items.controllers.ControllerItemRenderer;
 import signalcraft.renderers.items.gsar.*;
 import signalcraft.renderers.items.levelCrossings.AZD99ItemRenderer;
+import signalcraft.renderers.items.levelCrossings.MechBarrierItemRenderer;
+import signalcraft.renderers.items.levelCrossings.CrossSignPoleItemRenderer;
+import signalcraft.models.levelCrossing.mech.ModelMechBarrier;
+import signalcraft.models.levelCrossing.mech.ModelCrossSignPole;
 import signalcraft.renderers.items.levelCrossings.CrossingItemRenderer;
 import signalcraft.renderers.items.lightSignals.LightSignalItemRenderer;
 import signalcraft.renderers.items.mechSignals.ItemMechSignalsRenderer;
@@ -151,6 +165,10 @@ public enum SCItemBlocks {
     AZD_97_HEAD(new BlockAZD97Head("CrossAZD97Head"), ItemBlockAZD97Head.class),
     VUD(new BlockVUD("CrossVUD"), ItemBlockVUD.class),
     AZD_99(new BlockAZD99("CrossAZD99"), ItemBlockAZD99.class),
+    MECH_BARRIER(new BlockMechBarrier("CrossMechBarrier"), ItemBlockMechBarrier.class),
+    CROSS_SIGN_POLE(new BlockCrossSignPole("CrossSignPole"), ItemBlockCrossSignPole.class),
+    SWITCH_MANUAL_CZ(new BlockSwitchManualCZ("SwitchManualCZ"), SCItemBlock.class),
+    SWITCH_ELECTRIC_CZ(new BlockSwitchElectricCZ("SwitchElectricCZ"), SCItemBlock.class),
     SSSR(new BlockCrossSSSR("CrossSSSR"), ItemBlockCrossSSSR.class),
     SSSR_SINGLE(new BlockCrossSSSRSingle("CrossSSSRSingle"), ItemBlockCrossSSSRSingle.class),
     SSSR_HEAD(new BlockCrossSSSRHead("CrossSSSRHead"), ItemBlockCrossSSSRHead.class),
@@ -329,6 +347,10 @@ public enum SCItemBlocks {
             MAP.put(AZD_97_HEAD, () -> new CrossingItemRenderer(new ModelAZD97Head()));
             MAP.put(VUD, () -> new CrossingItemRenderer(new ModelVUD()));
             MAP.put(AZD_99, () -> new AZD99ItemRenderer(new ModelAZD99()));
+            MAP.put(MECH_BARRIER, () -> new MechBarrierItemRenderer(new ModelMechBarrier()));
+            MAP.put(CROSS_SIGN_POLE, () -> new CrossSignPoleItemRenderer(new ModelCrossSignPole()));
+            MAP.put(SWITCH_MANUAL_CZ, () -> new SwitchCZItemRenderer(new ModelSwitchCZ(), new TileSwitchManualCZ()));
+            MAP.put(SWITCH_ELECTRIC_CZ, () -> new SwitchCZItemRenderer(new ModelSwitchCZ(), new TileSwitchElectricCZ()));
             MAP.put(SSSR, () -> new CrossingItemRenderer(new ModelCrossSSSR()));
             MAP.put(SSSR_SINGLE, () -> new CrossingItemRenderer(new ModelCrossSSSRSingle()));
             MAP.put(SSSR_HEAD, () -> new CrossingItemRenderer(new ModelCrossSSSRHead()));

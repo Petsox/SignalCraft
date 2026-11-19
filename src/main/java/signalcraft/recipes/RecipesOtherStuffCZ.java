@@ -18,7 +18,17 @@ public enum RecipesOtherStuffCZ {
     SPEED_SIGN(new ShapedOreRecipe(new ItemStack(SCItemBlocks.SPEED_SIGN.block, 1, 0),
             "wsw",
                     " p ",
-                    " p ", 'p', SCItemBlocks.METAL_ROD.block, 's', Items.sign, 'w', new ItemStack(Items.dye, 1, 15)));
+                    " p ", 'p', SCItemBlocks.METAL_ROD.block, 's', Items.sign, 'w', new ItemStack(Items.dye, 1, 15))),
+
+    SWITCH_MANUAL_CZ(new ShapedOreRecipe(new ItemStack(SCItemBlocks.SWITCH_MANUAL_CZ.block, 1, 0),
+            " s ",
+            "brw",
+            "ili", 's', Items.sign, 'r', SCItemBlocks.METAL_ROD.block, 'b', "dyeBlack", 'w', "dyeWhite", 'i', Items.iron_ingot, 'l', Blocks.lever)),
+
+    SWITCH_ELECTRIC_CZ(new ShapedOreRecipe(new ItemStack(SCItemBlocks.SWITCH_ELECTRIC_CZ.block, 1, 0),
+            "yyy",
+            "iri",
+            "ipi", 'y', "dyeYellow", 'i', Items.iron_ingot, 'r', Items.redstone, 'p', Blocks.piston));
 
     public final ShapedOreRecipe recipe;
 

@@ -7,7 +7,7 @@ import cpw.mods.fml.common.network.simpleimpl.MessageContext;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.tileentity.TileEntity;
 import signalcraft.entities.IActivatable;
-import signalcraft.entities.levelCrossings.TileLevelCrossing;
+import signalcraft.entities.levelCrossings.ICrossingRuntime;
 
 
 public class MessageActiveUpdate implements IMessage
@@ -44,7 +44,10 @@ public class MessageActiveUpdate implements IMessage
     {
         public IMessage onMessage(final MessageActiveUpdate message, final MessageContext ctx) {
             final TileEntity tileEntity = FMLClientHandler.instance().getClient().theWorld.getTileEntity(message.x, message.y, message.z);
-            if (tileEntity != null) {
+            // crossings get their events in MessageCrossingEvent instead - applying a bare
+            // on/off here would start their timers on this client at a different moment
+            if (tileEntity instanceof ICrossingRuntime) return null;
+            if (tileEntity instanceof IActivatable) {
                 ((IActivatable)tileEntity).setIsActive(message.isActive);
                 ((IActivatable)tileEntity).setBlinkCounter(0);
             }

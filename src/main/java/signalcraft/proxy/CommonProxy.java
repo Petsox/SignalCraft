@@ -1,5 +1,6 @@
 package signalcraft.proxy;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLMissingMappingsEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -14,6 +15,8 @@ import signalcraft.SignalCraft;
 import signalcraft.blocks.SCBlocks;
 import signalcraft.entities.SCTEntities;
 import signalcraft.items.SCItems;
+import signalcraft.messages.MessageCrossingDebug;
+import signalcraft.messages.MessageCrossingEvent;
 import signalcraft.network.PacketPipeline;
 import signalcraft.packet.CustomPacketEventListener;
 import signalcraft.packet.SPacketEditorOpen;
@@ -30,6 +33,7 @@ import signalcraft.packet.signSignals.SPacketUpdateSignSignals;
 import signalcraft.packet.switches.CPacketUpdateSwitches;
 import signalcraft.packet.switches.SPacketUpdateSwitches;
 import signalcraft.recipes.RecipeHandler;
+import signalcraft.signalUtils.CrossingDebug;
 
 public class CommonProxy {
 
@@ -79,6 +83,14 @@ public class CommonProxy {
     }
     public void openRenamerGui(ItemStack itemStack) {
     }
+    public void openScalerGui(ItemStack itemStack) {
+    }
+    /** Crossing event from the server - applied by the client proxy only. */
+    public void onCrossingEvent(MessageCrossingEvent message) {
+    }
+    /** Crossing debug command from the server - applied by the client proxy only. */
+    public void onCrossingDebug(MessageCrossingDebug message) {
+    }
     public PacketPipeline packetPipeline;
 
     public void preInit(final FMLPreInitializationEvent event) {
@@ -104,6 +116,7 @@ public class CommonProxy {
         this.packetPipeline.registerPacket(SPacketEditorOpen.class);
 
         registerTileEntities();
+        FMLCommonHandler.instance().bus().register(new CrossingDebug.ServerTicker());
     }
 
     public void postInit(final FMLPostInitializationEvent event) {

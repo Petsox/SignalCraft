@@ -57,4 +57,10 @@ public class TileSSSR3Lights extends TileLightSignal {
     public List<SignalState> getEveryValidState() {
         return everyValidState;
     }
+
+    /** The model has lenses for Type 1 - 2 only. */
+    @Override
+    public int getTypeCount() {
+        return 2;
+    }
 }

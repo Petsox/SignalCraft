@@ -89,6 +89,10 @@ public enum TextureRegistry {
     MECH_GREEN(SignalCraft.MOD_ID + ":textures/nove/mech/zelena.png"),
     MECH_YELLOW(SignalCraft.MOD_ID + ":textures/nove/mech/zluta.png"),
     MECH_CHAIN(SignalCraft.MOD_ID + ":textures/nove/mech/retez.png"),
+    MECH_STOP(SignalCraft.MOD_ID + ":textures/nove/mech/stop.png"),
+    MECH_POLE_STRIPES(SignalCraft.MOD_ID + ":textures/nove/mech/stozar_pruhy.png"),
+    MECH_BARRIER(SignalCraft.MOD_ID + ":textures/nove/mech/zavora_mech.png"),
+    PRESTAVNIK_CZ(SignalCraft.MOD_ID + ":textures/nove/prestavnik/prestavnik_cz.png"),
     MECH_PREDVEST(SignalCraft.MOD_ID + ":textures/nove/mech/predvest.jpg"),
     MECH_SERAZOVACI(SignalCraft.MOD_ID + ":textures/nove/mech/seraz.jpg"),
 

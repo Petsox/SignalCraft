@@ -2,6 +2,7 @@ package signalcraft.recipes;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.ShapedOreRecipe;
@@ -41,6 +42,16 @@ public enum RecipesCrossingsCZ {
             "  p",
             "wwb",
             " cb", 'c', SCItems.CIRCUIT_AZD.item, 'p', SCItemBlocks.METAL_ROD.block, 'b', Blocks.iron_block, 'w', SCItems.BARRIER_LONG.item)),
+
+    MECH_BARRIER(new ShapedOreRecipe(new ItemStack(SCItemBlocks.MECH_BARRIER.block, 1, 0),
+            "  p",
+            "wwb",
+            " ib", 'p', SCItemBlocks.METAL_ROD.block, 'b', Blocks.iron_block, 'i', Blocks.iron_bars, 'w', SCItems.BARRIER_LONG.item)),
+
+    CROSS_SIGN_POLE(new ShapedOreRecipe(new ItemStack(SCItemBlocks.CROSS_SIGN_POLE.block, 1, 0),
+            "rwr",
+            " p ",
+            " s ", 'r', "dyeRed", 'w', "dyeWhite", 'p', SCItemBlocks.METAL_ROD.block, 's', Items.sign)),
 
     SSSR(new ShapedOreRecipe(new ItemStack(SCItemBlocks.SSSR.block, 1, 0),
             "lcl",

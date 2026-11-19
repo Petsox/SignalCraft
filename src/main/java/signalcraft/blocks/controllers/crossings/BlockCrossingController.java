@@ -15,9 +15,10 @@ public class BlockCrossingController extends BlockController {
     }
     @Override
     public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block theBlock) {
+        if (world.isRemote) return;     // the server decides; clients get the result
         final TileEntity tileE = world.getTileEntity(x, y, z);
         if (tileE instanceof TileCrossingController) {
-            ((TileCrossingController) tileE).setBarrierState(world.isBlockIndirectlyGettingPowered(x, y, z));
+            ((TileCrossingController) tileE).onRedstone(world.isBlockIndirectlyGettingPowered(x, y, z));
         }
     }
 

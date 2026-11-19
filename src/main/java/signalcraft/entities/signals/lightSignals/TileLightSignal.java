@@ -154,8 +154,22 @@ public class TileLightSignal extends TileSignal implements ISignal {
     public Consts.BooleanSTR getIsGrupped() {
         return Consts.BooleanSTR.fromString(this.lightSignalProperties[6]);
     }
+    /**
+     * The lens arrangement. A Type this signal's model has no lenses for (saved before the GUI was limited to
+     * getTypeCount()) is shown as the highest one it has, instead of no lenses at all.
+     */
     public Consts.Types getType(){
-        return Consts.Types.fromString(this.lightSignalProperties[7]);
+        Consts.Types type = Consts.Types.fromString(this.lightSignalProperties[7]);
+        int count = this.getTypeCount();
+        return type.ordinal() < count ? type : Consts.Types.values()[count - 1];
+    }
+
+    /**
+     * How many lens arrangements (Type 1..n) this signal's model has - the GUI offers only those. Type 4 exists only
+     * for the AZD 3-light signal (TileAZD3Lights).
+     */
+    public int getTypeCount() {
+        return 3;
     }
     @Override
     public String getName() {
@@ -214,5 +228,22 @@ public class TileLightSignal extends TileSignal implements ISignal {
         NBTTC.setString("Name", this.lightSignalProperties[8]);
         NBTTC.setString("Scale", this.lightSignalProperties[9]);
         NBTTC.setString("HasPNLight", this.lightSignalProperties[10]);
+    }
+
+    /** The Scaler and the GUI share this tile's own scale setting. */
+    @Override
+    public float getModelScale() {
+        return this.getScale();
+    }
+
+    @Override
+    public void setModelScale(float scale) {
+        this.setScale(this.clampModelScale(scale));
+    }
+
+    /** TileLightSignalsRenderer scales the model itself. */
+    @Override
+    public boolean isScaledByWrapper() {
+        return false;
     }
 }

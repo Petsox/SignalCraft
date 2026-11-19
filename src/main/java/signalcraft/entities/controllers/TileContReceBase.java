@@ -37,4 +37,9 @@ public class TileContReceBase extends TileSignal {
         return texture;
     }
 
+    /** Controllers and receivers are plain blocks, not scaled. */
+    @Override
+    public boolean isScalable() {
+        return false;
+    }
 }

@@ -210,4 +210,15 @@ public class TileMechSignal extends TileSignal implements ISignal {
         NBTTC.setString("Arm1Rotation", this.mechanicalSignalProperties[7]);
         NBTTC.setString("Arm2Rotation", this.mechanicalSignalProperties[8]);
     }
+
+    /** The Scaler and the GUI share this tile's own scale setting. */
+    @Override
+    public float getModelScale() {
+        return this.getScale();
+    }
+
+    @Override
+    public void setModelScale(float scale) {
+        this.setScale(this.clampModelScale(scale));
+    }
 }

@@ -6,10 +6,16 @@ import net.minecraft.tileentity.TileEntity;
 import signalcraft.entities.IActivatable;
 import signalcraft.entities.TileSignal;
 import signalcraft.entities.controllers.crossings.TileCrossingReceiver;
+import signalcraft.entities.levelCrossings.BarrierWait;
+import signalcraft.entities.levelCrossings.CrossingEvent;
+import signalcraft.entities.levelCrossings.ICrossingRuntime;
 import signalcraft.entities.levelCrossings.ILevelCrossing;
+import signalcraft.messages.MessageCrossingEvent;
+import signalcraft.signalUtils.CrossingDebug;
 import signalcraft.signalUtils.LampFade;
+import signalcraft.signalUtils.BlinkClock;
 
-public abstract class TileGSARCrossing extends TileSignal implements ILevelCrossing, IActivatable {
+public abstract class TileGSARCrossing extends TileSignal implements ILevelCrossing, IActivatable, ICrossingRuntime {
 
     protected boolean isActive;
     protected final int MAX_ARM_ANGLE = 90;
@@ -19,6 +25,10 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
     protected int activeBell;
     /** Client-only render state easing the warning lamp's brightness between on/off; never persisted. */
     private final LampFade lampFade = new LampFade();
+    /** Client-only: tracks which points of the blink cycle passed since the last tick, to ring bells on. */
+    protected final BlinkClock.Beat beat = new BlinkClock.Beat();
+    /** Client-only: when this crossing switched on, so its lamps and bells start their cycle right then. */
+    protected final BlinkClock.Activation activation = new BlinkClock.Activation();
 
     private String barrierLength = "0";
     protected String armDownDelayString = "1";
@@ -28,29 +38,45 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
     protected final int bellDelay = 30;
     protected boolean soundOn = true;
     protected int signalOffDelay = 0;
+    /** Pending switch-off once given barriers are up (CrossingEvent.OFF_WHEN_UP). Runtime, judged by each side against its own barriers. */
+    protected final BarrierWait offWait = new BarrierWait();
 
     @Override
     public void updateEntity() {
-        if (!this.worldObj.isRemote && this.soundOn) {
-            handleSounds();
+        if (this.isActive && offWait.tick(this)) {
+            this.isActive = false;
+            CrossingDebug.log(this, "-> OFF");
+        }
+        // Sounds are played by each client in step with what it renders - the server never plays
+        // them (see BlinkClock for why). Barrier sounds follow activeReels, which the client
+        // counts up itself alongside the arm.
+        if (this.worldObj.isRemote) {
+            beat.tick();
+            activation.ticksActive(this.isActive);
+            if (this.soundOn) {
+                handleSounds();
+            }
         }
     }
 
     /**
-     * Blink phase derived from the world's own tick counter instead of a per-tile field each
-     * side increments independently - see TileLevelCrossing.computeBlinkPhase() for why: under
-     * server lag a freely-incremented field drifts between client and server, while world time
-     * gets periodically corrected back in line by vanilla's own time-sync packet.
+     * Blink phase for the lamps - client side runs from BlinkClock, with the cycle starting the
+     * moment the crossing switches on (see TileLevelCrossing.computeActiveBlinkPhase()).
      */
     public int getBlinkCounter() {
         if (worldObj == null) return 0;
-        return (int) (worldObj.getTotalWorldTime() % 61);
+        if (worldObj.isRemote) return activation.getPhase(this.isActive, BLINK_PERIOD);
+        return (int) (worldObj.getTotalWorldTime() % BLINK_PERIOD);
     }
 
+    protected static final int BLINK_PERIOD = 61;
+
+    /** Called on the client only, every tick while sound is on. */
     protected abstract void handleSounds();
 
+    /** Plays a sound at this crossing for this client only. */
     protected void playSound(String sound, float volume, float pitch) {
-        this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, sound, volume, pitch);
+        this.worldObj.playSound(this.xCoord + 0.5, this.yCoord + 0.5, this.zCoord + 0.5, sound, volume, pitch, false);
     }
 
     public int getBarrierLength() {
@@ -87,6 +113,7 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
         this.barrierLength = compound.getString("BarrierLength");
         this.armDownDelayString = compound.getString("armDownDelay");
         this.signalOffDelay = compound.getInteger("signalOffDelay");
+        this.offWait.read(compound);
     }
 
     @Override
@@ -99,6 +126,35 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
         compound.setString("BarrierLength", this.barrierLength);
         compound.setString("armDownDelay", this.armDownDelayString);
         compound.setInteger("signalOffDelay", this.signalOffDelay);
+        this.offWait.write(compound);
+    }
+
+    @Override
+    public void writeRuntime(NBTTagCompound tag) {
+        tag.setBoolean("isActive", this.isActive);
+        tag.setInteger("armRotation", this.armRotation);
+        tag.setInteger("activeReels", this.activeReels);
+        tag.setInteger("activeBell", this.activeBell);
+        this.offWait.write(tag);
+    }
+
+    @Override
+    public void readRuntime(NBTTagCompound tag) {
+        this.isActive = tag.getBoolean("isActive");
+        this.armRotation = tag.getInteger("armRotation");
+        this.activeReels = tag.getInteger("activeReels");
+        this.activeBell = tag.getInteger("activeBell");
+        this.offWait.read(tag);
+    }
+
+    @Override
+    public String describeRuntime() {
+        return "active=" + this.isActive + " arm=" + this.armRotation + " reels=" + this.activeReels + " " + this.offWait.describe();
+    }
+
+    /** GSAR barriers go up one degree per tick. */
+    public int ticksUntilArmUp() {
+        return Math.max(0, this.armRotation);
     }
 
     @Override
@@ -165,6 +221,45 @@ public abstract class TileGSARCrossing extends TileSignal implements ILevelCross
 
     @Override
     public void setCrossingActive(Boolean activated) {
-        this.isActive = activated;
+        fire(activated ? CrossingEvent.on() : CrossingEvent.off());
+    }
+
+    @Override
+    public void deactivateWhenBarriersUp(int[] barriers, int delayTicks) {
+        fire(CrossingEvent.offWhenUp(barriers, delayTicks));
+    }
+
+    private void fire(CrossingEvent event) {
+        if (worldObj == null || worldObj.isRemote) return;     // only the server decides events
+        if (applyCrossingEvent(event)) {
+            MessageCrossingEvent.send(this, event);
+        }
+    }
+
+    @Override
+    public boolean applyCrossingEvent(CrossingEvent event) {
+        switch (event.type) {
+            case CrossingEvent.ON:
+                if (this.isActive && !offWait.isRunning()) return false;
+                this.isActive = true;
+                this.offWait.clear();
+                return true;
+            case CrossingEvent.OFF:
+                if (!this.isActive) return false;
+                this.isActive = false;
+                this.offWait.clear();
+                return true;
+            case CrossingEvent.OFF_WHEN_UP:
+                if (!this.isActive) return false;
+                if (event.barriers.length == 0 && event.delay <= 0) {
+                    this.isActive = false;
+                    this.offWait.clear();
+                } else {
+                    this.offWait.start(event.barriers, event.delay);
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 }

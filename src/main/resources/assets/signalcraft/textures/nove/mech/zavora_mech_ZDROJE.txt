@@ -1,0 +1,21 @@
+zavora_mech.png is assembled from crops of these photographs (unused parts of the atlas are blanked):
+
+- "Kojovice, detail kola závory" by Juandev, CC BY-SA 3.0
+  https://commons.wikimedia.org/wiki/File:Kojovice,_detail_kola_z%C3%A1vory.JPG
+  (painted iron, red and white boom paint)
+- "Čermná nad Orlicí, přejezd, závora a vlak", CC BY-SA 3.0
+  https://commons.wikimedia.org/wiki/File:%C4%8Cermn%C3%A1_nad_Orlic%C3%AD,_p%C5%99ejezd,_z%C3%A1vora_a_vlak.jpg
+  (counterweight blocks, sawn end of the boom)
+- "předzváněč.png" (photo supplied by the author, source not recorded)
+  (pre-ringing wheel "Předzváněč Trojlístek")
+
+Changes: cropped, colour/brightness adjusted, combined into a texture atlas.
+
+Since the 2048 px version the atlas (build_atlas.py) also contains, resized into 512 px cells:
+- the textures of the AZD 71 crossing model (textures/nove/azd71: stozar.jpg, pv_sign.jpg) - same sources as those
+- the drive wheel face: "kolo.png" (photo supplied by the author, source not recorded), rectified to a circle
+
+stop.png (road sign P 6 on the warning cross pole): crop of a photograph supplied by the author
+(modely/Moje Textury/Znacky/image.jpg). The plate corners in it are listed in ModelCrossSignPole.STOP_PX.
+
+stozar_pruhy.png (striped pole) is the pole paint cell of zavora_mech.png tinted in red and white bands.

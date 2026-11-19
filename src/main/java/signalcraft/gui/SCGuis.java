@@ -1,5 +1,12 @@
 package signalcraft.gui;
 
+import signalcraft.entities.levelCrossings.mech.TileMechBarrier;
+import signalcraft.entities.levelCrossings.mech.TileCrossSignPole;
+import signalcraft.gui.levelCrossings.mech.GuiMechBarrier;
+import signalcraft.gui.levelCrossings.mech.GuiCrossSignPole;
+import signalcraft.entities.switches.cz.TileSwitchElectricCZ;
+import signalcraft.entities.switches.cz.TileSwitchManualCZ;
+import signalcraft.gui.switches.GuiSwitchCZ;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.EnumHelper;
@@ -61,6 +68,10 @@ public enum SCGuis {
     AZD97_HEAD_GUI(Consts.GuiIDs.AZD97_HEAD, TileAZD97Head::new, (tile) -> new GuiAZD97Head((TileAZD97Head) tile)),
     VUD_GUI(Consts.GuiIDs.VUD, TileVUD::new, (tile) -> new GuiVUD((TileVUD) tile)),
     AZD99_GUI(Consts.GuiIDs.AZD99, TileAZD99::new, (tile) -> new GuiAZD99((TileAZD99) tile)),
+    MECH_BARRIER_GUI(Consts.GuiIDs.MECH_BARRIER, TileMechBarrier::new, (tile) -> new GuiMechBarrier((TileMechBarrier) tile)),
+    CROSS_SIGN_POLE_GUI(Consts.GuiIDs.CROSS_SIGN_POLE, TileCrossSignPole::new, (tile) -> new GuiCrossSignPole((TileCrossSignPole) tile)),
+    SWITCH_MANUAL_CZ_GUI(Consts.GuiIDs.SWITCH_MANUAL_CZ, TileSwitchManualCZ::new, (tile) -> new GuiSwitchCZ((TileSwitchManualCZ) tile)),
+    SWITCH_ELECTRIC_CZ_GUI(Consts.GuiIDs.SWITCH_ELECTRIC_CZ, TileSwitchElectricCZ::new, (tile) -> new GuiSwitchCZ((TileSwitchElectricCZ) tile)),
     SSSR_GUI(Consts.GuiIDs.SSSR, TileSSSR::new, (tile) -> new GuiSSSR((TileSSSR) tile)),
     SSSR_SINGLE_GUI(Consts.GuiIDs.SSSR_SINGLE, TileSSSRSingle::new, (tile) -> new GuiSSSRSingle((TileSSSRSingle) tile)),
     SSSR_HEAD_GUI(Consts.GuiIDs.SSSR_HEAD, TileSSSRHead::new, (tile) -> new GuiSSSRHead((TileSSSRHead) tile)),

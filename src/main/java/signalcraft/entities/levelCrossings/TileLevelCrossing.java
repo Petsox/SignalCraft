@@ -5,16 +5,39 @@ import net.minecraft.tileentity.TileEntity;
 import signalcraft.entities.IActivatable;
 import signalcraft.entities.TileSignal;
 import signalcraft.entities.controllers.crossings.TileCrossingReceiver;
+import signalcraft.messages.MessageCrossingEvent;
 import signalcraft.signalUtils.Consts;
+import signalcraft.signalUtils.CrossingDebug;
 import signalcraft.signalUtils.LampFade;
+import signalcraft.signalUtils.BlinkClock;
 
-public abstract class TileLevelCrossing extends TileSignal implements IActivatable, ILevelCrossing {
+public abstract class TileLevelCrossing extends TileSignal implements IActivatable, ILevelCrossing, ICrossingRuntime {
     protected final int MAX_ARM_ANGLE = 85;
     protected final int MIN_ARM_ANGLE = 0;
+    /** Ticks the poz (white) light still waits after the crossing switched off. Runtime, simulated on both sides. */
     protected int BellDelayTimer;
     protected int[] angles = {0};
+    /** Pending switch-off once given barriers are up (CrossingEvent.OFF_WHEN_UP). Runtime, judged by each side against its own barriers. */
+    private final BarrierWait offWait = new BarrierWait();
+    /** Server only: world tick up to which this tile's state has been simulated (see catchUp), -1 = not yet. */
+    private long simulatedTo = -1;
+    private boolean catchingUp = false;
+    /** Longest gap catchUp simulates step by step; past that the state has long settled anyway. */
+    private static final int MAX_CATCH_UP = 2400;
+    /** catchUp logs only gaps longer than this (ticks). */
+    private static final int CATCH_UP_LOG_MIN = 20;
+    /**
+     * The barrier this signal sits on (IOnBarriers) came fully down during this activation - its bell
+     * is quiet from then until the signal switches off. Runtime, worked out on both sides from the
+     * arm each side simulates itself, so the bell stops exactly when the player sees the arm land.
+     */
+    private boolean barrierDownSeen = false;
     /** Client-only render state easing the warning lamps' brightness between on/off; never persisted. */
     private final LampFade lampFade = new LampFade();
+    /** Client-only: tracks which points of the blink cycle passed since the last tick, to ring the bell on. */
+    protected final BlinkClock.Beat beat = new BlinkClock.Beat();
+    /** Client-only: when this crossing switched on, so its lamps and bell start their cycle right then. */
+    protected final BlinkClock.Activation activation = new BlinkClock.Activation();
     /**
      * String[] crossPropArrLenght - Lenght in Consts.java
      * [0] - isActive
@@ -88,27 +111,153 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         this.setSignalOffDelay(0);
     }
 
+    /**
+     * Client: one step per tick, then the sounds. Server: steps up to the world time (catchUp) - a
+     * server may tick some chunks' tiles much less often than every tick (seen: 3-6x slower), and the
+     * state must not lag behind because of it. Both sides run the very same step(). Subclasses
+     * override tickMechanics()/tickClientSounds(), not this.
+     */
+    @Override
     public void updateEntity() {
+        if (worldObj.isRemote) {
+            step();
+            beat.tick();
+            activation.ticksActive(this.getIsActive());
+            tickClientSounds();
+        } else {
+            catchUp();
+        }
+    }
+
+    /** One tick of the runtime (pending switch-off, poz delay, bell latch) and of the mechanics (arm). */
+    private void step() {
+        tickRuntime();
+        tickMechanics();
+    }
+
+    /**
+     * Server only: simulates the steps this tile missed up to the current world time. Called before
+     * the state is used (events, arm checks, saving), so it is right however seldom the tile ticks.
+     */
+    protected final void catchUp() {
+        if (worldObj == null || worldObj.isRemote || catchingUp) return;
+        long now = worldObj.getTotalWorldTime();
+        if (simulatedTo < 0 || now - simulatedTo > MAX_CATCH_UP) {
+            simulatedTo = now - 1;
+        }
+        if (simulatedTo >= now) return;
+        catchingUp = true;
+        try {
+            // short gaps are routine on servers that throttle tile ticks - only log the big ones
+            if (now - simulatedTo > CATCH_UP_LOG_MIN) {
+                CrossingDebug.log(this, "catching up " + (now - simulatedTo) + " ticks (tile wasn't ticked)");
+            }
+            while (simulatedTo < now) {
+                ++simulatedTo;
+                step();
+            }
+        } finally {
+            catchingUp = false;
+        }
+    }
+
+    private void tickRuntime() {
         if (this.BellDelayTimer > 0 && !this.getIsActive()) {
             --BellDelayTimer;
         }
-        if (this.getIsActive()) {
-            if (this.hasSoundOn() && this.isStrongSoundOn() && this.getBlinkCounter() == getSoundType().soundTimer && !worldObj.isRemote) {
-                this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, this.getSoundType().SoundLocation, 0.75f, 1.0f);
+        if (this.getIsActive() && offWait.tick(this)) {
+            switchOff();
+            CrossingDebug.log(this, "-> OFF");
+        }
+        if (this.getIsActive() && !barrierDownSeen && this instanceof IOnBarriers) {
+            TileEntity below = worldObj.getTileEntity(xCoord, yCoord - 1, zCoord);
+            if (below instanceof IBarriers && ((IBarriers) below).isArmDown()) {
+                barrierDownSeen = true;
+                CrossingDebug.log(this, "barrier below is down -> bell quiet");
             }
         }
     }
 
+    /** Arm etc. of barriers - runs on both sides, deterministically from the runtime state. */
+    protected void tickMechanics() {
+    }
+
     /**
-     * Blink phase derived from the world's own tick counter rather than a per-tile field that
-     * each side increments on its own. worldObj.getTotalWorldTime() is what vanilla's periodic
-     * time-sync packet keeps the client pinned to, so under server lag it gets corrected back in
-     * line instead of drifting away from the server's copy the way a freely-incremented field
-     * would - which is what let the flashing lights (rendered from the client's own counter) fall
-     * out of step with the bell (triggered from the server's own counter).
+     * The bell is rung by each client from its own BlinkClock, in step with the lamps it renders -
+     * the server never plays it (see BlinkClock for why).
+     */
+    protected void tickClientSounds() {
+        if (this.getIsActive() && this.hasSoundOn() && this.isBellArmed()
+                && beat.hit(getSoundType().blinkTimer, getSoundType().soundTimer, activation.since())) {
+            playLocalSound(getSoundType().SoundLocation);
+            CrossingDebug.log(this, "bell");
+        }
+    }
+
+    /** Signals on a barrier ring until it is down; the others follow their strongSoundOn setting. */
+    protected boolean isBellArmed() {
+        if (this instanceof IOnBarriers) return !barrierDownSeen;
+        return this.isStrongSoundOn();
+    }
+
+    /** Called on both sides whenever the crossing switches on or off (event or countdown). */
+    protected void onActiveChanged(boolean active) {
+    }
+
+    private void switchOff() {
+        boolean wasActive = this.getIsActive();
+        this.setActive(false);
+        this.offWait.clear();
+        this.barrierDownSeen = false;
+        if (wasActive) {
+            BellDelayTimer = this.getArmDownDelay() * 20;
+        }
+        onActiveChanged(false);
+    }
+
+    /**
+     * Whether this crossing is driven by a crossing receiver below it (the receiver scans up to 10
+     * blocks up). Such a crossing has no redstone of its own, so block updates must not touch it.
+     */
+    public boolean hasReceiverBelow() {
+        if (worldObj == null) return false;
+        for (int i = 1; i <= 10; i++) {
+            if (worldObj.getTileEntity(xCoord, yCoord - i, zCoord) instanceof TileCrossingReceiver) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /** Plays a sound at this crossing for this client only - client side only. */
+    protected void playLocalSound(String sound) {
+        playLocalSound(sound, 0.5, 0.75f);
+    }
+
+    /** Plays a sound at this crossing (yOffset blocks up) for this client only - client side only. */
+    protected void playLocalSound(String sound, double yOffset, float volume) {
+        this.worldObj.playSound(this.xCoord + 0.5, this.yCoord + yOffset, this.zCoord + 0.5, sound, volume, 1.0f, false);
+    }
+
+    /**
+     * Blink phase for the lamps. Lamps and bell are client-side only and both run from
+     * BlinkClock (real time), so they stay steady and in step however the server lags. The
+     * server doesn't use the phase for anything; it falls back to world time there.
      */
     protected int computeBlinkPhase(int period) {
         if (period <= 0 || worldObj == null) return 0;
+        if (worldObj.isRemote) return BlinkClock.getPhase(period);
+        return (int) (worldObj.getTotalWorldTime() % period);
+    }
+
+    /**
+     * Like computeBlinkPhase, but for the warning lamps that only blink while active - on the
+     * client their cycle starts the moment the crossing switches on, so the first flash is
+     * immediate instead of waiting for a shared cycle to come round.
+     */
+    protected int computeActiveBlinkPhase(int period) {
+        if (period <= 0 || worldObj == null) return 0;
+        if (worldObj.isRemote) return activation.getPhase(this.getIsActive(), period);
         return (int) (worldObj.getTotalWorldTime() % period);
     }
 
@@ -197,7 +346,7 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
     }
 
     public int getBlinkCounter() {
-        return computeBlinkPhase(getSoundType().blinkTimer);
+        return computeActiveBlinkPhase(getSoundType().blinkTimer);
     }
 
     public int getPozitBlinkCounter() {
@@ -301,11 +450,79 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         return new TileCrossingReceiver();
     }
 
+    /** Event, server side: switches the crossing on/off now, and the clients too. */
     @Override
     public void setCrossingActive(Boolean activated) {
-        if (!activated) BellDelayTimer = this.getArmDownDelay() * 20;
-        this.setActive(activated);
+        fire(activated ? CrossingEvent.on() : CrossingEvent.off());
     }
+
+    /** Event, server side: switch off once the barriers are up (see ILevelCrossing), on every side by its own barriers. */
+    @Override
+    public void deactivateWhenBarriersUp(int[] barriers, int delayTicks) {
+        fire(CrossingEvent.offWhenUp(barriers, delayTicks));
+    }
+
+    private void fire(CrossingEvent event) {
+        if (worldObj == null || worldObj.isRemote) return;     // only the server decides events
+        catchUp();
+        if (applyCrossingEvent(event)) {
+            MessageCrossingEvent.send(this, event);
+        }
+    }
+
+    @Override
+    public boolean applyCrossingEvent(CrossingEvent event) {
+        switch (event.type) {
+            case CrossingEvent.ON:
+                if (this.getIsActive() && !offWait.isRunning()) return false;
+                this.setActive(true);
+                this.offWait.clear();
+                this.barrierDownSeen = false;
+                onActiveChanged(true);
+                return true;
+            case CrossingEvent.OFF:
+                if (!this.getIsActive()) return false;
+                switchOff();
+                return true;
+            case CrossingEvent.OFF_WHEN_UP:
+                if (!this.getIsActive()) return false;
+                if (event.barriers.length == 0 && event.delay <= 0) {
+                    switchOff();
+                } else {
+                    this.offWait.start(event.barriers, event.delay);
+                }
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    @Override
+    public void writeRuntime(NBTTagCompound tag) {
+        catchUp();
+        tag.setBoolean("active", this.getIsActive());
+        this.offWait.write(tag);
+        tag.setInteger("pozDelay", this.BellDelayTimer);
+        tag.setBoolean("barrierDown", this.barrierDownSeen);
+        tag.setInteger("arm", this.getArmRotation());
+    }
+
+    @Override
+    public void readRuntime(NBTTagCompound tag) {
+        this.setActive(tag.getBoolean("active"));
+        this.offWait.read(tag);
+        this.BellDelayTimer = tag.getInteger("pozDelay");
+        this.barrierDownSeen = tag.getBoolean("barrierDown");
+        this.setArmRotation(tag.getInteger("arm"));
+    }
+
+    @Override
+    public String describeRuntime() {
+        catchUp();
+        return "active=" + this.getIsActive() + " arm=" + this.getArmRotation() + " " + this.offWait.describe()
+                + " pozDelay=" + this.BellDelayTimer + (this instanceof IOnBarriers ? " bellQuiet=" + this.barrierDownSeen : "");
+    }
+
 
     @Override
     public boolean isCrossingActive() {
@@ -475,6 +692,9 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         }
         this.levelCrossingProperties[29] = NBTTC.getString("yOffset");
         this.levelCrossingProperties[30] = NBTTC.getString("signalOffDelay");
+        if (NBTTC.hasKey("runtime")) {
+            this.readRuntime(NBTTC.getCompoundTag("runtime"));
+        }
     }
 
     public void writeToNBT(final NBTTagCompound NBTTC) {
@@ -510,5 +730,25 @@ public abstract class TileLevelCrossing extends TileSignal implements IActivatab
         NBTTC.setString("stozarDelsiCount", this.levelCrossingProperties[28]);
         NBTTC.setString("yOffset", this.levelCrossingProperties[29]);
         NBTTC.setString("signalOffDelay", this.levelCrossingProperties[30]);
+        NBTTagCompound runtime = new NBTTagCompound();
+        this.writeRuntime(runtime);
+        NBTTC.setTag("runtime", runtime);
+    }
+
+    /** The Scaler and the GUI share this tile's own scale setting. */
+    @Override
+    public float getModelScale() {
+        return this.getScale();
+    }
+
+    @Override
+    public void setModelScale(float scale) {
+        this.setScale((Float) this.clampModelScale(scale));
+    }
+
+    /** The crossing renderers scale the model themselves. */
+    @Override
+    public boolean isScaledByWrapper() {
+        return false;
     }
 }

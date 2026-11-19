@@ -25,30 +25,28 @@ public class TileSSSR extends TileLevelCrossing {
         this.setStozarDelsiCount(1);
     }
 
+    /** Otradovice: one of three random sounds on each beat instead of the bell. */
     @Override
-    public void updateEntity() {
-        if (this.isOtradovice()){
-            if (this.BellDelayTimer > 0 && !getIsActive()) {
-                --BellDelayTimer;
+    protected void tickClientSounds() {
+        if (!this.isOtradovice()) {
+            super.tickClientSounds();
+            return;
+        }
+        if (this.getIsActive() && beat.hit(Consts.SoundType.OTRADOVICE.blinkTimer, Consts.SoundType.OTRADOVICE.soundTimer, activation.since())) {
+            int numRand = (int) Math.floor(Math.random() * 10);
+            if (numRand < 7) {
+                playLocalSound(Consts.SoundType.OTRADOVICE.SoundLocation);
+            } else if (numRand < 9) {
+                playLocalSound(Consts.SoundType.OTRADOVICE2.SoundLocation);
+            } else {
+                playLocalSound(Consts.SoundType.OTRADOVICE3.SoundLocation);
             }
-            if (this.getIsActive() && this.getBlinkCounter() == Consts.SoundType.OTRADOVICE.soundTimer && !worldObj.isRemote) {
-                int numRand = (int) Math.floor(Math.random() * 10);
-                if (numRand < 7) {
-                    this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Consts.SoundType.OTRADOVICE.SoundLocation, 0.75f, 1.0f);
-                } else if (numRand < 9) {
-                    this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Consts.SoundType.OTRADOVICE2.SoundLocation, 0.75f, 1.0f);
-                } else {
-                    this.worldObj.playSoundEffect(this.xCoord, this.yCoord, this.zCoord, Consts.SoundType.OTRADOVICE3.SoundLocation, 0.75f, 1.0f);
-                }
-            }
-        } else {
-            super.updateEntity();
         }
     }
 
     @Override
     public int getBlinkCounter() {
-        if (this.isOtradovice()) return computeBlinkPhase(Consts.SoundType.OTRADOVICE.blinkTimer);
+        if (this.isOtradovice()) return computeActiveBlinkPhase(Consts.SoundType.OTRADOVICE.blinkTimer);
         return super.getBlinkCounter();
     }
 

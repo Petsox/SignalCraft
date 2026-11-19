@@ -5,7 +5,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.network.*;
 import cpw.mods.fml.common.event.*;
+import signalcraft.commands.CommandCrossingDebug;
 import signalcraft.messages.*;
+import signalcraft.signalUtils.CrossingDebug;
 import signalcraft.proxy.CommonProxy;
 
 @Mod(modid = "signalcraft", name = "SignalCraft")
@@ -41,6 +43,19 @@ public class SignalCraft
         SignalCraft.SCNet.registerMessage(WrenchModeMessage.Handler.class, WrenchModeMessage.class, 10, Side.SERVER);
         SignalCraft.SCNet.registerMessage(RenamerNameMessage.Handler.class, RenamerNameMessage.class, 11, Side.CLIENT);
         SignalCraft.SCNet.registerMessage(RenamerNameMessage.Handler.class, RenamerNameMessage.class, 11, Side.SERVER);
+        SignalCraft.SCNet.registerMessage(MessageCrossingEvent.Handler.class, MessageCrossingEvent.class, 12, Side.CLIENT);
+        SignalCraft.SCNet.registerMessage(MessageCrossingDebug.Handler.class, MessageCrossingDebug.class, 13, Side.CLIENT);
+        SignalCraft.SCNet.registerMessage(ScalerValueMessage.Handler.class, ScalerValueMessage.class, 14, Side.SERVER);
+    }
+
+    @Mod.EventHandler
+    public void serverStarting(final FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandCrossingDebug());
+    }
+
+    @Mod.EventHandler
+    public void serverStopping(final FMLServerStoppingEvent event) {
+        CrossingDebug.setServer(false);
     }
 
     @Mod.EventHandler

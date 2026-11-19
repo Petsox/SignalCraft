@@ -24,6 +24,12 @@ import signalcraft.entities.gsar.signalsSO.TileGSARStationSign;
 import signalcraft.entities.gsar.signalsWN.TileSwitchElectricGSAR;
 import signalcraft.entities.gsar.signalsWN.TileSwitchManualGSAR;
 import signalcraft.entities.levelCrossings.azd.*;
+import signalcraft.entities.levelCrossings.mech.TileCrossSignPole;
+import signalcraft.entities.switches.cz.TileSwitchElectricCZ;
+import signalcraft.entities.switches.cz.TileSwitchManualCZ;
+import signalcraft.models.switches.cz.ModelSwitchCZ;
+import signalcraft.renderers.entities.switches.TileSwitchCZRenderer;
+import signalcraft.entities.levelCrossings.mech.TileMechBarrier;
 import signalcraft.entities.levelCrossings.sssr.TileSSSR;
 import signalcraft.entities.levelCrossings.sssr.TileSSSRHead;
 import signalcraft.entities.levelCrossings.sssr.TileSSSRSingle;
@@ -69,6 +75,10 @@ import signalcraft.renderers.entities.TileSpeedSignRenderer;
 import signalcraft.renderers.entities.controllers.TileControllerRenderer;
 import signalcraft.renderers.entities.gsar.*;
 import signalcraft.renderers.entities.levelCrossings.azd.TileAZD99Renderer;
+import signalcraft.renderers.entities.levelCrossings.mech.TileMechBarrierRenderer;
+import signalcraft.renderers.entities.levelCrossings.mech.TileCrossSignPoleRenderer;
+import signalcraft.models.levelCrossing.mech.ModelMechBarrier;
+import signalcraft.models.levelCrossing.mech.ModelCrossSignPole;
 import signalcraft.renderers.entities.levelCrossings.TileCrossingsRenderer;
 import signalcraft.renderers.entities.lightSignals.TileLightSignalsRenderer;
 import signalcraft.renderers.entities.mechSignals.TileMechSignalsRenderer;
@@ -102,6 +112,10 @@ public enum SCTEntities {
     AZD_97_HEAD(TileAZD97Head.class, "AZD97Head"),
     VUD(TileVUD.class, "VUD"),
     AZD_99(TileAZD99.class, "AZD99"),
+    MECH_BARRIER(TileMechBarrier.class, "MechBarrier"),
+    CROSS_SIGN_POLE(TileCrossSignPole.class, "CrossSignPole"),
+    SWITCH_MANUAL_CZ(TileSwitchManualCZ.class, "SwitchManualCZ"),
+    SWITCH_ELECTRIC_CZ(TileSwitchElectricCZ.class, "SwitchElectricCZ"),
     SSSR(TileSSSR.class, "SSSR"),
     SSSR_SINGLE(TileSSSRSingle.class, "SSSRSingle"),
     SSSR_HEAD(TileSSSRHead.class, "SSSRHead"),
@@ -282,6 +296,10 @@ public enum SCTEntities {
             MAP.put(AZD_97_HEAD, () -> new TileCrossingsRenderer(new ModelAZD97Head()));
             MAP.put(VUD, () -> new TileCrossingsRenderer(new ModelVUD()));
             MAP.put(AZD_99, () -> new TileAZD99Renderer(new ModelAZD99()));
+            MAP.put(MECH_BARRIER, () -> new TileMechBarrierRenderer(new ModelMechBarrier()));
+            MAP.put(CROSS_SIGN_POLE, () -> new TileCrossSignPoleRenderer(new ModelCrossSignPole()));
+            MAP.put(SWITCH_MANUAL_CZ, () -> new TileSwitchCZRenderer(new ModelSwitchCZ()));
+            MAP.put(SWITCH_ELECTRIC_CZ, () -> new TileSwitchCZRenderer(new ModelSwitchCZ()));
             MAP.put(SSSR, () -> new TileCrossingsRenderer(new ModelCrossSSSR()));
             MAP.put(SSSR_SINGLE, () -> new TileCrossingsRenderer(new ModelCrossSSSRSingle()));
             MAP.put(SSSR_HEAD, () -> new TileCrossingsRenderer(new ModelCrossSSSRHead()));

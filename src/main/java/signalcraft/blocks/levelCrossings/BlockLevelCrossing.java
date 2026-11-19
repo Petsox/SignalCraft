@@ -17,8 +17,8 @@ import signalcraft.SignalCraft;
 import signalcraft.blocks.ISCBlock;
 import signalcraft.entities.TileSignal;
 import signalcraft.entities.levelCrossings.TileLevelCrossing;
-import signalcraft.messages.MessageActiveUpdate;
 import signalcraft.packet.SPacketEditorOpen;
+import signalcraft.signalUtils.CrossingDebug;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -55,12 +55,20 @@ public abstract class BlockLevelCrossing extends BlockContainer implements ISCBl
         return true;
     }
     public void onNeighborBlockChange(final World world, final int x, final int y, final int z, final Block theBlock) {
+        if (world.isRemote) return;     // the server decides; setCrossingActive sends the state to the clients
         final TileEntity tileE = world.getTileEntity(x, y , z);
         if (tileE instanceof TileLevelCrossing) {
-            ((TileLevelCrossing) tileE).setCrossingActive(world.isBlockIndirectlyGettingPowered(x, y, z));
-            if (!world.isRemote) {
-                SignalCraft.SCNet.sendToAll(new MessageActiveUpdate(x, y, z, world.isBlockIndirectlyGettingPowered(x, y, z)));
-            }
+            TileLevelCrossing crossing = (TileLevelCrossing) tileE;
+            // A crossing driven by a receiver has no redstone of its own - without this, any block
+            // update next to it (redstone dust of the track circuit, a detector rail, a player
+            // building nearby) read "not powered" and switched it off on the spot, skipping the
+            // receiver's wait for the barriers to come up.
+            if (crossing.hasReceiverBelow()) return;
+            boolean powered = world.isBlockIndirectlyGettingPowered(x, y, z);
+            // unrelated block updates must not restart the arm-down / poz-light delays
+            if (powered == crossing.isCrossingActive()) return;
+            CrossingDebug.log(crossing, "redstone " + (powered ? "ON" : "OFF"));
+            crossing.setCrossingActive(powered);
         }
     }
     @Override

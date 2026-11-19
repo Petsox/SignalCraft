@@ -88,6 +88,12 @@ public enum RecipesItems {
             "lpl",
             "p  ", 'p', Items.paper, 'l', new ItemStack(Items.dye, 1, 10))),
 
+    // a diagonal iron beam with the jaw at the top and the scale marks (ink)
+    SCALER(new ShapedOreRecipe(new ItemStack(SCItems.SCALER.item, 1, 0),
+            " ii",
+            " i ",
+            "ib ", 'i', "ingotIron", 'b', new ItemStack(Items.dye, 1, 0))),
+
     BONDER(new ShapedOreRecipe(new ItemStack(SCItems.SIGNAL_BONDER.item, 1, 0),
             " i ",
             " i ",

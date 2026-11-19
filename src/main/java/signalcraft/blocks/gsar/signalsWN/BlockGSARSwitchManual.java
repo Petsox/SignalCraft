@@ -1,5 +1,6 @@
 package signalcraft.blocks.gsar.signalsWN;
 
+import signalcraft.items.ItemScaler;
 import signalcraft.proxy.CommonProxy;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,9 @@ public class BlockGSARSwitchManual extends BlockSwitch {
 
     @Override
     public boolean onBlockActivated(final World world, final int x, final int y, final int z, final EntityPlayer entityPlayer, final int meta, final float hitX, final float hitY, final float hitZ) {
+        if (ItemScaler.isHeldBy(entityPlayer)) {
+            return false;               // let the Scaler scale it instead of throwing it
+        }
         if (world.isRemote) {
             return true;
         }

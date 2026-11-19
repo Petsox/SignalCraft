@@ -37,9 +37,9 @@ public class TileAZD99Renderer extends TileEntitySpecialRenderer {
 
         GL11.glPushMatrix();
         GL11.glTranslatef(0.087725f, 0.650061f, 0.0f);
-        GL11.glRotatef((float)(thisCrossingTile.getArmRotation()), 0.0f, 0.0f, 1.0f);
+        GL11.glRotatef(thisCrossingTile.getRenderArm(tick), 0.0f, 0.0f, 1.0f);
         GL11.glTranslatef(-0.087725f, -0.650061f, 0.0f);
-        modelAZD99.renderZavora(thisCrossingTile.getBarrierLength());
+        modelAZD99.renderZavora(thisCrossingTile.getBarrierLength(), thisCrossingTile.getRenderFlex(tick));
         GL11.glPopMatrix();
         GL11.glPopMatrix();
     }

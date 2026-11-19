@@ -23,6 +23,7 @@
 "motor_sound": {"category": "master","sounds": [{"name": "motor_sound","stream": false}]},
 "lever_sound1": {"category": "master","sounds": [{"name": "lever_sound1","stream": false}]},
 "lever_sound2": {"category": "master","sounds": [{"name": "lever_sound2","stream": false}]},
+"cinkMech": {"category": "master","sounds": [{"name": "cinkMech","stream": false}]},
 "ring1": {"category": "master","sounds": [{"name": "ring1","stream": false}]},
 "ring2": {"category": "master","sounds": [{"name": "ring2","stream": false}]},
 "ring3": {"category": "master","sounds": [{"name": "ring3","stream": false}]},

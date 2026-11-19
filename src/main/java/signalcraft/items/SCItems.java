@@ -10,6 +10,7 @@ import signalcraft.items.signals.*;
 public enum SCItems {
     VYPRAVKA(new ItemVypravka("vypravka")),
     SIGNAL_RENAMER(new ItemSignalRenamer("signalRenamer")),
+    SCALER(new ItemScaler("scaler")),
     SIGNAL_BONDER(new ItemSignalBonder("signalBonder")),
     WRENCH(new ItemWrench("wrench")),
     BARRIER_LONG(new ItemBarrierLong("barrierLong")),
